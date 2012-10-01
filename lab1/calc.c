@@ -1,18 +1,17 @@
 #include <stdio.h>
-#include <math.h>
+#include "math.h"
 
 int main(){
 
     char op;
     int first = 0;
     int second = 0;
-    int keep_going = 1;
 
-    while( keep_going == 1){
+    while(1){
 
         printf("\nCalculator running... Enter input: number command number\n");
         
-        if( scanf( "%d, %c, %d", &first, &op, &second ) < 0 ) return 0;
+        if( scanf( "%d %c %d", &first, &op, &second ) < 0 ) return 0;
         
 
         printf( "%c", op ) ;
@@ -20,38 +19,36 @@ int main(){
         if( op == '+' )
         {
             printf( "%d", add(first,second));
-             continue;
+            continue;
         }
-        
-        if( op == '-' )
+        else if( op == '-' )
         {
             printf("%d", sub(first,second));
-             continue;
+            continue;
         }
         
-        if( op == '*' )
+        else if( op == '*' )
         {
             printf("%d", mul(first,second));
-             continue;
+            continue;
         }
         
-        if( op == '/' )
+        else if( op == '/' )
         {
             printf( "%d", div(first,second));
-             continue;
+            continue;
         }
         
-        if( op == '%' )
+        else if( op == '%' )
         {
             printf("%d", mod(first,second));
+            continue;
         }
         else
         {
             return 1;
         }
-        
-        
+          
     } 
-
 
 }
