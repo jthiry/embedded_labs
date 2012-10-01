@@ -13,7 +13,7 @@ int add(int x, int y) {
 
 // subtracts y from x and returns the result
 int sub(int x, int y) {
-  return y - x;
+  return x - y;
 }
 
 // multiplies x and y and returns the result

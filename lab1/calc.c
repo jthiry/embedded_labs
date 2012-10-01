@@ -14,7 +14,7 @@ int main(){
         if( scanf( "%d %c %d", &first, &op, &second ) < 0 ) return 0;
         
 
-        printf( "%c", op ) ;
+        //printf( "%c", op ) ;
 
         if( op == '+' )
         {
