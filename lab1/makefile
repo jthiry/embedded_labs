@@ -8,7 +8,7 @@ default: calc
 .PHONY: default clean clobber
 
 calc: $(objects)
-	$(CC) -o $(CFLAGS) $@ $^
+	$(CC) -o $@ $^
 
 calc.o: calc.c math.h
 math.o: math.c math.h
