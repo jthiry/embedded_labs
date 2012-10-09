@@ -8,7 +8,7 @@ strTable:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	stmfd	sp!, {r4, r5, r6} ; args r0=&src, r1=&dest, r2=srcLen, r3=destLen? store r4-r6
 	mov	r5, r0 ; r5 = &src
-	mov	r4, r2 ; r4 = srcLen 
+	mov	r4, r2 ; r4 = srcLen
 	mov	r0, r3 ; r0 = destLen
 	mov	r2, #0 ; r2 = counter = 0
 	cmp	r2, r3  ; if(destLen <= 0)
@@ -39,11 +39,11 @@ strTable:
 	.size	strTable, .-strTable
 	.ident	"GCC: (GNU) 3.4.5"
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-    
-    .file	"part1-strTable.c"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  .file	"part1-strTable.c"
 	.text
 	.align	2
 	.global	strTable
@@ -52,32 +52,32 @@ strTable:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	stmfd	sp!, {r4, r5, r6, lr} ; args r0=&src, r1=&dest, r2=srcLen, r3=destLen? store r4-r6
-    ; r0 = &src
-    ; r1 = &dst
-    ; r2 = srcLen
-    ; r3 = dstLen
-    ; r4 = cnt
-    ; r5 = ldr dst
-	
-    mov	r4, #0 ; cnt = 0
+; r0 = &src
+; r1 = &dst
+; r2 = srcLen
+; r3 = dstLen
+; r4 = cnt
+; r5 = ldr dst
+
+  mov	r4, #0 ; cnt = 0
 	cmp	r4, r3  ; if(destLen <= 0)
 	bge	.L11 ; Then Exit Function, else continue
 .L9 ; Main Loop
-    ldr r5, [r1, r4] ; r5 = dst[cnt] (word)
-    and ip, r5, #0xFF ; ip = first byte of load
+  ldr r5, [r1, r4] ; r5 = dst[cnt] (word)
+  and ip, r5, #0xFF ; ip = first byte of load
 .L7 ; inner loop
-    sub ip, ip, #23
-    cmp ip, #22
-    bgt .L7
+  sub ip, ip, #23
+  cmp ip, #22
+  bgt .L7
 
-    
-    
 
-    
 
-    
+
+
+
+
 .L11:
 	ldmfd	sp!, {r4, r5, r6, lr}
-    mov pc, lr
+  mov pc, lr
 	.size	strTable, .-strTable
 	.ident	"GCC: (GNU) 3.4.5"
