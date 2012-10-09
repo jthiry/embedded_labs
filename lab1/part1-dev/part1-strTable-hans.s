@@ -13,17 +13,17 @@ strTable:
 	mov	r2, #0 ; r2 = counter = 0
 	cmp	r2, r3 ; | if(destLen <= 0)
 	bge	.L11   ; | else return
-.L9:
+.L9:                        ; outer loop start
 	ldrb	r3, [r1, r2]	@ zero_extendqisi2 ; r3 = dest[counter]
 	sub	ip, r3, #23     ; ip = r3 - 23
 	cmp	ip, #22         ; |
 	ble	.L13            ; | while(ip >= 22)
-.L7:
+.L7:                        ; inner loop start
 	sub	ip, ip, #23     ; ip -= 23
 	cmp	ip, #22
 	bgt	.L7
 .L13:
-	cmp	ip, r4
+	cmp	ip, r4          ;
 	bgt	.L4
 	ldrb	r3, [r5, ip]	@ zero_extendqisi2
 	ldrb	r6, [r1, r2]	@ zero_extendqisi2
