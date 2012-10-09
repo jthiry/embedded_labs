@@ -14,8 +14,10 @@ int main(){
 
     printf("\nCalculator running... Enter input: number command number\n");
 
-    /* DEBUG
+    
     scanRet = scanf( "%d %c %d", &first, &op, &second );
+   
+    /* DEBUG
     printf("scanRet value is %d\n", scanRet);
     printf("first: %d\n", first);
     printf("op: %c\n", op);
