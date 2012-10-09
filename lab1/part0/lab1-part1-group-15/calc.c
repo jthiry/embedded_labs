@@ -3,49 +3,55 @@
 
 int main(){
 
-    char op;
-    int first = 0;
-    int second = 0;
+  //necessary variable creation
+  char op;
+  int first = 0;
+  int second = 0;
+  int scanRet = 0;
 
-    int add(int x, int y);
-    int sub(int x, int y);
-    int mul(int x, int y);
-    int div(int x, int y);
-    int mod(int x, int y);
+  //infinite loop to get commands
+  while(1){
 
-    while(1){
+    printf("\nCalculator running... Enter input: number command number\n");
 
-        printf("\nCalculator running... Enter input: number command number\n");
+    /* DEBUG
+    scanRet = scanf( "%d %c %d", &first, &op, &second );
+    printf("scanRet value is %d\n", scanRet);
+    printf("first: %d\n", first);
+    printf("op: %c\n", op);
+    printf("second: %d\n\n", second);*/
 
-        if( scanf( "%d %c %d", &first, &op, &second ) < 0 ) return 0;
+    /* get the numbers and operand from the user input as well
+     * as check for bad inputs and quit if they are found */
+    if( scanRet < 1 ) return 0;
 
-        //printf( "%c", op ) ;
-
-        if( op == '+' )
-        {
-            printf( "%d", add(first,second));
-            continue;
-        } else if( op == '-' )
-        {
-            printf("%d", sub(first,second));
-            continue;
-        } else if( op == '*' )
-        {
-            printf("%d", mul(first,second));
-            continue;
-        } else if( op == '/' )
-        {
-            printf( "%d", div(first,second));
-            continue;
-        } else if( op == '%' )
-        {
-            printf("%d", mod(first,second));
-        } else
-        {
-            return 1;
-        }
+    //figure out which operand was used and run the appropriate command
+    if( op == '+' )
+    {
+      printf( "%d", add(first,second));
+      continue;
+    } else if( op == '-' )
+    {
+      printf("%d", sub(first,second));
+      continue;
+    } else if( op == '*' )
+    {
+      printf("%d", mul(first,second));
+      continue;
+    } else if( op == '/' )
+    {
+      printf( "%d", div(first,second));
+      continue;
+    } else if( op == '%' )
+    {
+      printf("%d", mod(first,second));
+      continue;
+    } else
+    {
+      return 1;
     }
+  }
 
-    return 0;
+  return 0;
 
 }
