@@ -52,7 +52,7 @@ int oddball(int *arr, int len) {
 int oddball(int *arr, int len) {
 	/* Put your code here */
     int  i;
-    int tmp[(len/2)] = 0;
+    int tmp[(len/2)+1] = 0;
     for( i = len; i >= 0; i--)
     {
 	tmp[arr[i]-1]++;
