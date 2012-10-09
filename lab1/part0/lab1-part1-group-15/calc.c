@@ -7,7 +7,7 @@ int main(){
   char op;
   int first = 0;
   int second = 0;
-  int scanRet = 0;
+  //int scanRet = 0;
 
   //infinite loop to get commands
   while(1){
