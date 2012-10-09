@@ -51,13 +51,17 @@ int oddball(int *arr, int len) {
 #ifdef OPTIMIZE2
 int oddball(int *arr, int len) {
 	/* Put your code here */
-    int  i, result = 0;
-    for( i = len; i >= 0; i-- )
+    int  i;
+    int tmp[(len/2)] = 0;
+    for( i = len; i >= 0; i--)
     {
-        result +=  arr[i];
+	tmp[arr[i]-1]++;
     }
-	return result;
-	return 0;
+    for(i = len; i >= 0; i--)
+    {
+	if(tmp[i] == 1)
+		return i+1;
+    }
 }
 #endif
 
