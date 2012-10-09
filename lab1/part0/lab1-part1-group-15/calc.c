@@ -14,15 +14,15 @@ int main(){
 
     printf("\nCalculator running... Enter input: number command number\n");
 
-    //get the numbers and operand from the user input
+    /* DEBUG
     scanRet = scanf( "%d %c %d", &first, &op, &second );
-
-    /* DEBUG*/
     printf("scanRet value is %d\n", scanRet);
     printf("first: %d\n", first);
     printf("op: %c\n", op);
-    printf("second: %d\n\n", second);
+    printf("second: %d\n\n", second);*/
 
+    /* get the numbers and operand from the user input as well
+     * as check for bad inputs and quit if they are found */
     if( scanRet < 1 ) return 0;
 
     //figure out which operand was used and run the appropriate command
