@@ -3,49 +3,50 @@
 
 int main(){
 
-    char op;
-    int first = 0;
-    int second = 0;
 
-    int add(int x, int y);
-    int sub(int x, int y);
-    int mul(int x, int y);
-    int div(int x, int y);
-    int mod(int x, int y);
+  char op;
+  int first = 0;
+  int second = 0;
 
-    while(1){
+  int add(int x, int y);
+  int sub(int x, int y);
+  int mul(int x, int y);
+  int div(int x, int y);
+  int mod(int x, int y);
 
-        printf("\nCalculator running... Enter input: number command number\n");
+  while(1){
 
-        if( scanf( "%d %c %d", &first, &op, &second ) < 0 ) return 0;
+    printf("\nCalculator running... Enter input: number command number\n");
 
-        //printf( "%c", op ) ;
+    if( scanf( "%d %c %d", &first, &op, &second ) < 0 ) return 0;
 
-        if( op == '+' )
-        {
-            printf( "%d", add(first,second));
-            continue;
-        } else if( op == '-' )
-        {
-            printf("%d", sub(first,second));
-            continue;
-        } else if( op == '*' )
-        {
-            printf("%d", mul(first,second));
-            continue;
-        } else if( op == '/' )
-        {
-            printf( "%d", div(first,second));
-            continue;
-        } else if( op == '%' )
-        {
-            printf("%d", mod(first,second));
-        } else
-        {
-            return 1;
-        }
+    //printf( "%c", op ) ;
+
+    if( op == '+' )
+    {
+      printf( "%d", add(first,second));
+      continue;
+    } else if( op == '-' )
+    {
+      printf("%d", sub(first,second));
+      continue;
+    } else if( op == '*' )
+    {
+      printf("%d", mul(first,second));
+      continue;
+    } else if( op == '/' )
+    {
+      printf( "%d", div(first,second));
+      continue;
+    } else if( op == '%' )
+    {
+      printf("%d", mod(first,second));
+    } else
+    {
+      return 1;
     }
+  }
 
-    return 0;
+  return 0;
 
 }
