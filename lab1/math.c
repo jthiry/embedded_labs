@@ -3,7 +3,6 @@
  *
  * @authors Hans Reichenbach, Joe Battaglia, Josh Thiry
  */
-
 #include <math.h>
 
 // adds x and y together and returns the result
@@ -13,7 +12,7 @@ int add(int x, int y) {
 
 // subtracts y from x and returns the result
 int sub(int x, int y) {
-  return x - y;
+  return y - x;
 }
 
 // multiplies x and y and returns the result

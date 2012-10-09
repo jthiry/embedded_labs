@@ -1,17 +1,17 @@
 CC     = gcc
 CFLAGS = -O2 -Wall -Werror
 
-objects = calc.o math.o
+objects = foo.o bar.o
 
-default: calc
+default: baz
 
 .PHONY: default clean clobber
 
-calc: $(objects)
-	$(CC) -o $(CFLAGS) $@ $^
+baz: $(objects)
+	$(CC) -o $@ $^
 
-calc.o: calc.c math.h
-math.o: math.c math.h
+foo.o: foo.c common.h
+bar.o: bar.c common.h
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
@@ -20,4 +20,4 @@ clean:
 	rm -f $(objects)
 
 clobber: clean
-	rm -f calc
+	rm -f baz
