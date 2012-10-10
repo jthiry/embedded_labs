@@ -7,7 +7,7 @@ int main(){
   char op;
   int first = 0;
   int second = 0;
-  int scanRet = 0;
+  //int scanRet = 0;
 
   //infinite loop to get commands
   while(1){
@@ -25,7 +25,7 @@ int main(){
 
     /* get the numbers and operand from the user input as well
      * as check for bad inputs and quit if they are found */
-    if( scanRet < 1 ) return 0;
+    if( scanf( "%d %c %d", &first, &op, &second ) < 1 ) return 0;
 
     //figure out which operand was used and run the appropriate command
     if( op == '+' )

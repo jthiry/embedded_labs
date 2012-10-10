@@ -24,7 +24,8 @@ strTable:
     subs ip, ip, #23      @ ip -= 23
     bpl .L7               @ Inner Loop until ip is negative
     add ip, ip, #23       @ ip is now 0-23
-    strb  r5, [r0, ip]    @ then src[ip] = x
+    @cmp ip, r2            @ if (ip > srcLen)
+    strb  r5, [r0, ip]  @ then src[ip] = x
     add r4, r4, #1        @ increment counter
     cmp r4, r3            @ if ( cnt < destLen)
     blt .L9               @ Main Loop
