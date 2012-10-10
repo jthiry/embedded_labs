@@ -1,4 +1,4 @@
-include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -6,7 +6,7 @@ int oddball(int *arr, int len);
 int randGenerator(int *arr, int len);
 
 #ifndef N
-	#define N (100)
+	#define N (40)
 #endif
 
 #define ARRLEN (2*(N) - 1)
@@ -26,7 +26,7 @@ int main()
 	randGenerator(arr, ARRLEN);
 	num = oddball(arr, ARRLEN);
 
-	
+	printf("Oddball is %d\n", num);
 
 	return 0;
 }

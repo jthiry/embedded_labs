@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 /**
+ * Authors: Joe Battaglia, Hans Reichenbach, Josh Thiry
  * Function: oddball
  * Description: Baseline implementation for finding the number that
  *   occurs only once in the array.
@@ -36,32 +37,49 @@ int oddball(int *arr, int len) {
 }
 #endif
 
+
 #ifdef OPTIMIZE1
+/* This function takes the time of oddball from O(n^2) to O(n).
+   It takes advantage of XOR to determine the oddball.
+   Since the duplicates will be XOR'ed twice, they will give a 
+   0 output. We will then be left with the number that wasn't
+   duplicated (since it was XOR'ed with 0).
+*/
 int oddball(int *arr, int len) {
 	/* Put your code here */
     int  i, result = 0;
+    //loop to go through the 2n - 1 array
     for( i = len; i >= 0; i-- )
     {
-        result = result ^ arr[i];
+        result = result ^ arr[i]; //XORing reult with current value of arr
     }
-	return result;
+	return result; //returning the oddball
 }
 #endif
 
+
 #ifdef OPTIMIZE2
+/*This function takes the time of oddbal from O(n^2) to O(2n).
+  It uses an interger array that will determine which numbers have duplicates
+  insteading of using the nested for loop. 
+*/
 int oddball(int *arr, int len) {
 	/* Put your code here */
-    int  i;
-    int tmp[(len/2)] = 0;
+    int  i, result = 0; 
+    int* tmp;						//array to determine nonduplicate int
+    tmp = (int*) calloc((len/2)+1, sizeof(int));	//initialize all elements to 0
+    //loop to go through entire 2n - 1 array
     for( i = len; i >= 0; i--)
     {
-	tmp[arr[i]-1]++;
+	tmp[arr[i]-1]++;	//incrementing place holder by 1 (duplicacy check)
     }
-    for(i = len; i >= 0; i--)
+    for(i = len; i >= 0; i--)	//loop to determine which number isn't dupicated
     {
+	//if a placeholder is only 1, then it doesn't have a duplicate
 	if(tmp[i] == 1)
-		return i+1;
+		result = i+1;	//store the oddball
     }
+    return result; //return return
 }
 #endif
 
