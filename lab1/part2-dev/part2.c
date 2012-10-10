@@ -44,6 +44,7 @@ int oddball(int *arr, int len) {
    Since the duplicates will be XOR'ed twice, they will give a 
    0 output. We will then be left with the number that wasn't
    duplicated (since it was XOR'ed with 0).
+   It will be a faster run time and less memory used.
 */
 int oddball(int *arr, int len) {
 	/* Put your code here */
@@ -59,9 +60,10 @@ int oddball(int *arr, int len) {
 
 
 #ifdef OPTIMIZE2
-/*This function takes the time of oddbal from O(n^2) to O(2n).
+/*This function takes the time of oddbal from O(n^2) to O(n).
   It uses an interger array that will determine which numbers have duplicates
-  insteading of using the nested for loop. 
+  insteading of using the nested for loop.
+  This will be a faster run time but it will use more memory. 
 */
 int oddball(int *arr, int len) {
 	/* Put your code here */
