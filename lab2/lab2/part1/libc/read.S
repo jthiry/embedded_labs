@@ -1,8 +1,9 @@
 @ read.S: read sycall wrapper
 @
-@ Authors: Group Member 1 <email address>
-@          Group Member 2 <email address>
-@ Date:    The current time & date
+@ Authors: Joe Battaglia <jabat296@gmail.com>
+@          Hans Reichenbach <HansReich25@gmail.com>
+@	   Josh Thiry <josh.thiry@gmail.com>
+@ Date:    10/14/2012
 
 #include <bits/swi.h>
 #include <bits/fileno.h>
