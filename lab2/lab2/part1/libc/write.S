@@ -13,8 +13,8 @@
 
 	.global	write
 write:
-	stmfd sp!, {r4, r5}         @ store the variable register .
-	                            @ so we don't clobber calling program.
+	stmfd sp!, {r4, r5}         @ store the variable register
+	                            @ so we don't clobber calling program
 	swi WRITE_SWI               @ call the write syscall. (note: uses OABI
 	                            @ calling conventions)
 	cmp r0, #0                  @ return 0 if no error
