@@ -2,8 +2,9 @@
 @
 @ Authors: Joe Battaglia <jabat295@gmail.com>
 @          Hans Reichenbach <HansReich25@gmail.com>
-@	   Josh Thiry <josh.thiry@gmail.com>
+@	         Josh Thiry <josh.thiry@gmail.com>
 @ Date:    10/14/2012
+
 #include <bits/swi.h>
 #include <bits/fileno.h>
 
@@ -12,17 +13,18 @@
 
 	.global	write
 write:
-	stmfd sp!, {r4}
-	swi WRITE_SWI
-	cmp r0, #0
-	bpl no_error
+	stmfd sp!, {r4}             @ store the variable register 
+	                            @ so we don't clobber calling program
+	swi WRITE_SWI               @ call the write syscall
+	cmp r0, #0                  @ if 0 success
+	bpl no_error                @ branch on success
 
-	mov r4, r0
-	mov r0, #-1
-	EOR r4, r4, #0x80000000 
-	ldr r5, =errno
-	str r4, [r5]
+	mov r4, r0                  @ store error num
+	mov r0, #-1                 @ set r0 to error value
+	EOR r4, r4, #0x80000000     @ negate r4 value
+	ldr r5, =errno              @ 
+	str r4, [r5]                @ 
 
 no_error:
-	ldmfd sp!, {r4}
+	ldmfd sp!, {r4}             @ exit
 	movs pc, lr
