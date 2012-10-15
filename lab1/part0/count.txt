@@ -1,0 +1,9 @@
+Memory Cost: 
+    16 Instructions- 80 points
+Runtime:
+    Conditional- 3 per loop, 24- 72 points
+    Load Store- 8 Loads, 8 Stores- 48 points
+    Load Store Multiple- 12 points 
+    All Instructions- 90 points
+
+    Total: 80 + 72 + 48 + 12 + 90 = 302

@@ -47,7 +47,6 @@ int oddball(int *arr, int len) {
    It will be a faster run time and less memory used.
 */
 int oddball(int *arr, int len) {
-	/* Put your code here */
     int  i, result = 0;
     //loop to go through the 2n - 1 array
     for( i = len; i >= 0; i-- )
@@ -66,7 +65,6 @@ int oddball(int *arr, int len) {
   This will be a faster run time but it will use more memory. 
 */
 int oddball(int *arr, int len) {
-	/* Put your code here */
     int  i, result = 0; 
     int* tmp;						//array to determine nonduplicate int
     tmp = (int*) calloc((len/2)+1, sizeof(int));	//initialize all elements to 0
