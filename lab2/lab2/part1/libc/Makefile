@@ -1,4 +1,4 @@
-CC      = gcc
+CC      = arm-linux-gcc
 AR      = ar
 CFLAGS  = -O2 -ffreestanding -Wall -Werror -nostdinc -I include
 ASFLAGS = -nostdinc -I include

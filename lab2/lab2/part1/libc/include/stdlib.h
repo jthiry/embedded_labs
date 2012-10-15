@@ -8,6 +8,10 @@
 #ifndef STDLIB_H
 #define STDLIB_H
 
+#include "bits/types.h"
+
 void exit(int status);
+int read(int fildes, void *buf, size_t nbyte);
+int write(int fildes, const void *buf, size_t nbyte);
 
 #endif /* STDLIB_H */
