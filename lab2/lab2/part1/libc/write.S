@@ -13,7 +13,7 @@
 
 	.global	write
 write:
-	stmfd sp!, {r4, r5}         @ store the variable register
+	stmfd sp!, {r4-r12, lr}         @ store the variable register
 	                            @ so we don't clobber calling program
 	swi WRITE_SWI               @ call the write syscall. (note: uses OABI
 	                            @ calling conventions)
@@ -28,5 +28,5 @@ write:
 	str r4, [r5]                @ set errno to positive of syscall return
 
 no_error:
-	ldmfd sp!, {r4, r5}         @ restore registers from the stack
-	movs pc, lr					        @ return to calling function
+	ldmfd sp!, {r4-r12, pc}^         @ restore registers from the stack
+	@movs pc, lr					        @ return to calling function

@@ -12,7 +12,7 @@
 
 	.global	read
 read:
-	stmfd sp!, {r4, r5}       @ store r4 on the stack so we don't crush someone
+	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
 	swi READ_SWI              @ call the read syscall. (note: uses OABI
                             @ calling conventions)
 	cmp r0, #0                @ return 0 if no error
@@ -26,7 +26,7 @@ read:
 	str r4, [r5]              @ set errno to positive of syscall return
 
 no_error:
-	ldmfd sp!, {r4, r5}       @ restore registers from the stack
-	movs pc, lr               @ return to the calling function
+	ldmfd sp!, {r4-r12, pc}^       @ restore registers from the stack
+	@movs pc, lr               @ return to the calling function
 
 
