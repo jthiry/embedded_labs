@@ -1,4 +1,4 @@
-CC      = gcc
+CC      = arm-linux-gcc
 OBJCOPY = objcopy
 CFLAGS  = -O2 -ffixed-r8 -ffreestanding -Wall -Werror -nostdinc \
           -I ../uboot/include -I include

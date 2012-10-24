@@ -1,9 +1,10 @@
 /*
  * kernel.c: Kernel main (entry) function
  *
- * Author: Group Member 1 <email address>
- *         Group Member 2 <email address>
- * Date:   The current time & date
+ * Author: Joe Battaglia <JABAT295.gmail.com>
+ *         Hans Reichenbach <HansReich.gmail.com>
+	   Josh Thiry <josh.thiry@gmail.com
+ * Date:   10/24/2012
  */
 
 int main(int argc, char *argv[]) {
