@@ -1,4 +1,4 @@
-CC      = gcc
+CC      = arm-linux-gcc
 CFLAGS  = -g -O2 -Wall -Werror
 ASFLAGS = -g
 
