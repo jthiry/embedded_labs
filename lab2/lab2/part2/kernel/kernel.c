@@ -9,7 +9,7 @@
 
 #include <exports.h>
 
-//extern void _S_HANDLER();
+extern void _S_HANDLER();
 
 int main(int argc, char *argv[]) {
 
@@ -42,9 +42,9 @@ int main(int argc, char *argv[]) {
 	unsigned our_load = 0xE51FF004; // pc = pc - 4
 
 	s_handler[0] = our_load;
-	//s_handler[1] = (unsigned)*_S_HANDLER;
+	s_handler[1] = (unsigned)*_S_HANDLER;
 	puts("Handler Installed...\n");
-	//printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
+	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
 
 	//Step 2: ...
 	puts("Starting Step 2\n");
