@@ -8,8 +8,7 @@
  */
 
 #include <exports.h>
-
-extern void _S_HANDLER();
+#include "swi_handler.h"
 
 int main(int argc, char *argv[]) {
 
@@ -42,17 +41,31 @@ int main(int argc, char *argv[]) {
 	unsigned our_load = 0xE51FF004; // pc = pc - 4
 
 	s_handler[0] = our_load;
-	s_handler[1] = (unsigned)*_S_HANDLER;
+	s_handler[1] = (unsigned)*S_HANDLER;
 	puts("Handler Installed...\n");
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
 
-	//Step 2: ...
+	//Step 2: Switch to user mode with IRQs and FIQs masked`
 	puts("Starting Step 2\n");
+	printf("Calling ENABLE_USER() at %x\n",&ENABLE_USER);
+	//ENABLE_USER();
+	puts("User mode enabled, setting up the stack...\n");
 
-
-
-
-
+	//Step 3: Put user prog args onto the stack
+		//first stack location is at 0xa3000000 - 4 = 0xa2FFFFFC
+	unsigned* stack_ptr = (unsigned*)0xa3000000;
+	//stack_ptr--;
+	
+	stack_ptr[0] = argc;
+	int i;
+	for( i = 0; i < argc; i++)
+	{	
+		printf("Loop %d",i);
+		printf("\t++ *stack_ptr= %s = arg[%d] = %s, stack_ptr=%x\n", stack_ptr[i], i, argv[i], stack_ptr);
+		stack_ptr--;
+		stack_ptr[i+1] = (unsigned)argv[i+1];
+	}	
+	
 	//Exit Steps:
 		//Restore the 8 bytes from the stack
 	s_handler[0] = word_one;
