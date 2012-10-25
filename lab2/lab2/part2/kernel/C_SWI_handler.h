@@ -9,6 +9,7 @@
 
 //necessary libs
 #include <exports.h>
+#include "bits/fileno.h"
 
 //prototypes
 void C_SWI_handler(unsigned swi_num, unsigned * regs);

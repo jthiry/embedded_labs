@@ -11,6 +11,8 @@
 #include "C_SWI_handler.h"
 
 void C_SWI_handler(unsigned swi_num, unsigned * regs){
+  //variables
+  int err;
 
 	//Handle Shit
 	switch(swi_num){
@@ -26,13 +28,13 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 			break;
 		case 3:
 		  //read
-		  int err = read(regs[0], (void *) regs[1], regs[2]);
+		  err = read(regs[0], (void *) regs[1], regs[2]);
 
 		  //check for error and assign to r0 if exists
 			break;
 	  case 4:
 	    //write
-	    int err = write(regs[0], (void *) regs[1], regs[2]);
+	    err = write(regs[0], (void *) regs[1], regs[2]);
 
 	    //check for error and assign to r0 if exists
 	    break;
@@ -54,7 +56,7 @@ void exit(int status) {
 //read from a given file into a buffer for count bytes
 ssize_t read(int fd, void *buf, size_t count) {
   //check if fd isn't stdin, return -EBADF if not
-  if(fd != stdin) {
+  if(fd != STDIN_FILENO) {
     //check shit here
   }
 
@@ -64,9 +66,9 @@ ssize_t read(int fd, void *buf, size_t count) {
 //write a buffer to stdout for count bytes
 ssize_t write(int fd, const void *buf, size_t count) {
   //check if fd isn't stdout, return -EBADF if not
-  if(fd != stdout) {
+  if(fd != STDOUT_FILENO) {
     //check shit here
   }
+
   return -1;
 }
-
