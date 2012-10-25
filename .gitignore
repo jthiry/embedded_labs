@@ -7,8 +7,6 @@
 # Ignore compiled files
 *.o
 *.bin
-*.S
-*.s
 
 # Ignore other unneeded files.
 *.swp
