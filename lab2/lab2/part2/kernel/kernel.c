@@ -8,18 +8,14 @@
  */
 
 #include <exports.h>
-#include "s_handler.h"
-extern S_HANDLER
-
-void C_SWI_HANDLER(unsigned swi_num, unsigned * regs);
-
+extern void _S_HANDLER();
 int main(int argc, char *argv[]) {
 
 	puts("Starting Step 1\n");
 
 	//unsigned* jump_tab, s_handler;
 	//unsigned word_one, word_two, our_load;
-	void (*our_swi)(unsigned int, unsigned register*);
+	//void (*our_swi)();
 
 	//Step1: Wire in the SWI Handler
 	//unsigned* swi_vec = (unsigned*)0x08;
@@ -42,13 +38,9 @@ int main(int argc, char *argv[]) {
 	
 		//Replace them with our instruction and new address
 	unsigned our_load = 0xE51FF004; // pc = pc - 4
-	our_swi = &S_HANDLER;
-	
 	s_handler[0] = our_load;
-	s_handler[1] = (unsigned)*our_swi;
-
+	s_handler[1] = (unsigned)*S_HANDLER;
 	puts("Handler Installed...\n");
-
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
 
 	//Step 2: ...
