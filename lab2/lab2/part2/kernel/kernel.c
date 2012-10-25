@@ -9,7 +9,7 @@
 
 #include <exports.h>
 #include "s_handler.h"
-extern S_HANDLER
+extern void S_HANDLER();
 
 int main(int argc, char *argv[]) {
 

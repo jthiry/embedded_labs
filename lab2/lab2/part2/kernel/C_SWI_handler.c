@@ -7,9 +7,10 @@
  * Date:   10/24/2012
  */
 
-#include "kernel.h"
+#include "C_SWI_handler.h"
 
-void C_SWI_handler(unsigned int swi_num, unsigned register* regs){
+void C_SWI_handler(unsigned swi_num, unsigned * regs){
+
 	//Handle Shit
 	switch(swi_num){
 		case 0:
@@ -24,11 +25,15 @@ void C_SWI_handler(unsigned int swi_num, unsigned register* regs){
 			break;
 		case 3:
 		  //read
-		  return read(regs[0], regs[1], regs[2]);
+		  int err = read(regs[0], (void *) regs[1], regs[2]);
+
+		  //check for error and assign to r0 if exists
 			break;
 	  case 4:
 	    //write
-	    return write(regs[0], regs[1], regs[2]);
+	    int err = write(regs[0], (void *) regs[1], regs[2]);
+
+	    //check for error and assign to r0 if exists
 	    break;
 		default:
 		  //not recognized, throw error
@@ -46,10 +51,10 @@ void exit(int status) {
 
 //read from a given file into a buffer for count bytes
 ssize_t read(int fd, void *buf, size_t count) {
-
+  return -1;
 }
 
 //write a buffer to stdout for count bytes
 ssize_t write(int fd, const void *buf, size_t count) {
-
+  return -1;
 }
