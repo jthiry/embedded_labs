@@ -8,7 +8,9 @@
  */
 
 #include <exports.h>
+
 extern void _S_HANDLER();
+
 int main(int argc, char *argv[]) {
 
 	puts("Starting Step 1\n");
@@ -35,9 +37,10 @@ int main(int argc, char *argv[]) {
 		//Save the first 8 bytes on the stack
 	unsigned word_one = s_handler[0];
 	unsigned word_two = s_handler[1];
-	
+
 		//Replace them with our instruction and new address
 	unsigned our_load = 0xE51FF004; // pc = pc - 4
+
 	s_handler[0] = our_load;
 	s_handler[1] = (unsigned)*S_HANDLER;
 	puts("Handler Installed...\n");
