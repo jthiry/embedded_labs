@@ -8,8 +8,10 @@
  */
 
 #include <exports.h>
+#include "s_handler.h"
+extern S_HANDLER
 
-void C_SWI_handler(unsigned swi_num, unsigned * regs);
+void C_SWI_HANDLER(unsigned swi_num, unsigned * regs);
 
 int main(int argc, char *argv[]) {
 
@@ -37,10 +39,10 @@ int main(int argc, char *argv[]) {
 		//Save the first 8 bytes on the stack
 	unsigned word_one = s_handler[0];
 	unsigned word_two = s_handler[1];
-
+	
 		//Replace them with our instruction and new address
-	unsigned our_load = 0xE59FF804; // pc = pc - 4
-	our_swi = &C_SWI_handler;
+	unsigned our_load = 0xE51FF004; // pc = pc - 4
+	our_swi = &S_HANDLER;
 	
 	s_handler[0] = our_load;
 	s_handler[1] = (unsigned)*our_swi;
@@ -64,7 +66,7 @@ int main(int argc, char *argv[]) {
 }
 
 
-void C_SWI_handler(unsigned int swi_num, unsigned register* regs){
+void C_SWI_HANDLER(unsigned int swi_num, unsigned register* regs){
 	//Handle Shit
 	switch(swi_num){
 		case 0:
