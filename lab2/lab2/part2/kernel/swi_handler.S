@@ -21,15 +21,27 @@ S_HANDLER:
 .size S_HANDLER, .-S_HANDLER
 
 
-	.global	ENABLE_USER
-ENABLE_USER:
-	STMDB SP!, {R0}        
-	MRS   R0, CPSR        
-	ORR   R0, R0, #0xD0  
-	BIC r0, r0, #0xF
-	MSR   CPSR_cxsf, R0  
-	LDMIA SP!, {R0}     
-	MOVS pc, lr @ return from handler
 
-.type ENABLE_USER, function
-.size ENABLE_USER, .-ENABLE_USER
+	.global	ENABLE_USER_PROG
+ENABLE_USER_PROG:
+	STMFD sp!, {r0-r12} @ sp and lr are banked!!
+	MSR   CPSR, #0xD0
+	@user mode now!,
+
+	mov r1, #0xa3000000
+inc:	sub r1, r1, #4
+	subs r0, r0, #1
+	bne inc
+	 
+	mov sp, r1
+
+	ldr lr, [pc]
+	LDR pc, =0xa2000000
+	
+	@switch back to kernel mode
+	MSR   CPSR, #0xD3
+	LDMFD sp!, {r0-r12}
+	movs pc, lr
+
+.type ENABLE_USER_PROG, function
+.size ENABLE_USER_PROG, .-ENABLE_USER_PROG

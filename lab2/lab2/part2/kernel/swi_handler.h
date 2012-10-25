@@ -3,6 +3,6 @@
 
 
 extern void S_HANDLER(void);
-extern void ENABLE_USER(void);
+extern void ENABLE_USER_PROG(int numArgs);
 
 #endif
