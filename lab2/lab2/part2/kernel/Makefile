@@ -11,9 +11,6 @@ STUBS = ../uboot/stubs.o
 
 objects = kernel.o C_SWI_handler.o
 
-kernel.o: kernel.c kernel.h
-C_SWI_handler.o: C_SWI_handler.c C_SWI_handler.h
-
 default: kernel.bin
 
 .PHONY: default clean clobber
@@ -23,6 +20,9 @@ kernel.bin: kernel
 
 kernel: start.o $(objects)
 	$(CC) $(LDFLAGS) -o $@ $^ $(STUBS)
+
+kernel.o: kernel.c kernel.h
+C_SWI_handler.o: C_SWI_handler.c C_SWI_handler.h
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -o $@ $<

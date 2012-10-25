@@ -51,10 +51,19 @@ void exit(int status) {
 
 //read from a given file into a buffer for count bytes
 ssize_t read(int fd, void *buf, size_t count) {
+  //check if fd isn't stdin, return -EBADF if not
+  if(fd != stdin) {
+    //check shit here
+  }
+
   return -1;
 }
 
 //write a buffer to stdout for count bytes
 ssize_t write(int fd, const void *buf, size_t count) {
+  //check if fd isn't stdout, return -EBADF if not
+  if(fd != stdout) {
+    //check shit here
+  }
   return -1;
 }
