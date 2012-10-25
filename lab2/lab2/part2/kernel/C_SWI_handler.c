@@ -17,15 +17,18 @@ void C_SWI_handler(unsigned int swi_num, unsigned register* regs){
 			break;
 		case 1:
 		  //exit
+		  exit(regs[0]);
 			break;
 		case 2:
 		  //not used
 			break;
 		case 3:
 		  //read
+		  return read(regs[0], regs[1], regs[2]);
 			break;
 	  case 4:
 	    //write
+	    return write(regs[0], regs[1], regs[2]);
 	    break;
 		default:
 		  //not recognized, throw error
@@ -34,4 +37,19 @@ void C_SWI_handler(unsigned int swi_num, unsigned register* regs){
 
 	//Debug
 	puts("We are Handling shit\n");
+}
+
+//exits the kernel with a given status
+void exit(int status) {
+
+}
+
+//read from a given file into a buffer for count bytes
+ssize_t read(int fd, void *buf, size_t count) {
+
+}
+
+//write a buffer to stdout for count bytes
+ssize_t write(int fd, const void *buf, size_t count) {
+
 }
