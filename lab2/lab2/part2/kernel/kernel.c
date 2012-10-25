@@ -3,7 +3,7 @@
  *
  * Author: Joe Battaglia <JABAT295.gmail.com>
  *         Hans Reichenbach <HansReich.gmail.com>
-	   Josh Thiry <josh.thiry@gmail.com
+ *         Josh Thiry <josh.thiry@gmail.com>
  * Date:   10/24/2012
  */
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	//unsigned* jump_tab, s_handler;
 	//unsigned word_one, word_two, our_load;
 	void (*our_swi)(unsigned int, unsigned register*);
-	
+
 	//Step1: Wire in the SWI Handler
 	//unsigned* swi_vec = (unsigned*)0x08;
 	//unsigned vec_swi = swi_vec[0];
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 	unsigned* s_handler = (unsigned*)jump_tab[0];
 	printf("jump_tab=%x jump_tab*=%x\n", jump_tab, *jump_tab);
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
-	
+
 
 		//Save the first 8 bytes on the stack
 	unsigned word_one = s_handler[0];
@@ -46,41 +46,21 @@ int main(int argc, char *argv[]) {
 	
 	s_handler[0] = our_load;
 	s_handler[1] = (unsigned)*our_swi;
-	
+
 	puts("Handler Installed...\n");
-	
+
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
 
 	//Step 2: ...
 	puts("Starting Step 2\n");
 
-	
 
-	
-	
-	//Exit Steps: 
+
+
+
+	//Exit Steps:
 		//Restore the 8 bytes from the stack
 	s_handler[0] = word_one;
 	s_handler[1] = word_two;
 	return -255;
-}
-
-
-void C_SWI_HANDLER(unsigned int swi_num, unsigned register* regs){
-	//Handle Shit
-	switch(swi_num){
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		default:
-			break;
-	}
-
-	//Debug
-	puts("We are Handling shit\n");
 }
