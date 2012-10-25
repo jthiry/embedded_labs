@@ -12,6 +12,7 @@ int main(void) {
 	unsigned long vers_num = get_version();
 	unsigned char myChar = 'a';
 	unsigned long time;
+	
 	while(myChar != 'q')
 	{
 		puts("myChar=");
@@ -20,6 +21,7 @@ int main(void) {
 		time = get_timer(0);
 		printf("Wating 3s... timer count = %d\n", time);
 		udelay(3000000);
+		puts("Ready for input:");
 		myChar = getc();	
 	}
 	printf("This is our version number %d\n", vers_num);
