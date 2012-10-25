@@ -61,7 +61,17 @@ ssize_t read(int fd, void *buf, size_t count) {
   }
 
   //check if buf loc and size end up outside of useable memory
-  /* TODO */
+  /* theoretical option 1*/
+  if((int)buf > 0xa3000000 || (int)buf < 0x0 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x0) {
+    return EFAULT;
+  }
+  /* theoretical option 2
+  void *test = malloc(count);
+  int compare = (int) test;
+  if(compare == 0) {
+    return EFAULT;
+  }
+  free(test);*/
 
   //read from stdin, we're assuming it's the same as fd
   //loop until buf full
@@ -122,6 +132,10 @@ ssize_t write(int fd, const void *buf, size_t count) {
 
   //check if buf loc and size end up outside of useable memory
   /* TODO */
+  /* theoretical option 1*/
+  if((int)buf > 0xa3000000 || (int)buf < 0x0 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x0) {
+    return EFAULT;
+  }
 
   //read from stdout, we're assuming it's the same as fd
   //loop until buf full
