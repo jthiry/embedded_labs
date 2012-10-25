@@ -8,5 +8,3 @@
  */
 
 #include <exports.h>
-
-void C_SWI_handler(unsigned swi_num, unsigned * regs);

@@ -13,14 +13,22 @@ void C_SWI_handler(unsigned int swi_num, unsigned register* regs){
 	//Handle Shit
 	switch(swi_num){
 		case 0:
+		  //not used by us
 			break;
 		case 1:
+		  //exit
 			break;
 		case 2:
+		  //not used
 			break;
 		case 3:
+		  //read
 			break;
+	  case 4:
+	    //write
+	    break;
 		default:
+		  //not recognized, throw error
 			break;
 	}
 
