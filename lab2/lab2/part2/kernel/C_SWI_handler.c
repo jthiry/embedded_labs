@@ -16,15 +16,9 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 	//Handle Shit
 	switch(swi_num){
-		case 0:
-			//not used by us
-			break;
 		case 1:
 			//exit
 			exit(regs[0]);
-			break;
-		case 2:
-			//not used
 			break;
 		case 3:
 		  //read
@@ -41,6 +35,8 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 		default:
 			//not recognized, throw error
+      puts("Invalid syscall recieved\n");
+			exit(0x0badc0de);
 			break;
 	}
 
@@ -50,7 +46,8 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 //exits the kernel with a given status
 void exit(int status) {
-
+  //just returns the status for now
+  return status;
 }
 
 //read from a given file into a buffer for count bytes
@@ -130,8 +127,9 @@ ssize_t write(int fd, const void *buf, size_t count) {
   //read from stdout, we're assuming it's the same as fd
   //loop until buf full
   int bufCount = 0;
+  unsigned int i = count;
   char c;
-  for(int i = count; i >= 0; i--) {
+  while(i > 0) {
     //get the next char
     c = (char) ourBuf[i];
 
@@ -139,6 +137,7 @@ ssize_t write(int fd, const void *buf, size_t count) {
     putc(c);
 
     bufCount++;
+    i--;
   }
 
   //return number of chars read into buffer
