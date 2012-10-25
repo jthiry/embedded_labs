@@ -61,7 +61,9 @@ ssize_t read(int fd, void *buf, size_t count) {
     return EBADF;
   }
 
-  return -1;
+
+
+  return 0;
 }
 
 //write a buffer to stdout for count bytes
@@ -72,5 +74,7 @@ ssize_t write(int fd, const void *buf, size_t count) {
     return EBADF;
   }
 
-  return -1;
+
+
+  return 0;
 }
