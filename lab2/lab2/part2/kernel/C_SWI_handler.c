@@ -7,6 +7,7 @@
  * Date:   10/24/2012
  */
 
+
 #include "C_SWI_handler.h"
 
 void C_SWI_handler(unsigned swi_num, unsigned * regs){
@@ -14,14 +15,14 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 	//Handle Shit
 	switch(swi_num){
 		case 0:
-		  //not used by us
+			//not used by us
 			break;
 		case 1:
-		  //exit
-		  exit(regs[0]);
+			//exit
+			exit(regs[0]);
 			break;
 		case 2:
-		  //not used
+			//not used
 			break;
 		case 3:
 		  //read
@@ -35,8 +36,9 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 	    //check for error and assign to r0 if exists
 	    break;
+
 		default:
-		  //not recognized, throw error
+			//not recognized, throw error
 			break;
 	}
 
@@ -67,3 +69,4 @@ ssize_t write(int fd, const void *buf, size_t count) {
   }
   return -1;
 }
+
