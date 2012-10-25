@@ -55,6 +55,9 @@ void exit(int status) {
 
 //read from a given file into a buffer for count bytes
 ssize_t read(int fd, void *buf, size_t count) {
+  //convert buf to a char* to make C happy
+  char *ourBuf = (char *) buf;
+
   //check if fd isn't stdin, return -EBADF if not
   if(fd != STDIN_FILENO) {
     //return error message here
@@ -80,7 +83,7 @@ ssize_t read(int fd, void *buf, size_t count) {
       //if char was a backspace or delete
 
       //remove previous char
-      buf[--bufCount] = '';
+      ourBuf[bufCount] = '\0';
 
       //print "\b \b" to sdout
       puts("\b \b");
@@ -88,17 +91,17 @@ ssize_t read(int fd, void *buf, size_t count) {
       //if char was a newline or cr
 
       //put \n into buffer
-      buf[bufCount] = "\n"
+      ourBuf[bufCount] = '\n';
       bufCount++;
 
       //echo \n to stdout
-      putc("\n");
+      putc('\n');
 
       //return bufcount so far
       return bufCount;
     } else {
       //put char into buf and bufCount++
-      buf[bufCount] = c;
+      ourBuf[bufCount] = c;
       bufCount++;
 
       //output char to stdout
@@ -112,6 +115,9 @@ ssize_t read(int fd, void *buf, size_t count) {
 
 //write a buffer to stdout for count bytes
 ssize_t write(int fd, const void *buf, size_t count) {
+  //convert the void * into something useful
+  char *ourBuf = (char *) buf;
+
   //check if fd isn't stdout, return -EBADF if not
   if(fd != STDOUT_FILENO) {
     //return error message here
@@ -127,7 +133,7 @@ ssize_t write(int fd, const void *buf, size_t count) {
   char c;
   for(int i = count; i >= 0; i--) {
     //get the next char
-    c = (char) buf[i];
+    c = (char) ourBuf[i];
 
     //output char to stdout
     putc(c);
