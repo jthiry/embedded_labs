@@ -46,8 +46,7 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 //exits the kernel with a given status
 void exit(int status) {
-  //just returns the status for now
-  return status;
+
 }
 
 //read from a given file into a buffer for count bytes
