@@ -61,9 +61,53 @@ ssize_t read(int fd, void *buf, size_t count) {
     return EBADF;
   }
 
+  //check if buf loc and size end up outside of useable memory
+  /* TODO */
 
+  //read from stdin, we're assuming it's the same as fd
+  //loop until buf full
+  int bufCount = 0;
+  char c;
+  while(bufCount < count) {
+    //get the next char
+    c = (char) getc();
 
-  return 0;
+    //check for special cases
+    if(c == 4) {
+      //if char was an EOT
+      return bufCount;
+    } else if(c == 8 || c == 127) {
+      //if char was a backspace or delete
+
+      //remove previous char
+      buf[--bufCount] = '';
+
+      //print "\b \b" to sdout
+      puts("\b \b");
+    } else if(c == 10 || c == 13) {
+      //if char was a newline or cr
+
+      //put \n into buffer
+      buf[bufCount] = "\n"
+      bufCount++;
+
+      //echo \n to stdout
+      putc("\n");
+
+      //return bufcount so far
+      return bufCount;
+    } else {
+      //put char into buf and bufCount++
+      buf[bufCount] = c;
+      bufCount++;
+
+      //output char to stdout
+      putc(c);
+    }
+  }
+
+  //return number of chars read into buffer
+  return bufCount;
 }
 
 //write a buffer to stdout for count bytes
@@ -74,7 +118,19 @@ ssize_t write(int fd, const void *buf, size_t count) {
     return EBADF;
   }
 
+  //check if buf loc and size end up outside of useable memory
 
+  //read from stdout, we're assuming it's the same as fd
+  //loop until buf full
+  int bufCount = 0;
+  for(bufCount < count) {
+    //check for special cases
 
-  return 0;
+    //put char into buf and bufCount++
+
+    //output char to stdout
+  }
+
+  //return number of chars read into buffer
+  return bufCount;
 }
