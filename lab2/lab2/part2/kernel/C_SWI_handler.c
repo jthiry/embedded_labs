@@ -57,7 +57,8 @@ void exit(int status) {
 ssize_t read(int fd, void *buf, size_t count) {
   //check if fd isn't stdin, return -EBADF if not
   if(fd != STDIN_FILENO) {
-    //check shit here
+    //return error message here
+    return EBADF;
   }
 
   return -1;
@@ -67,7 +68,8 @@ ssize_t read(int fd, void *buf, size_t count) {
 ssize_t write(int fd, const void *buf, size_t count) {
   //check if fd isn't stdout, return -EBADF if not
   if(fd != STDOUT_FILENO) {
-    //check shit here
+    //return error message here
+    return EBADF;
   }
 
   return -1;
