@@ -54,16 +54,16 @@ int main(int argc, char *argv[]) {
 	//Step 3: Put user prog args onto the stack
 		//first stack location is at 0xa3000000 - 4 = 0xa2FFFFFC
 	unsigned* stack_ptr = (unsigned*)0xa3000000;
-	stack_ptr--;
+	//stack_ptr--;
 	
 	stack_ptr[0] = argc;
 	int i;
 	for( i = 0; i < argc; i++)
 	{	
 		printf("Loop %d",i);
-		printf("\t++ stack_ptr*= %x = arg[%d] = %c, stack_ptr=%x\n", *stack_ptr, i, argv[i], stack_ptr);
-		*stack_ptr-- = (unsigned)argv[i];
-		printf("\t   stack_ptr*= %x\n", *stack_ptr);
+		printf("\t++ *stack_ptr= %s = arg[%d] = %s, stack_ptr=%x\n", stack_ptr[i], i, argv[i], stack_ptr);
+		stack_ptr--;
+		stack_ptr[i+1] = (unsigned)argv[i+1];
 	}	
 	
 	//Exit Steps:
