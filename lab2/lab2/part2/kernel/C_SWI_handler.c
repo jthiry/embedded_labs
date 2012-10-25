@@ -119,16 +119,20 @@ ssize_t write(int fd, const void *buf, size_t count) {
   }
 
   //check if buf loc and size end up outside of useable memory
+  /* TODO */
 
   //read from stdout, we're assuming it's the same as fd
   //loop until buf full
   int bufCount = 0;
-  for(bufCount < count) {
-    //check for special cases
-
-    //put char into buf and bufCount++
+  char c;
+  for(int i = count; i >= 0; i--) {
+    //get the next char
+    c = (char) buf[i];
 
     //output char to stdout
+    putc(c);
+
+    bufCount++;
   }
 
   //return number of chars read into buffer
