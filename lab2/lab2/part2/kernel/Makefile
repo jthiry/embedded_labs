@@ -13,9 +13,9 @@ objects = kernel.o C_SWI_handler.o swi_handler.o
 
 default: kernel.bin
 
-.PHONY: default clean clobber
+.PHONY: default clean clobber dump
 
-kernel.bin: kernel
+kernel.bin: kernel dump
 	$(OBJCOPY) -O binary $< $@
 
 kernel: start.o $(objects)
@@ -23,7 +23,7 @@ kernel: start.o $(objects)
 
 kernel.o: kernel.c
 C_SWI_handler.o: C_SWI_handler.c C_SWI_handler.h
-swi_handler.o: swi_handler.S
+swi_handler.o: swi_handler.S swi_handler.h
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
@@ -36,3 +36,5 @@ clean:
 
 clobber: clean
 	rm -f kernel.bin
+dump:
+	arm-linux-objdump -D kernel > d.txt
