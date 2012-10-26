@@ -10,9 +10,9 @@
 
 #include "C_SWI_handler.h"
 
-void C_SWI_handler(unsigned swi_num, unsigned * regs){
+int C_SWI_handler(unsigned swi_num, unsigned * regs){
   //variables
-	int err;
+  int ret = 0;
 
 	//Handle Shit
 	switch(swi_num){
@@ -22,13 +22,13 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 			break;
 		case 3:
 			//read
-			err = read(regs[0], (void *) regs[1], regs[2]);
+			ret = read(regs[0], (void *) regs[1], regs[2]);
 
 			//check for error and assign to r0 if exists
 			break;
 		case 4:
 			//write
-			err = write(regs[0], (void *) regs[1], regs[2]);
+			ret = write(regs[0], (void *) regs[1], regs[2]);
 
 			//check for error and assign to r0 if exists
 			break;
@@ -42,6 +42,8 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 	//Debug
 	puts("We are Handling shit\n");
+
+	return ret;
 }
 
 //exits the kernel with a given status
