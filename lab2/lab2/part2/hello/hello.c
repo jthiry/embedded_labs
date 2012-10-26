@@ -18,32 +18,37 @@ int main(int argc, char* argv[]) {
 
   //args testing, input 3 words in command line
 	errs = write(1, str, 19);
-	printf("args write error: %x", errs);
+	printf("args write error: %x\n", errs);
 	for(i=0; i < argc; i++)
 	{
 		errs = write(1, argv[i], 128);
-		printf("write loop[%d] error: %x", i, errs);
+		printf("write loop[%d] error: %x\n", i, errs);
 	}
-
-  //check ?
-	errs = read(0, my_buff, 128);
-	printf("read  error: %x", errs);
-
-	errs = write(1, my_buff, 19);
-	printf("write 3 error: %x", errs);
 
   //check fd checks
 	errs = read(7, my_buff, 19);
-	printf("fd read error: %x", errs);
+	printf("fd read error: %x\n", errs);
 	errs = write(8, my_buff, 19);
-	printf("fd write error: %x", errs);
+	printf("fd write error: %x\n", errs);
 
+	//check memory bounds
+	errs = read(0, 0xf8000000, 7);
+	printf("memory ptr high read error: %x\n", errs);
+	errs = read(0, 0xa2ffffff, 7);
+	printf("memory ptr+size high read error: %x\n", errs);
+	errs = write(1, 0xf8000000, 7);
+	printf("memory ptr high write error: %x\n", errs);
+  errs = write(1, 0xa2ffffff, 7);
+	printf("memory ptr+size high write error: %x\n", errs);
+	errs = write(1, 0x0, 7);
+	printf("memory ptr low write error: %x\n", errs);
 
-	/*things to check
-    	buffer bounds
-		buffer+size bounds
-		filenumbers
+	//check generic
+	errs = read(0, my_buff, 128);
+	printf("read generic error: %x", errs);
 
+	errs = write(1, my_buff, 19);
+	printf("write generic error: %x", errs);
 
 	return 0;
 }
