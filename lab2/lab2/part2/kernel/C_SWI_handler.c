@@ -71,34 +71,29 @@ ssize_t read(int fd, void *buf, size_t count) {
 	}
 
 	//check if buf loc and size end up outside of useable memory
-	/* theoretical option 1*/
 	if((unsigned)buf > 0xa3000000 || (unsigned)buf < 0x40000000 ||
-			((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
+		((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
 		return EFAULT;
 	}
-	/* theoretical option 2
-	   void *test = malloc(count);
-	   int compare = (int) test;
-	   if(compare == 0) {
-	   return EFAULT;
-	   }
-	   free(test);*/
 	puts("reading: passed bounds check\n");
 
-		//read from stdin, we're assuming it's the same as fd
-		//loop until buf full
-		int bufCount = 0;
+	//read from stdin, we're assuming it's the same as fd
+	//loop until buf full
+	int bufCount = 0;
 	char c;
 	while(bufCount < count) {
 		//get the next char
 		printf("\t bufCount =%x\n",bufCount);
 		c = (char) getc();
-		
+
 		//printf("reading:\t getc=%c\n", c);
 
 			//check for special cases
 			if(c == 4) {
 				//if char was an EOT
+
+/* TODO, DOESN'T CATCH*/
+
 				return bufCount;
 			} else if(c == 8 || c == 127) {
 				//if char was a backspace or delete
@@ -141,6 +136,8 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	//convert the void * into something useful
 	char *ourBuf = (char *) buf;
 
+	printf("writing...\n");
+
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
 		//return error message here
@@ -148,12 +145,13 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	}
 
 	//check if buf loc and size end up outside of useable memory
-	/* TODO */
-	/* theoretical option 1*/
 	if((unsigned)buf > 0xa3000000 || (unsigned)buf < 0x40000000 ||
 			((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
 		return EFAULT;
 	}
+
+	printf("made it past the fd and mem checks\n");
+	printf("count = %x\n", count);
 
 	//read from stdout, we're assuming it's the same as fd
 	//loop until buf full
@@ -161,8 +159,9 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	unsigned int i = count;
 	char c;
 	while(i > 0) {
+	  printf("looping... i=%d\n", i);
 		//get the next char
-		c = (char) ourBuf[i];
+		c = (char) ourBuf[i-1];
 
 		//output char to stdout
 		putc(c);

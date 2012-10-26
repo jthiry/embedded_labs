@@ -118,7 +118,7 @@ a30001a8:	e3520000 	cmp	r2, #0	; 0x0
 a30001ac:	0a000005 	beq	a30001c8 <write+0x60>
 a30001b0:	e1a05001 	mov	r5, r1
 a30001b4:	e1a04002 	mov	r4, r2
-a30001b8:	e4550001 	ldrb	r0, [r5], #-1
+a30001b8:	e5750001 	ldrb	r0, [r5, #-1]!
 a30001bc:	eb0000b1 	bl	a3000488 <putc>
 a30001c0:	e2544001 	subs	r4, r4, #1	; 0x1
 a30001c4:	1afffffb 	bne	a30001b8 <write+0x50>
