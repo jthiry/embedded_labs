@@ -40,10 +40,7 @@ int main(int argc, char *argv[]) {
 	s_handler[1] = (unsigned)S_HANDLER;
 	puts("Handler Installed...\n");
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
-	
-	_hello();
-	
-	/*
+
 	//Step 2: Put user prog args onto the stack
 	puts("Starting Step 2\n");
 	puts("Setting up the stack...\n");
@@ -65,7 +62,7 @@ int main(int argc, char *argv[]) {
 	//Step 3: Switch to user mode with IRQs and FIQs masked, jump to user program at oxa2000000
 	printf("Calling ENABLE_USER_PROG() at %x\n",&ENABLE_USER_PROG);
 	ENABLE_USER_PROG((unsigned)stack_ptr);
-	*/	
+
 
 	//Exit Steps:
 	puts("++Starting exit steps");
