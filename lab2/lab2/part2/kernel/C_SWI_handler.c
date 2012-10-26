@@ -18,7 +18,7 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 	switch(swi_num){
 		case 1:
 			//exit
-			exit(regs[0], regs[1]);
+			exit(regs[0]);
 			break;
 		case 3:
 			//read
@@ -42,13 +42,12 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 	//Debug
 	puts("We are Handling shit\n");
-
-	return err;
 }
 
 //exits the kernel with a given status
-void exit(int status, unsigned * addr) {
+void exit(int status) {
   //EXIT(status, addr);
+  printf("exit\n");
 }
 
 //read from a given file into a buffer for count bytes
