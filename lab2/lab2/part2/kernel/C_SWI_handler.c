@@ -23,19 +23,20 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs){
 			exit(regs[0]);
 			break;
 		case 3:
-			//puts("++case 3\n");
+			puts("++case 3\n");
 			//read
 			ret = read(regs[0], (void *) regs[1], regs[2]);
-			//printf("--case 3, ret= %x\n", ret);
+			printf("--case 3, ret= %x\n", ret);
 			return ret;
 
-			//check for error and assign to r0 if exists
 			break;
 		case 4:
 			//write
-			return write(regs[0], (void *) regs[1], regs[2]);
+			puts("++case 4\n");
+			ret = write(regs[0], (void *) regs[1], regs[2]);
+			printf("--case 4, ret= %x\n", ret);
+			return ret;
 
-			//check for error and assign to r0 if exists
 			break;
 
 		default:
@@ -135,7 +136,7 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	//convert the void * into something useful
 	char *ourBuf = (char *) buf;
 
-	//printf("writing...\n");
+	printf("writing...\n");
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
@@ -149,8 +150,8 @@ ssize_t write(int fd, const void *buf, size_t count) {
 		return -EFAULT;
 	}
 
-	//printf("made it past the fd and mem checks\n");
-	//printf("count = %x\n", count);
+	printf("made it past the fd and mem checks\n");
+	printf("count = %x\n", count);
 
 	//read from stdout, we're assuming it's the same as fd
 	//loop until buf full
@@ -158,7 +159,7 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	unsigned int i = count;
 	char c;
 	while(i > 0) {
-	  //printf("looping... i=%d\n", i);
+	  printf("looping... i=%d\n", i);
 		//get the next char
 		c = (char) ourBuf[bufCount];
 
