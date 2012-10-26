@@ -55,3 +55,16 @@ ret:	@MSR   CPSR, #0xD3
 
 .type ENABLE_USER_PROG, function
 .size ENABLE_USER_PROG, .-ENABLE_USER_PROG
+
+	
+
+	.global CHECK_INST
+CHECK_INST:
+	STMFD sp!, {r1-r12, lr}
+	BIC r0, r0, #0xff
+	BIC r0, r0, #0xf00
+	LDMFD sp!, {r1-r12, lr}
+	mov pc, lr
+
+.type CHECK_INST, function
+.size CHECK_INST, .-CHECK_INST

@@ -19,10 +19,14 @@ int main(int argc, char *argv[]) {
 	//Look at the instruction at 0x08
 	//confirm that is of type 'ldr pc, [pc, #imm12]
 	//Else output "0x0badc0de"
-	//unsigned* swi_vec = (unsigned*)0x08;
-	//unsigned vec_swi = swi_vec[0];
+	unsigned* swi_vec = (unsigned*)0x08;
+	unsigned vec_swi = swi_vec[0];
 
-		
+	unsigned inst = CHECK_INST(vec_swi);	
+
+	if(inst != 0xe59ff000)
+		return 0x0badc0de;
+	
 	//Extract the address of the SWI handler
 	unsigned* jump_tab = (unsigned*)0x24;
 	unsigned* s_handler = (unsigned*)jump_tab[0];
