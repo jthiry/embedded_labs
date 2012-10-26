@@ -115,7 +115,7 @@ ssize_t read(int fd, void *buf, size_t count) {
 
 				//return bufcount so far
 				return bufCount;
-			} else if(c >= 32 && c <= 126) {
+			} else {
 				//put char into buf and bufCount++
 				ourBuf[bufCount] = c;
 				bufCount++;
