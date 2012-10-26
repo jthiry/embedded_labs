@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 	if(inst != 0xe59ff000)
 		return 0x0badc0de;
 	
-	
+	printf("immediate= %x\n", imm);	
 	//Extract the address of the SWI handler
 	//unsigned* jump_tab = (unsigned*)0x24;
 	unsigned* jump_tab = (unsigned*)(0x08 + imm);
