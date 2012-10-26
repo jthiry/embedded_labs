@@ -12,7 +12,9 @@
 
 void C_SWI_handler(unsigned swi_num, unsigned * regs){
   //variables
-  int err;
+/*
+	/
+	int err;
 
 	//Handle Shit
 	switch(swi_num){
@@ -21,26 +23,27 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 			exit(regs[0]);
 			break;
 		case 3:
-		  //read
-		  err = read(regs[0], (void *) regs[1], regs[2]);
+			//read
+			err = read(regs[0], (void *) regs[1], regs[2]);
 
-		  //check for error and assign to r0 if exists
+			//check for error and assign to r0 if exists
 			break;
-	  case 4:
-	    //write
-	    err = write(regs[0], (void *) regs[1], regs[2]);
+		case 4:
+			//write
+			err = write(regs[0], (void *) regs[1], regs[2]);
 
-	    //check for error and assign to r0 if exists
-	    break;
+			//check for error and assign to r0 if exists
+			break;
 
 		default:
 			//not recognized, throw error
-      puts("Invalid syscall recieved\n");
+			puts("Invalid syscall recieved\n");
 			exit(0x0badc0de);
 			break;
 	}
 
 	//Debug
+	*/
 	puts("We are Handling shit\n");
 }
 
@@ -51,18 +54,18 @@ void exit(int status) {
 
 //read from a given file into a buffer for count bytes
 ssize_t read(int fd, void *buf, size_t count) {
-  //convert buf to a char* to make C happy
-  char *ourBuf = (char *) buf;
+	//convert buf to a char* to make C happy
+	char *ourBuf = (char *) buf;
 
-  //check if fd isn't stdin, return -EBADF if not
-  if(fd != STDIN_FILENO) {
-    //return error message here
-    return EBADF;
-  }
+	//check if fd isn't stdin, return -EBADF if not
+	if(fd != STDIN_FILENO) {
+		//return error message here
+		return EBADF;
+	}
 
-  //check if buf loc and size end up outside of useable memory
-  /* theoretical option 1*/
-  if((int)buf > 0xa3000000 || (int)buf < 0x40000000 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
+	//check if buf loc and size end up outside of useable memory
+	/* theoretical option 1*/
+	if((int)buf > 0xa3000000 || (int)buf < 0x40000000 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
     return EFAULT;
   }
   /* theoretical option 2

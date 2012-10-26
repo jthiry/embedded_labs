@@ -9,6 +9,7 @@
 
 #include <exports.h>
 #include "swi_handler.h"
+#include "hello.h"
 
 int main(int argc, char *argv[]) {
 
@@ -39,13 +40,18 @@ int main(int argc, char *argv[]) {
 	s_handler[1] = (unsigned)S_HANDLER;
 	puts("Handler Installed...\n");
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
-
+	
+	_hello();
+	
+	/*
 	//Step 2: Put user prog args onto the stack
 	puts("Starting Step 2\n");
 	puts("Setting up the stack...\n");
 		//first stack location is at 0xa3000000 - 4 = 0xa2FFFFFC
 	unsigned* stack_ptr = (unsigned*)0xa3000000;
-	--stack_ptr;
+	--stack_ptr; // for the svc sp
+	--stack_ptr; // for user app LR
+	--stack_ptr; // for argc
 	*stack_ptr = argc;
 	int i;
 	for(i = 0; i < argc; i++)
@@ -58,8 +64,9 @@ int main(int argc, char *argv[]) {
 
 	//Step 3: Switch to user mode with IRQs and FIQs masked, jump to user program at oxa2000000
 	printf("Calling ENABLE_USER_PROG() at %x\n",&ENABLE_USER_PROG);
-	ENABLE_USER_PROG(argc);
-	
+	ENABLE_USER_PROG((unsigned)stack_ptr);
+	*/	
+
 	//Exit Steps:
 	puts("++Starting exit steps");
 		//Restore the 8 bytes from the stack

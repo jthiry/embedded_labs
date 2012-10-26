@@ -3,6 +3,6 @@
 
 
 extern void S_HANDLER(void);
-extern void ENABLE_USER_PROG(int numArgs);
+extern void ENABLE_USER_PROG(unsigned stack_ptr);
 
 #endif
