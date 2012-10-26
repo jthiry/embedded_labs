@@ -92,7 +92,6 @@ ssize_t read(int fd, void *buf, size_t count) {
 			if(c == 4) {
 				//if char was an EOT
 
-/* TODO, DOESN'T CATCH*/
 
 				return bufCount;
 			} else if(c == 8 || c == 127) {
