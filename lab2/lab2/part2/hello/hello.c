@@ -7,26 +7,26 @@
 
 #include <exports.h>
 
-int main(void) {
+int main(int argc, char* argv[]) {
 
-	unsigned long vers_num = get_version();
-	unsigned char myChar = 'a';
-	unsigned long time;
-	
-	while(myChar != 'q')
+	int i;
+	char* str = "printing out args\n"
+	char my_buff[128];		//buffer to hold the input string
+
+	write(1, str, 19);
+	for(i=0; i < argc; i++)
 	{
-		puts("myChar=");
-		putc(myChar);
-		puts("\n");
-		time = get_timer(0);
-		printf("Wating 3s... timer count = %d\n", time);
-		udelay(3000000);
-		puts("Ready for input:");
-		myChar = getc();	
+		write(1, argv[i], 128);
 	}
-	printf("This is our version number %d\n", vers_num);
-	char* myString = malloc( sizeof(char) * 5);
-	free(myString);
-	puts("Should I reset the CPU?\n");
+
+	read(0, my_buff, 128); 
+
+	write(1, my_buff, 19);
+	/*things to check
+    	buffer bounds
+		buffer+size bounds
+		filenumbers
+
+
 	return 0;
 }
