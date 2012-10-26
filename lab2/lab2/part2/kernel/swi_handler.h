@@ -4,5 +4,6 @@
 
 extern void S_HANDLER(void);
 extern int ENABLE_USER_PROG(unsigned stack_ptr);
+extern void ghetto_exit(void)
 
 #endif

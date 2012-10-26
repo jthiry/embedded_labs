@@ -16,6 +16,7 @@ _EXIT:
 
   mov r1, #0xa3000000   @start at a3million to find return mem addr
   sub pc, r1, #8        @sub 8 from a3million for proper address to find
+	@send program to the memory address given
 
 .type _EXIT, function
 .size _EXIT, .-_EXIT

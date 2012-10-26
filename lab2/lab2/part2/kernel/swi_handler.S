@@ -53,3 +53,11 @@ ret:	@MSR   CPSR, #0xD3
 
 .type ENABLE_USER_PROG, function
 .size ENABLE_USER_PROG, .-ENABLE_USER_PROG
+
+	.global	ghetto_exit
+ghetto_exit:
+	mov r1, #0xa3000000
+	sub r1, r1, #8
+	LDR pc, [r1]
+.type ghetto_exit, function
+.size ghetto_exit, .-ghetto_exit
