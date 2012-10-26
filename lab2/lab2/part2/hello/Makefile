@@ -1,13 +1,14 @@
 CC      = arm-linux-gcc
 OBJCOPY = arm-linux-objcopy
-CFLAGS  = -O2 -ffixed-r8 -ffreestanding -Wall -Werror -nostdinc \
-          -I ../uboot/include -I include
-LDFLAGS = -nostdlib -Wl,-e,$(ENTRY_SYMBOL),-N,-Ttext,$(LOAD_ADDR)
+CFLAGS  = -O2 -ffreestanding -Wall -Werror -nostdinc \
+          -I ../uboot/include -I ../../part1/libc/include
+LDFLAGS = -nostdlib -Wl,-Ttext,$(LOAD_ADDR)
 
-ENTRY_SYMBOL = main
 LOAD_ADDR    = 0xa2000000
 
 STUBS = ../uboot/stubs.o
+CRT0    = ../../part1/libc/crt0.o
+LDLIBS  = ../../part1/libc/libc.a
 
 objects = hello.o
 
@@ -19,7 +20,7 @@ hello.bin: hello
 	$(OBJCOPY) -O binary $< $@
 
 hello: $(objects)
-	$(CC) $(LDFLAGS) -o $@ $^ $(STUBS)
+	$(CC) $(LDFLAGS) -o $@ $(CRT0) $^ $(STUBS) $(LDLIBS)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -o $@ $<

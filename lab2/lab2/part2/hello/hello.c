@@ -8,11 +8,12 @@
  */
 
 #include <exports.h>
+#include <stdlib.h>
 
 int main(int argc, char* argv[]) {
 
 	int i;
-	char* str = "printing out args\n"
+	char* str = "printing out args\n";
 	char my_buff[128];		//buffer to hold the input string
 	int errs = 0;
 
@@ -32,15 +33,15 @@ int main(int argc, char* argv[]) {
 	printf("fd write error: %x\n", errs);
 
 	//check memory bounds
-	errs = read(0, 0xf8000000, 7);
+	errs = read(0, (void *)0xf8000000, 7);
 	printf("memory ptr high read error: %x\n", errs);
-	errs = read(0, 0xa2ffffff, 7);
+	errs = read(0, (void *)0xa2ffffff, 7);
 	printf("memory ptr+size high read error: %x\n", errs);
-	errs = write(1, 0xf8000000, 7);
+	errs = write(1, (void *)0xf8000000, 7);
 	printf("memory ptr high write error: %x\n", errs);
-  errs = write(1, 0xa2ffffff, 7);
+  errs = write(1, (void *)0xa2ffffff, 7);
 	printf("memory ptr+size high write error: %x\n", errs);
-	errs = write(1, 0x0, 7);
+	errs = write(1, (void *)0x0, 7);
 	printf("memory ptr low write error: %x\n", errs);
 
 	//check generic
