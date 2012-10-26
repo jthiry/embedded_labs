@@ -24,30 +24,29 @@ S_HANDLER:
 
 	.global	ENABLE_USER_PROG
 ENABLE_USER_PROG:
-	STMFD sp!, {r0-r12, lr} @ sp and lr are banked!!
+	STMFD sp!, {r1-r12, lr} @ sp and lr are banked!!
 
 	mov r1, #0xa3000000 @ init sp location
 	sub r1, r1, #4 @svc sp gets stored here for later
 	STR sp, [r1] @sp we need to save
 	sub r1, r1, #4 @link register goes here`for later
-	add r2, pc, #16 @figure out where we should link (pc relative)
+	add r2, pc, #12 @figure out where we should link (pc relative)
 	str r2, [r1] @ lr we need to save to return from user prog	
 
 	MSR   CPSR, #0xD0
 	@user mode now!,
 	 
 	mov sp, r0 @ give user sp stack location
-
-	mov lr, pc
 	LDR pc, =0xa2000000
 	
 	@return here after exit
 	@switch back to kernel mode
 ret:	@MSR   CPSR, #0xD3
+	@r0 is return status
 	mov r1, #0xa3000000
 	sub r1, r1, #4
 	LDR sp, [r1]
-	LDMFD sp!, {r0-r12, lr}
+	LDMFD sp!, {r1-r12, lr}
 	mov pc, lr
 
 .type ENABLE_USER_PROG, function
