@@ -17,6 +17,3 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs);
 void exit(int status);
 ssize_t read(int fd, void *buf, size_t count);
 ssize_t write(int fd, const void *buf, size_t count);
-
-// assembly functions
-extern void _EXIT(int status);

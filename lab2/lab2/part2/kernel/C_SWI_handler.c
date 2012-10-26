@@ -9,6 +9,7 @@
 
 
 #include "C_SWI_handler.h"
+#include "exit.h"
 
 int C_SWI_handler(unsigned swi_num, unsigned * regs){
   //variables
@@ -48,8 +49,8 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 //exits the kernel with a given status
 void exit(int status) {
-  //_EXIT(status);
-  printf("exit\n");
+  _EXIT(status);
+  //printf("exit\n");
 }
 
 //read from a given file into a buffer for count bytes
