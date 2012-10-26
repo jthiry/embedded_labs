@@ -23,7 +23,7 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs){
 			exit(regs[0]);
 			break;
 		case 3:
-			puts("++case 3\n");
+			//puts("++case 3\n");
 			//read
 			ret = read(regs[0], (void *) regs[1], regs[2]);
 			//printf("--case 3, ret= %x\n", ret);
@@ -92,13 +92,12 @@ ssize_t read(int fd, void *buf, size_t count) {
 			if(c == 4) {
 				//if char was an EOT
 
-/* TODO, DOESN'T CATCH*/
-
 				return bufCount;
 			} else if(c == 8 || c == 127) {
 				//if char was a backspace or delete
 
 				//remove previous char
+				bufCount--;
 				ourBuf[bufCount] = '\0';
 
 				//print "\b \b" to sdout
