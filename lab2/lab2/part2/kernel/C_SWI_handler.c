@@ -12,8 +12,6 @@
 
 void C_SWI_handler(unsigned swi_num, unsigned * regs){
   //variables
-/*
-	/
 	int err;
 
 	//Handle Shit
@@ -43,13 +41,14 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 	}
 
 	//Debug
-	*/
 	puts("We are Handling shit\n");
+
+	return err;
 }
 
 //exits the kernel with a given status
 void exit(int status, unsigned * addr) {
-  EXIT(status, addr);
+  //EXIT(status, addr);
 }
 
 //read from a given file into a buffer for count bytes
@@ -65,7 +64,8 @@ ssize_t read(int fd, void *buf, size_t count) {
 
 	//check if buf loc and size end up outside of useable memory
 	/* theoretical option 1*/
-	if((int)buf > 0xa3000000 || (int)buf < 0x40000000 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
+	if((int)buf > 0xa3000000 || (int)buf < 0x40000000 ||
+	      ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
     return EFAULT;
   }
   /* theoretical option 2
@@ -136,7 +136,8 @@ ssize_t write(int fd, const void *buf, size_t count) {
   //check if buf loc and size end up outside of useable memory
   /* TODO */
   /* theoretical option 1*/
-  if((int)buf > 0xa3000000 || (int)buf < 0x40000000 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
+  if((int)buf > 0xa3000000 || (int)buf < 0x40000000 ||
+        ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
     return EFAULT;
   }
 
