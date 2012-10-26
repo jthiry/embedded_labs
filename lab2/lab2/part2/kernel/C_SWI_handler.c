@@ -9,28 +9,27 @@
 
 
 #include "C_SWI_handler.h"
+#include "exit.h"
 
-void C_SWI_handler(unsigned swi_num, unsigned * regs){
+int C_SWI_handler(unsigned swi_num, unsigned * regs){
   //variables
-/*
-	/
-	int err;
+  int ret = 0;
 
 	//Handle Shit
 	switch(swi_num){
 		case 1:
 			//exit
-			exit(regs[0], regs[1]);
+			exit(regs[0]);
 			break;
 		case 3:
 			//read
-			err = read(regs[0], (void *) regs[1], regs[2]);
+			ret = read(regs[0], (void *) regs[1], regs[2]);
 
 			//check for error and assign to r0 if exists
 			break;
 		case 4:
 			//write
-			err = write(regs[0], (void *) regs[1], regs[2]);
+			ret = write(regs[0], (void *) regs[1], regs[2]);
 
 			//check for error and assign to r0 if exists
 			break;
@@ -43,13 +42,15 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 	}
 
 	//Debug
-	*/
 	puts("We are Handling shit\n");
+
+	return ret;
 }
 
 //exits the kernel with a given status
-void exit(int status, unsigned * addr) {
-  EXIT(status, addr);
+void exit(int status) {
+  _EXIT(status);
+  //printf("exit\n");
 }
 
 //read from a given file into a buffer for count bytes
@@ -65,7 +66,8 @@ ssize_t read(int fd, void *buf, size_t count) {
 
 	//check if buf loc and size end up outside of useable memory
 	/* theoretical option 1*/
-	if((int)buf > 0xa3000000 || (int)buf < 0x40000000 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
+	if((int)buf > 0xa3000000 || (int)buf < 0x40000000 ||
+	      ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
     return EFAULT;
   }
   /* theoretical option 2
@@ -136,7 +138,8 @@ ssize_t write(int fd, const void *buf, size_t count) {
   //check if buf loc and size end up outside of useable memory
   /* TODO */
   /* theoretical option 1*/
-  if((int)buf > 0xa3000000 || (int)buf < 0x40000000 || ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
+  if((int)buf > 0xa3000000 || (int)buf < 0x40000000 ||
+        ((int)buf + count) > 0xa3000000 || ((int)buf + count) < 0x40000000) {
     return EFAULT;
   }
 
