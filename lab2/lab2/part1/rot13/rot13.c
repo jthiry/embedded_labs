@@ -11,19 +11,33 @@
 
 //function to do the rot13 rotation
 char rotate(char);
+int main(int argc, char* argv[]) {
 
-int main(void) {
-
-	
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
-	
-	//indefinite loop
-	while( 1 ) 
+
+
+	int len;
+	char* str = "printing out args\n";
+	int errs = 0;
+
+  //args testing, input 3 words in command line
+	errs = write(1, str, 19);
+	//printf("args write error: %d\n", errs);
+	for(i=0; i < argc; i++)
 	{
-		
+	  len = 0;
+	  while(argv[i][len] != '\0') len++;
+		write(1, argv[i], len);
+	//	printf("---write loop[%d] error: %d\n", i, errs);
+	}
+
+	//indefinite loop
+	while( 1 )
+	{
+
 		num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
-		//printf("nchar=%d\n",num_chars); 
+		//printf("nchar=%d\n",num_chars);
 		if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
 		if(num_chars < 0) exit(1);		//if return length < 0, error
 
@@ -35,15 +49,15 @@ int main(void) {
 		}
 
 		chk = write(1, my_buff, num_chars); 	//calling write SWI to output newly rot13 str
-		
+
 		//if return value < 0, error
 		if (chk < 0 )
 		{
-			//printf("%d\n", errno);			
+			//printf("%d\n", errno);
 			exit(1);
 		}
-		
-	}	
+
+	}
 	return 0;	//program will never get to here
 }
 char rotate(char rot_me)
@@ -69,4 +83,3 @@ char rotate(char rot_me)
 
 	return rot_me;	//return the newly rotated char
 }
- 

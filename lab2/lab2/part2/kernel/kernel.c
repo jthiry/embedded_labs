@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[]) {
 
-	puts("Starting Step 1\n");
+	//puts("Starting Step 1\n");
 
 	//Step1: Wire in the SWI Handler
 	//Verify the vector table is legit
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 	if(inst != 0xe59ff000)
 		return 0x0badc0de;
 
-	printf("immediate= %x\n", imm);
+	//printf("immediate= %x\n", imm);
 	//Extract the address of the SWI handler
 	//unsigned* jump_tab = (unsigned*)0x24;
 	unsigned* jump_tab = (unsigned*)(0x10 + imm);
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 
 
 	//Step 2: Put user prog args onto the stack
-	puts("Starting Step 2\n");
+	//puts("Starting Step 2\n");
 	puts("Setting up the stack...\n");
 		//first stack location is at 0xa3000000 - 4 = 0xa2FFFFFC
 	unsigned* stack_ptr = (unsigned*)0xa3000000;
@@ -60,21 +60,22 @@ int main(int argc, char *argv[]) {
 	{
 		--stack_ptr;
 		*stack_ptr = (unsigned)((char*)argv[i]);
-		puts((char*)argv[i]);
-		puts("\n");
+		//puts((char*)argv[i]);
+		//puts("\n");
 	}
 
 	//Step 3: Switch to user mode with IRQs and FIQs masked, jump to user program at oxa2000000
-	printf("Calling ENABLE_USER_PROG() at %x\n",&ENABLE_USER_PROG);
+	//printf("Calling ENABLE_USER_PROG() at %x\n",&ENABLE_USER_PROG);
+	puts("Calling user method...\n");
 
 	int status = ENABLE_USER_PROG((unsigned)stack_ptr);
 
 
 	//Exit Steps:
-	puts("++Starting exit steps");
+	//puts("++Starting exit steps");
 		//Restore the 8 bytes from the stack
 	s_handler[0] = word_one;
 	s_handler[1] = word_two;
-	puts("--Exit steps complete");
+	puts("--Exit steps complete\n");
 	return status;
 }
