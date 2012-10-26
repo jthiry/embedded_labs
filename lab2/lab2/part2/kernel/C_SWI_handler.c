@@ -20,7 +20,7 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 	switch(swi_num){
 		case 1:
 			//exit
-			exit(regs[0]);
+			exit(regs[0], regs[1]);
 			break;
 		case 3:
 			//read
@@ -48,8 +48,8 @@ void C_SWI_handler(unsigned swi_num, unsigned * regs){
 }
 
 //exits the kernel with a given status
-void exit(int status) {
-
+void exit(int status, unsigned * addr) {
+  EXIT(status, addr);
 }
 
 //read from a given file into a buffer for count bytes
