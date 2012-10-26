@@ -23,12 +23,14 @@ int main(int argc, char *argv[]) {
 	unsigned vec_swi = swi_vec[0];
 
 	unsigned inst = CHECK_INST(vec_swi);	
-
+	unsigned imm = GET_IMM(vec_swi);
 	if(inst != 0xe59ff000)
 		return 0x0badc0de;
 	
+	
 	//Extract the address of the SWI handler
-	unsigned* jump_tab = (unsigned*)0x24;
+	//unsigned* jump_tab = (unsigned*)0x24;
+	unsigned* jump_tab = (unsigned*)0x08  (unsigned*)imm;
 	unsigned* s_handler = (unsigned*)jump_tab[0];
 	printf("jump_tab=%x jump_tab*=%x\n", jump_tab, *jump_tab);
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
