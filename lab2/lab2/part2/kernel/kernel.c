@@ -22,18 +22,18 @@ int main(int argc, char *argv[]) {
 	unsigned* swi_vec = (unsigned*)0x08;
 	unsigned vec_swi = swi_vec[0];
 
-	unsigned inst = CHECK_INST(vec_swi);	
+	unsigned inst = CHECK_INST(vec_swi);
 	unsigned imm = GET_IMM(vec_swi);
 	if(inst != 0xe59ff000)
 		return 0x0badc0de;
-	
-	printf("immediate= %x\n", imm);	
+
+	printf("immediate= %x\n", imm);
 	//Extract the address of the SWI handler
 	//unsigned* jump_tab = (unsigned*)0x24;
-	unsigned* jump_tab = (unsigned*)(0x08 + imm);
+	unsigned* jump_tab = (unsigned*)(0x10 + imm);
 	unsigned* s_handler = (unsigned*)jump_tab[0];
-	printf("jump_tab=%x jump_tab*=%x\n", jump_tab, *jump_tab);
-	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
+	//printf("jump_tab=%x jump_tab*=%x\n", jump_tab, *jump_tab);
+	//printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
 		//Save the first 8 bytes on the stack
 	unsigned word_one = s_handler[0];
 	unsigned word_two = s_handler[1];
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 	s_handler[0] = our_load;
 	s_handler[1] = (unsigned)S_HANDLER;
 	puts("Handler Installed...\n");
-	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
+	//printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
 
 
 
