@@ -82,7 +82,8 @@ CHECK_INST:
 	.global GET_IMM
 GET_IMM:
 	STMFD sp!, {r1-r12, lr}
-	BIC r0, r0, #0xFFFFF000
+	ldr r1, =0xFFFFF000
+	BIC r0, r0, r1 
 	LDMFD sp!, {r1-r12, lr}
 	mov pc, lr
 

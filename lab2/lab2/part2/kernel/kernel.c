@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	
 	//Extract the address of the SWI handler
 	//unsigned* jump_tab = (unsigned*)0x24;
-	unsigned* jump_tab = (unsigned*)0x08  (unsigned*)imm;
+	unsigned* jump_tab = (unsigned*)(0x08 + imm);
 	unsigned* s_handler = (unsigned*)jump_tab[0];
 	printf("jump_tab=%x jump_tab*=%x\n", jump_tab, *jump_tab);
 	printf("s_handler=%x s_handler*=%x s_handler**=%x\n", s_handler, *s_handler, s_handler[1]);
