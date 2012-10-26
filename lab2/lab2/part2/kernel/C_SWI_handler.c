@@ -159,9 +159,9 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	unsigned int i = count;
 	char c;
 	while(i > 0) {
-	  printf("looping... i=%d\n", i);
+	  //printf("looping... i=%d\n", i);
 		//get the next char
-		c = (char) ourBuf[i-1];
+		c = (char) ourBuf[bufCount];
 
 		//output char to stdout
 		putc(c);
