@@ -78,3 +78,13 @@ CHECK_INST:
 
 .type CHECK_INST, function
 .size CHECK_INST, .-CHECK_INST
+
+	.global GET_IMM
+GET_IMM:
+	STMFD sp!, {r1-r12, lr}
+	BIC r0, r0, #0xFFFFF000
+	LDMFD sp!, {r1-r12, lr}
+	mov pc, lr
+
+.type GET_IMM, function
+.size GET_IMM, .-GET_IMM
