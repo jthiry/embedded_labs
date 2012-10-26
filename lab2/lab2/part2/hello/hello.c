@@ -25,8 +25,13 @@ int main(int argc, char* argv[]) {
 	{
 	  len = 0;
 	  while(argv[i][len] != '\0') len++;
+	  printf("argv[%d] len is %d\n", i, len);
+
 		errs = write(1, argv[i], len);
-		printf("---write loop[%d] error: %d\n", i, errs);
+		printf("argv[%d] write err: %d\n", i, errs);
+		if(errs < 0) {
+		  exit(1);
+		}
 	}
 
   //check fd checks

@@ -67,13 +67,13 @@ ssize_t read(int fd, void *buf, size_t count) {
 	//check if fd isn't stdin, return -EBADF if not
 	if(fd != STDIN_FILENO) {
 		//return error message here
-		return EBADF;
+		return -EBADF;
 	}
 
 	//check if buf loc and size end up outside of useable memory
 	if((unsigned)buf > 0xa3000000 || (unsigned)buf < 0x40000000 ||
 		((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
-		return EFAULT;
+		return -EFAULT;
 	}
 	//puts("reading: passed bounds check\n");
 
@@ -140,13 +140,13 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
 		//return error message here
-		return EBADF;
+		return -EBADF;
 	}
 
 	//check if buf loc and size end up outside of useable memory
 	if((unsigned)buf > 0xa3000000 || (unsigned)buf < 0x40000000 ||
 			((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
-		return EFAULT;
+		return -EFAULT;
 	}
 
 	//printf("made it past the fd and mem checks\n");

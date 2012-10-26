@@ -15,21 +15,17 @@ int main(int argc, char* argv[]) {
 
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
-
-
 	int len;
 	char* str = "printing out args\n";
 	int errs = 0;
 
   //args testing, input 3 words in command line
 	errs = write(1, str, 19);
-	//printf("args write error: %d\n", errs);
 	for(i=0; i < argc; i++)
 	{
 	  len = 0;
 	  while(argv[i][len] != '\0') len++;
-		write(1, argv[i], len);
-	//	printf("---write loop[%d] error: %d\n", i, errs);
+		errs = write(1, argv[i], len);
 	}
 
 	//indefinite loop
