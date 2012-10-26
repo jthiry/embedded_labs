@@ -53,7 +53,7 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 //exits the kernel with a given status
 void exit(int status) {
-  printf("exit; status=%d\n", status);
+  //printf("exit; status=%d\n", status);
   _EXIT(status);
 }
 
