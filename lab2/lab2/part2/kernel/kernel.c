@@ -14,18 +14,16 @@ int main(int argc, char *argv[]) {
 
 	puts("Starting Step 1\n");
 
-	//unsigned* jump_tab, s_handler;
-	//unsigned word_one, word_two, our_load;
-	//void (*our_swi)();
-
 	//Step1: Wire in the SWI Handler
+	//Verify the vector table is legit
+	//Look at the instruction at 0x08
+	//confirm that is of type 'ldr pc, [pc, #imm12]
+	//Else output "0x0badc0de"
 	//unsigned* swi_vec = (unsigned*)0x08;
 	//unsigned vec_swi = swi_vec[0];
-		//TODO: Verify the vector table is legit
-			//Look at the instruction at 0x08
-			//confirm it is OK
-			// Else output "0x0badc0de"
-		//Extract the address of the SWI handler
+
+		
+	//Extract the address of the SWI handler
 	unsigned* jump_tab = (unsigned*)0x24;
 	unsigned* s_handler = (unsigned*)jump_tab[0];
 	printf("jump_tab=%x jump_tab*=%x\n", jump_tab, *jump_tab);
