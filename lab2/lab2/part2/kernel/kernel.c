@@ -61,22 +61,28 @@ int main(int argc, char *argv[]) {
 	puts("Starting Step 2\n");
 	puts("Setting up the stack...\n");
 		//first stack location is at 0xa3000000 - 4 = 0xa2FFFFFC
-	unsigned* stack_ptr = (unsigned*)0xa3000000;
+	unsigned *stack_ptr = (unsigned*)0xa3000000;
+	printf("\tstack_ptr = %x\n",stack_ptr) ;
 	--stack_ptr; // for the svc sp
+	printf("\tstack_ptr = %x\n",stack_ptr) ;
 	--stack_ptr; // for user app LR
+	printf("\tstack_ptr = %x\n",stack_ptr) ;
 	printf("argc=%d\n", argc);
 	int j;
 	for(j = argc-1; j >= 0;j--)
 	{
 		--stack_ptr;
-		*stack_ptr = (unsigned)((char*)argv[j]);
+		printf("\tstack_ptr = %x\n",stack_ptr) ;
+		printf("\tstoring arg[%d]=%s *(%x), val=%x\n",j,argv[j], *argv[j], (unsigned)((char*)argv[j]));
+		stack_ptr[0] = (unsigned)&argv[j];
 		puts((char*)argv[j]);
 		puts("\n");
 	}
 	--stack_ptr; // for argc
-	*stack_ptr = argc;
+	stack_ptr[0] = argc;
 
 	//Step 3: Switch to user mode with IRQs and FIQs masked, jump to user program at oxa2000000
+	printf("\tstack_ptr = %x\n",stack_ptr) ;
 	printf("Calling ENABLE_USER_PROG() at %x\n",&ENABLE_USER_PROG);
 	puts("Calling user method...\n");
 

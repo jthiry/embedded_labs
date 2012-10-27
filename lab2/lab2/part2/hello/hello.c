@@ -19,14 +19,16 @@ int main(int argc, char* argv[]) {
 	//int errs = 0;
 	printf("starting main, argc=%d\n", argc);
 	printf("argv=%p\n", argv);
+	printf(":::::%s\n", argv);
 
 
 	//args testing, input 3 words in command line
 	//	errs = write(1, str, 19);
 	//	printf("args write error: %d\n", errs);
+	puts("WHAT ARGS DID WE GET GUYS???\n");
 	for(i=0; i < argc; i++)
 	{
-		printf("argv[%d]= %s\n",i,&argv[i]);
+		printf("\targv[%d]=%s\n\thex=%x\n\t*argv[]=%x\n",i,argv[i], argv[i], *argv[i]);
 	}
 	//check fd check
 /*s
