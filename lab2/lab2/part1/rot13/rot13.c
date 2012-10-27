@@ -16,33 +16,42 @@ int main(int argc, char* argv[]) {
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
 	int len;
-	char* str = "printing out args\n";
-	int errs = 0;
-
-  //args testing, input 3 words in command line
-	errs = write(1, str, 19);
+	int found;
+	char* tmp;
 	for(i=0; i < argc; i++)
 	{
-	  len = 0;
-	  while(argv[i][len] != '\0') len++;
-		errs = write(1, argv[i], len);
-	}
+		len = 0;
+		tmp = argv[i];
+		found = 0;
 
-	//indefinite loop
-	while( 1 )
-	{
-
-		num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
-		//printf("nchar=%d\n",num_chars);
-		if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
-		if(num_chars < 0) exit(1);		//if return length < 0, error
-
-		//loop through the whole input str (minus the last char)
-		for(i = 0; i < num_chars - 1; i++)
+		while (!found)
 		{
-			//printf("%d\n", i ) ;
-			my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
+			if(tmp[len] == '\0') found = 1;
+			else len++;
 		}
+		if( write(1, argv[i], len) < 1) exit(1);
+	}
+/*
+	for(i=0; i < argc; i++)
+	{
+		printf("\targv[%d]=%s\n\thex=%x\n\t*argv[]=%x\n",i,argv[i], argv[i], *argv[i]);
+	}
+*/
+  //indefinite loop
+  while( 1 )
+  {
+
+	  num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
+	  //printf("nchar=%d\n",num_chars);
+	  if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
+	  if(num_chars < 0) exit(1);		//if return length < 0, error
+
+	  //loop through the whole input str (minus the last char)
+	  for(i = 0; i < num_chars - 1; i++)
+	  {
+		  //printf("%d\n", i ) ;
+		  my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
+	  }
 
 		chk = write(1, my_buff, num_chars); 	//calling write SWI to output newly rot13 str
 

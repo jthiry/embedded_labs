@@ -12,7 +12,7 @@ objects = rot13.o
 
 default: rot13.bin
 
-.PHONY: default clean clobber
+.PHONY: default clean clobber dump
 
 rot13.bin: rot13
 	$(OBJCOPY) -O binary $< $@
@@ -28,3 +28,6 @@ clean:
 
 clobber: clean
 	rm -f rot13.bin
+
+dump:
+	arm-linux-objdump -D rot13 > r.txt
