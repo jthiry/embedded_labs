@@ -15,9 +15,10 @@ int main(int argc, char* argv[]) {
 
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
-	int len;
-	int found;
-	char* tmp;
+//	int len;
+//	int found;
+//	char* tmp;
+	/*
 	for(i=0; i < argc; i++)
 	{
 		len = 0;
@@ -31,7 +32,7 @@ int main(int argc, char* argv[]) {
 		}
 		if( write(1, argv[i], len) < 1) exit(1);
 	}
-/*
+
 	for(i=0; i < argc; i++)
 	{
 		printf("\targv[%d]=%s\n\thex=%x\n\t*argv[]=%x\n",i,argv[i], argv[i], *argv[i]);
