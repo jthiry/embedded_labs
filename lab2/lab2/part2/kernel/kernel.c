@@ -69,6 +69,7 @@ int main(int argc, char *argv[]) {
 	for(j = argc-1; j >= 0;j--)
 	{
 		--stack_ptr;
+		printf("\tstoring arg[%d]=%s at %p",j,argv[j],stack_ptr);
 		*stack_ptr = (unsigned)((char*)argv[j]);
 		puts((char*)argv[j]);
 		puts("\n");
