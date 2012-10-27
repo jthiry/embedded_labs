@@ -12,29 +12,24 @@
 
 int main(int argc, char* argv[]) {
 
-	int i;
-	int len;
-	char* str = "printing out args\n";
-	char my_buff[128];		//buffer to hold the input string
-	int errs = 0;
+		int i;
+	//	int len;
+	//	char* str = "printing out args\n";
+//	char my_buff[128];		//buffer to hold the input string
+	//int errs = 0;
+	printf("starting main, argc=%d\n", argc);
+	printf("argv=%p\n", argv);
 
-  //args testing, input 3 words in command line
-	errs = write(1, str, 19);
-	printf("args write error: %d\n", errs);
+
+	//args testing, input 3 words in command line
+	//	errs = write(1, str, 19);
+	//	printf("args write error: %d\n", errs);
 	for(i=0; i < argc; i++)
 	{
-	  len = 0;
-	  while(argv[i][len] != '\0') len++;
-	  printf("argv[%d] len is %d\n", i, len);
-
-		errs = write(1, argv[i], len);
-		printf("argv[%d] write err: %d\n", i, errs);
-		if(errs < 0) {
-		  exit(1);
-		}
+		printf("argv[%d]= %s\n",i,argv[i]);
 	}
-
-  //check fd checks
+	//check fd check
+/*s
   printf("\n\n expected: EBADF (9)\n");
 	errs = read(7, my_buff, 19);
 	printf("fd read error: %d\n", errs);
@@ -66,6 +61,6 @@ int main(int argc, char* argv[]) {
 
 	errs = write(1, my_buff, 19);
 	printf("write generic error: %d\n", errs);
-
+*/
 	return 0;
 }

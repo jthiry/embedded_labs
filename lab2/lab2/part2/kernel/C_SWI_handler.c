@@ -14,7 +14,7 @@
 int C_SWI_handler(unsigned swi_num, unsigned * regs){
   //variables
   int ret = 0;
-	//printf("inside C_SWI_HANDLER... swi_num=%d\n",swi_num);
+	printf("inside C_SWI_HANDLER... swi_num=%d\n",swi_num);
 
 	//Handle Shit
 	switch(swi_num){
@@ -47,14 +47,14 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs){
 	}
 
 	//Debug
-	//puts("We are Handling shit\n");
+	puts("We are Handling shit\n");
 
 	return ret;
 }
 
 //exits the kernel with a given status
 void exit(int status) {
-  //printf("exit; status=%d\n", status);
+  printf("exit; status=%d\n", status);
   _EXIT(status);
 }
 
@@ -62,8 +62,8 @@ void exit(int status) {
 ssize_t read(int fd, void *buf, size_t count) {
 	//convert buf to a char* to make C happy
 	char *ourBuf = (char *) buf;
-	//puts("reading...\n");
-	//printf("fd=%x, *buf=%x, count=%x\n", fd, buf, count);
+	puts("reading...\n");
+	printf("fd=%x, *buf=%x, count=%x\n", fd, buf, count);
 
 	//check if fd isn't stdin, return -EBADF if not
 	if(fd != STDIN_FILENO) {
@@ -76,7 +76,7 @@ ssize_t read(int fd, void *buf, size_t count) {
 		((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
 		return -EFAULT;
 	}
-	//puts("reading: passed bounds check\n");
+	puts("reading: passed bounds check\n");
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -84,10 +84,10 @@ ssize_t read(int fd, void *buf, size_t count) {
 	char c;
 	while(bufCount < count) {
 		//get the next char
-		//printf("\t bufCount =%x\n",bufCount);
+		printf("\t bufCount =%x\n",bufCount);
 		c = (char) getc();
 
-		//printf("reading:\t getc=%c\n", c);
+		printf("reading:\t getc=%c\n", c);
 
 			//check for special cases
 			if(c == 4) {
@@ -112,7 +112,7 @@ ssize_t read(int fd, void *buf, size_t count) {
 
 				//echo \n to stdout
 				putc('\n');
-				//printf("exiting read, bufCount=%x", bufCount);
+				printf("exiting read, bufCount=%x", bufCount);
 
 				//return bufcount so far
 				return bufCount;
@@ -126,7 +126,7 @@ ssize_t read(int fd, void *buf, size_t count) {
 			}
 	}
 
-	//printf("exiting read, bufCount=%x", bufCount);
+	printf("exiting read, bufCount=%x", bufCount);
   //return number of chars read into buffer
   return bufCount;
 }
