@@ -24,9 +24,10 @@ int main(int argc, char* argv[]) {
 	//args testing, input 3 words in command line
 	//	errs = write(1, str, 19);
 	//	printf("args write error: %d\n", errs);
+	puts("WHAT ARGS DID WE GET GUYS???");
 	for(i=0; i < argc; i++)
 	{
-		printf("argv[%d]= %s\n",i,argv[i]);
+		printf("\tpulling arg[%d]=%s from %p",i,argv[i],stack_ptr);
 	}
 	//check fd check
 /*s
