@@ -13,10 +13,6 @@
 int main(int argc, char* argv[]) {
 
 		int i;
-	//	int len;
-	//	char* str = "printing out args\n";
-//	char my_buff[128];		//buffer to hold the input string
-	//int errs = 0;
 	printf("starting main, argc=%d\n", argc);
 	printf("argv=%p\n", argv);
 	printf(":::::%s\n", argv);
@@ -28,7 +24,7 @@ int main(int argc, char* argv[]) {
 	puts("WHAT ARGS DID WE GET GUYS???\n");
 	for(i=0; i < argc; i++)
 	{
-		printf("\targv[%d]=%s\n\thex=%x\n\t*argv[]=%x\n",i,argv[i], argv[i], *argv[i]);
+		printf("\targv[%d]=%s\n",i,argv[i]);
 	}
 	//check fd check
 /*s
