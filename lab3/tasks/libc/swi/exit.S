@@ -1,17 +1,24 @@
-/** @file exit.S
- *
- * @brief exit sycall wrapper
- *
- * @author Mike Kasick <mkasick@andrew.cmu.edu>
- * @date   Sun, 07 Oct 2007 01:52:31 -0400
- * 
- * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
- * @date 2008-10-29
- */
+@ exit.S: exit sycall wrapper
+@
+@ Authors: Joe Battaglia <jabat295@gmail.com>
+@          Hans Reichenbach <HansReich25@gmail.com>
+@	         Josh Thiry <josh.thiry@gmail.com>
+@ Date:    10/14/2012
 
-#include <asm.h>
+#include <bits/errno.h>
+#include <bits/swi.h>
 
-	.file "exit.S"
+	.file	"exit.S"
+	.text
 
-FUNC(exit)
-	@ Add code here.  Put your name at the top.
+	.global	exit
+exit:
+
+	@r0 is the exit status coming in from C
+	
+	
+	@put args into the syscall format
+
+	@call syscall
+	swi EXIT_SWI
+	
