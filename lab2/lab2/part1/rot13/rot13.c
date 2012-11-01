@@ -8,6 +8,7 @@
  */
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 //function to do the rot13 rotation
 char rotate(char);
