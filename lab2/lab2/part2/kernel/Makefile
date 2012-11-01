@@ -15,7 +15,7 @@ default: kernel.bin
 
 .PHONY: default clean clobber dump
 
-kernel.bin: kernel dump
+kernel.bin: kernel
 	$(OBJCOPY) -O binary $< $@
 
 kernel: start.o $(objects)

@@ -14,7 +14,7 @@
 
 	.global	_start
 _start:
-	ldmfd sp!, {r0}     @ pull argc off the stack and put in r0
+	ldmfd sp!, {r0,r1}     @ pull argc off the stack and put in r0
 	mov r4, r0          @ put argc in r4 to use for branching
 	
 	subs r4, r4, #1     @ sub 1 from argc to see if it's the only arg
