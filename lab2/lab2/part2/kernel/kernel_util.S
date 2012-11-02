@@ -12,8 +12,10 @@
 .equ SP_INIT, 0xa3000000
 .equ INSTR_CHECK_CLEAR, 0xfffff000
 
-  .global ENABLE_USER_PROG
-ENABLE_USER_PROG:
+
+
+  .global _enable_user_prog
+_enable_user_prog:
         STMFD sp!, {r1-r12, lr}   @ sp and lr are banked!!
 
         mov r1, #SP_INIT       @ init sp location
@@ -40,31 +42,31 @@ ENABLE_USER_PROG:
         LDMFD sp!, {r1-r12, lr}
         mov pc, lr
 
-.type ENABLE_USER_PROG, function
-.size ENABLE_USER_PROG, .-ENABLE_USER_PROG
+.type _enable_user_prog, function
+.size _enable_user_prog, .-_enable_user_prog
 
  
-	.global CHECK_INST
-CHECK_INST:
+	.global _check_inst
+_check_inst:
         STMFD sp!, {r1-r12, lr}         @store registers and lr
         BIC r0, r0, #0xff               @bit clear to make sure instruction correct
         BIC r0, r0, #0xf00              @bit clear reast of instruction
         LDMFD sp!, {r1-r12, lr}         @load back registers
         mov pc, lr                      @go back to kernel.c
 
-.type CHECK_INST, function
-.size CHECK_INST, .-CHECK_INST
+.type _check_inst, function
+.size _check_inst, .-_check_inst
 
 
 
-        .global GET_IMM
-GET_IMM:
+        .global _get_imm
+_get_imm:
         STMFD sp!, {r1-r12, lr}		@store registers and ls
         ldr r1, =INSTR_CHECK_CLEAR	@load value to bit clear by since it is too large
         BIC r0, r0, r1			@bit clear to get immediate offset
         LDMFD sp!, {r1-r12, lr}		@load back the registers
         mov pc, lr			@go back to kernel.c
 
-.type GET_IMM, function
-.size GET_IMM, .-GET_IMM
+.type _get_imm, function
+.size _get_imm, .-_get_imm
 
