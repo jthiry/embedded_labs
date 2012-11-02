@@ -11,6 +11,7 @@
 #include "swi_handler.h"
 #include "constants.h"
 #include "kernel_util.h"
+#include "c_kernel_util.h"
 
 int main(int argc, char *argv[]) {
 
