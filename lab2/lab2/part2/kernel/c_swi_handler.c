@@ -10,6 +10,7 @@
 
 #include "c_swi_handler.h"
 #include "exit.h"
+#include "constants.h"
 
 int C_SWI_handler(unsigned swi_num, unsigned * regs){
   //variables
@@ -23,29 +24,30 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs){
 			break;
 		case 3:
 			//read
-			ret = read(regs[0], (void *) regs[1], regs[2]);
-			return ret;
+			return read(regs[0], (void *) regs[1], regs[2]);
 
 		case 4:
 			//write
-			ret = write(regs[0], (void *) regs[1], regs[2]);
-			return ret;
-
+			return write(regs[0], (void *) regs[1], regs[2]);
 
 		default:
 			//not recognized, throw error
 			puts("Invalid syscall recieved\n");
-			exit(0x0badc0de);
+			exit(RET_BAD_CODE);
 			break;
 	}
-
-
 	return ret;
 }
 
 //exits the kernel with a given status
 void exit(int status) {
   _EXIT(status);
+}
+
+int in_usable_memory( )
+{
+
+
 }
 
 //read from a given file into a buffer for count bytes

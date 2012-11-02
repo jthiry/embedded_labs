@@ -32,7 +32,7 @@ void install_handler(unsigned* return_val, unsigned location, unsigned int *vect
 	}
 	//Extract the address of the SWI handler
 	//unsigned* jump_tab = (unsigned*)0x24;
-	unsigned* jump_tab = (unsigned*)(OFFSET_JUMP_TABLE + imm);
+	unsigned* jump_tab = (unsigned*)(OFFSET_SWI_JUMP + imm);
 	unsigned* s_handler = (unsigned*)jump_tab[0];
 	
 	//Save the first 8 bytes on the stack

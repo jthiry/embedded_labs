@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
 
 	//Unwire the SWI Handler
 	uninstall_handler( old_instr );
+	
+	free(old_instr);
 
 	return status;
 }
