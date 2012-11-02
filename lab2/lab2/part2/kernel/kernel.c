@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
 		--stack_ptr;
 		//printf("\tstack_ptr = %x\n",stack_ptr) ;
 		//printf("\tstoring arg[%d]=%s *(%x), val=%x\n",j,argv[j], *argv[j], (unsigned)((char*)argv[j]));
-		stack_ptr[0] = (unsigned)&argv[j];
+		stack_ptr[0] = (unsigned)argv[j];
 		//puts((char*)argv[j]);
 		//puts("\n");
 	}

@@ -7,16 +7,16 @@
  * Date:   10/26/2012
  */
 
-#include <exports.h>
 #include <stdlib.h>
+#include <stdio.h>
+
 
 int main(int argc, char* argv[]) {
 
 		int i;
 	printf("starting main, argc=%d\n", argc);
 	printf("argv=%p\n", argv);
-	printf("argv=%x\n", argv);
-//	printf(":::::%s\n", argv);
+	//printf(":::::%s\n", argv);
 
 
 	//args testing, input 3 words in command line

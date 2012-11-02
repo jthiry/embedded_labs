@@ -14,9 +14,9 @@ objects = hello.o
 
 default: hello.bin
 
-.PHONY: default clean clobber
+.PHONY: default clean clobber dump
 
-hello.bin: hello
+hello.bin: hello dump
 	$(OBJCOPY) -O binary $< $@
 
 hello: $(objects)
@@ -30,3 +30,6 @@ clean:
 
 clobber: clean
 	rm -f hello.bin
+
+dump:
+	arm-linux-objdump -D hello > h.txt
