@@ -17,16 +17,19 @@ int main(int argc, char *argv[]) {
 
 
 	//Wire in the SWI Handler
-	unsigned old_instr[3] = install_handler( (unsigned)S_HANDLER, VECTOR_SWI );
+	unsigned *old_instr = malloc( 4*3 );
+	install_handler( old_instr, (unsigned)S_HANDLER, (unsigned *)VECTOR_SWI );
+	if(old_instr[0] == RET_BAD_CODE)
+		return RET_BAD_CODE;
 
 	//Set up the stack
-	unsigned stack_ptr = setup_stack(STACK_START, argc, argv);
+	unsigned* stack_ptr = setup_stack(STACK_START, argc, argv);
 	
 	//Start the user program
-	int status = _enable_user_prog( START_LOCATION, (unsigned)stack_ptr);
+	int status = _enable_user_prog( (unsigned)stack_ptr, START_LOCATION);
 
 	//Unwire the SWI Handler
-	uninstall_handler( old_instr, VECTOR_SWI );
+	uninstall_handler( old_instr );
 
 	return status;
 }

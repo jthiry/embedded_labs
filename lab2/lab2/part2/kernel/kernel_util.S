@@ -8,7 +8,6 @@
         .file   "kernel_util.S"
         .text
 
-.equ START_USER_PROG, 0xa2000000
 .equ SP_INIT, 0xa3000000
 .equ INSTR_CHECK_CLEAR, 0xfffff000
 
@@ -18,20 +17,20 @@
 _enable_user_prog:
         STMFD sp!, {r1-r12, lr}   @ sp and lr are banked!!
 
-        mov r1, #SP_INIT       @ init sp location
-        sub r1, r1, #4            @svc sp gets stored here for later
-        STR sp, [r1]              @sp we need to save
-        sub r1, r1, #4            @link register goes here`for later
+        mov r3, #SP_INIT       @ init sp location
+        sub r3, r3, #4            @svc sp gets stored here for later
+        STR sp, [r3]              @sp we need to save
+        sub r3, r3, #4            @link register goes here`for later
         add r2, pc, #12           @figure out where we should link (pc relative)
 
-        str r2, [r1]              @ lr we need to save to return from user prog
+        str r2, [r3]              @ lr we need to save to return from user prog
 
         MSR   CPSR, #0xD0         @go to user_mode with interrupts disabled
         @user mode now!
 
         mov sp, r0                @ give user sp stack location
 
-        LDR pc, =START_USER_PROG
+        mov pc, r1
 
         @return here after exit
         @switch back to kernel mode

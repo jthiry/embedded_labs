@@ -1,11 +1,11 @@
 #include "constants.h"
-#include "kernel_util.S"
+#include "kernel_util.h"
 
 
 	/*Updates the contents of ‘vector’ stored at 0x08 to contain LDR pc, [pc, #offset] instruction to cause long branch to address in ‘location’ */
 		/*Function returns the original contents of ‘vector’ */
 
-unsigned* Install_Handler(unsigned location, unsigned int *vector)
+void install_handler(unsigned* return_val, unsigned location, unsigned int *vector)
 {
 	//unsigned offset;
 	//unsigned vec, oldvec;
@@ -19,7 +19,6 @@ unsigned* Install_Handler(unsigned location, unsigned int *vector)
 	//oldvec = *vector; /* save theveocl=d 0ixne5s9tfrf2u0c0tion at 0x08 */
 	//*vector = vec; /* replace the contents of 0x08 with the new LDR instruction */
 	//return(oldvec); /* return the old instruction at 0x08 for chaining */ 
-	unsigned return_val[3];
 
 	unsigned* swi_vec = vector;
 	unsigned vec_swi = swi_vec[0];
@@ -27,23 +26,23 @@ unsigned* Install_Handler(unsigned location, unsigned int *vector)
 	unsigned inst = _check_inst(vec_swi);
 	unsigned imm = _get_imm(vec_swi);
 	if(inst != INSTR_TYPE_LOAD)
-		return RET_BAD_CODE;
-
+	{
+		return_val[0] = (unsigned)RET_BAD_CODE;
+		return ;
+	}
 	//Extract the address of the SWI handler
 	//unsigned* jump_tab = (unsigned*)0x24;
-	unsigned* jump_tab = (unsigned*)(OFFSET_JUMP + imm);
+	unsigned* jump_tab = (unsigned*)(OFFSET_JUMP_TABLE + imm);
 	unsigned* s_handler = (unsigned*)jump_tab[0];
 	
 	//Save the first 8 bytes on the stack
 	return_val[0] = s_handler[0];
 	return_val[1] = s_handler[1];
-	return_val[2] = imm;
+	return_val[2] = (unsigned)s_handler;
 	//Replace them with our instruction and new address
 	unsigned our_load = INSTR_OUR_LOAD; // pc = pc - 4
 	s_handler[0] = our_load;
 	s_handler[1] = location;
-
-	return return_val;
 
 	}
 
@@ -64,12 +63,9 @@ unsigned* setup_stack(  unsigned stack_start, int argc, char *argv[])
 	stack_ptr[0] = argc;
 	return stack_ptr;
 }
-void uninstall_handler( unsigned* old_instr, unsigned vector )
+void uninstall_handler( unsigned* old_instr )
 {
-	unsigned* swi_vec = vector;
-	unsigned vec_swi = swi_vec[0];
-	unsigned* jump_tab = (unsigned*)(OFFSET_JUMP + old_instr[2]);
-	unsigned* s_handler = (unsigned*)jump_tab[0];
+	unsigned * s_handler = (unsigned*)old_instr[2];
 	s_handler[0] = old_instr[0];
 	s_handler[1] = old_instr[1];
 	
