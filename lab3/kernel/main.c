@@ -19,6 +19,9 @@ int kmain(int argc, char** argv, uint32_t table)
 
 	/* Add your code here */
 
+	//DEBUG
+  puts("DEBUG--about to wire in the swi handler in kernel\n");
+
 	//Wire in the SWI Handler
 	unsigned *old_instr = malloc( 4*3 );
 	install_handler( old_instr, (unsigned)S_HANDLER, (unsigned *)VECTOR_SWI );
@@ -27,13 +30,19 @@ int kmain(int argc, char** argv, uint32_t table)
 
 	//Set up the stack
 	unsigned* stack_ptr = setup_stack( START_STACK, argc, argv);
-	
+
+	//DEBUG
+  puts("DEBUG--just set up stack and handler in kernel\n");
+
 	//Start the user program
 	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
 
+	//DEBUG
+  puts("DEBUG--after user prog in kernel\n");
+
 	//Unwire the SWI Handler
 	uninstall_handler( old_instr );
-	
+
 	free(old_instr);
 
 	return status;

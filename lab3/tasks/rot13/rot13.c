@@ -9,7 +9,7 @@
 
 #include <errno.h>
 #include <unistd.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 
 //function to do the rot13 rotation
