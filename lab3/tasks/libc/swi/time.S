@@ -7,8 +7,12 @@
  */
 
 #include <asm.h>
+#include <bits/swi.h>
+#include <bits/fileno.h>
 
 	.file "time.S"
 
 FUNC(time)
-	@ Add code here.  Put your name at the top.
+	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
+	swi TIME_SWI                  @ call the time syscall. (note: uses OABI
+	ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack

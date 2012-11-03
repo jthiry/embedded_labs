@@ -8,9 +8,11 @@
  */
 
 
-#include "c_swi_handler.h"
 #include "exit.h"
 #include "constants.h"
+#include <exports.h>
+#include "bits/fileno.h"
+#include "bits/errno.h"
 
 
 //returns 1 or 0
@@ -26,42 +28,13 @@ int not_usable_memory(unsigned loc, unsigned count)
 
 }
 
-int C_SWI_handler(unsigned swi_num, unsigned * regs){
-
-	switch(swi_num){
-
-		case SWI_NUM_EXIT:
-		  puts("DEBUG--Inside exit swi\n");
-			exit(regs[0]);
-			break;
-
-		case SWI_NUM_READ:
-		  puts("DEBUG--Inside read swi\n");
-			return read(regs[0], (void *) regs[1], regs[2]);
-
-		case SWI_NUM_WRITE:
-		  puts("DEBUG--Inside write swi\n");
-			return write(regs[0], (void *) regs[1], regs[2]);
-		case SWI_NUM_TIME:
-			puts("TIME syscall recieved\n");
-			break;
-		case SWI_NUM_SLEEP:
-			puts("SLEEP syscall recieved\n");
-			break;
-		default:
-			puts("Invalid syscall recieved\n");
-			exit(RET_BAD_CODE);
-			break;
-	}
-	return 0;
-}
 
 //exits the kernel with a given status
-void exit(int status) { _EXIT(status);}
+void c_exit(int status) { _exit(status);}
 
 
 //read from a given file into a buffer for count bytes
-ssize_t read(int fd, void *buf, size_t count) {
+ssize_t c_read(int fd, void *buf, size_t count) {
 
   //DEBUG
   puts("DEBUG--inside read\n");
@@ -132,7 +105,7 @@ ssize_t read(int fd, void *buf, size_t count) {
 }
 
 //write a buffer to stdout for count bytes
-ssize_t write(int fd, const void *buf, size_t count) {
+ssize_t c_write(int fd, const void *buf, size_t count) {
 
   //DEBUG
   puts("DEBUG--inside write\n");
@@ -160,4 +133,34 @@ ssize_t write(int fd, const void *buf, size_t count) {
 
 	//return number of chars read into buffer
 	return bufCount;
+}
+
+int c_swi_handler(unsigned swi_num, unsigned * regs){
+
+	switch(swi_num){
+
+		case SWI_NUM_EXIT:
+		  puts("DEBUG--Inside exit swi\n");
+			c_exit(regs[0]);
+			break;
+
+		case SWI_NUM_READ:
+		  puts("DEBUG--Inside read swi\n");
+			return c_read(regs[0], (void *) regs[1], regs[2]);
+
+		case SWI_NUM_WRITE:
+		  puts("DEBUG--Inside write swi\n");
+			return c_write(regs[0], (void *) regs[1], regs[2]);
+		case SWI_NUM_TIME:
+			puts("TIME syscall recieved\n");
+			break;
+		case SWI_NUM_SLEEP:
+			puts("SLEEP syscall recieved\n");
+			break;
+		default:
+			puts("Invalid syscall recieved\n");
+			c_exit(RET_BAD_CODE);
+			break;
+	}
+	return 0;
 }

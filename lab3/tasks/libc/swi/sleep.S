@@ -7,8 +7,12 @@
  */
 
 #include <asm.h>
+#include <bits/swi.h>
+#include <bits/fileno.h>
 
 	.file "sleep.S"
 
 FUNC(sleep)
-	@ Add code here.  Put your names at the top.
+	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
+	swi SLEEP_SWI                  @ call the sleep syscall. (note: uses OABI
+	ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack

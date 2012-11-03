@@ -27,4 +27,4 @@ read:
 
 no_error:
 	ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack
-	@movs pc, lr                  @ return to the calling function
+				      @ return to the calling function
