@@ -22,5 +22,7 @@
 #define SWI_NUM_EXIT 1
 #define SWI_NUM_READ 3
 #define SWI_NUM_WRITE 4
+#define SWI_NUM_TIME 6
+#define SWI_NUM_SLEEP 7
 
 #endif

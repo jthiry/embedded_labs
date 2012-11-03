@@ -16,9 +16,6 @@ exit:
 
 	@r0 is the exit status coming in from C
 	
-	
-	@put args into the syscall format
-
 	@call syscall
 	swi EXIT_SWI
 	
