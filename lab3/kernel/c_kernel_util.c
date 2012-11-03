@@ -2,24 +2,15 @@
 #include "kernel_util.h"
 
 
-	/*Updates the contents of ‘vector’ stored at 0x08 to contain LDR pc, [pc, #offset] instruction to cause long branch to address in ‘location’ */
-		/*Function returns the original contents of ‘vector’ */
+void initialize_timer()
+{
+	//OS Timer 
+	//setup interrupts
+	//classify/enable/start
+}
 
 void install_handler(unsigned* return_val, unsigned location, unsigned int *vector)
 {
-	//unsigned offset;
-	//unsigned vec, oldvec;
-	//offset = ((unsigned) location – (unsigned) vector – 0x8)
-	//	if(offset & 0xFFFFF000) /* check if the offset can be represented using 12 bits */ 
-	//	{ 
-	//		printf(“Installation of handler failed”);
-	//		exit(0); 
-	//	}
-	//vec =(offset|0xe59FF000);/* vec now contains LDR pc, [pc, #offset] */
-	//oldvec = *vector; /* save theveocl=d 0ixne5s9tfrf2u0c0tion at 0x08 */
-	//*vector = vec; /* replace the contents of 0x08 with the new LDR instruction */
-	//return(oldvec); /* return the old instruction at 0x08 for chaining */ 
-
 	unsigned* swi_vec = vector;
 	unsigned vec_swi = swi_vec[0];
 
@@ -44,7 +35,7 @@ void install_handler(unsigned* return_val, unsigned location, unsigned int *vect
 	s_handler[0] = our_load;
 	s_handler[1] = location;
 
-	}
+}
 
 unsigned* setup_stack(  unsigned stack_start, int argc, char *argv[])
 {
