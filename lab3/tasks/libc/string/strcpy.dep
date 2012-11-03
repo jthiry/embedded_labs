@@ -1,0 +1,12 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/string/strcpy.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/string/strcpy.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/string.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/sys/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/bits/types.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/string.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/sys/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/bits/types.h:

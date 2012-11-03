@@ -9,6 +9,7 @@
 
 #include <errno.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 
 //function to do the rot13 rotation
@@ -22,7 +23,7 @@ int main(int argc, char* argv[]) {
 //print out the arguments from argv
  for(i=0; i < argc; i++)
  {
- 	printf("\targv[%d]=%s\n",i,argv[i]);
+ 	write(STDOUT_FILENO, argv[i], sizeof(argv[i])-1);
  }
 
 
