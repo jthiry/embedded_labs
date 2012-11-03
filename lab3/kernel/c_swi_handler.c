@@ -39,7 +39,12 @@ int C_SWI_handler(unsigned swi_num, unsigned * regs){
 
 		case SWI_NUM_WRITE:
 			return write(regs[0], (void *) regs[1], regs[2]);
-
+		case SWI_NUM_TIME:
+			puts("TIME syscall recieved\n");
+			break;
+		case SWI_NUM_SLEEP:
+			puts("SLEEP syscall recieved\n");
+			break;
 		default:
 			puts("Invalid syscall recieved\n");
 			exit(RET_BAD_CODE);
