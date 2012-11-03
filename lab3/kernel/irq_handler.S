@@ -20,7 +20,7 @@ R_HANDLER:
 	STR r2, [sp, #14*4]       @ store the spsr on the stack
 	MOV r1, sp				  @ pass the stack to the handler as an arg	
 	LDR r0, [lr, #-4]         @ load  
-	BIC r0,r0, #0xfffffff0	  @ get SWI # by bit-masking -- ??????/
+	BIC r0,r0, #0xfffffff0	  @ get SWI # by bit-masking
 	BL c_irq_handler
 	str r0, [sp]
 	LDR r2, [sp, #14*4]

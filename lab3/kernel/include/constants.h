@@ -2,7 +2,9 @@
 #define CONSTANTS_H
 
 #define VECTOR_SWI 0x08
+#define VECTOR_IRQ 0x0C
 #define OFFSET_SWI_JUMP 0x10
+#define OFFSET_IRQ_JUMP 0x14
 
 #define RET_BAD_CODE 0x0badc0de
 

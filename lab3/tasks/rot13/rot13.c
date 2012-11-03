@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 
 
 //function to do the rot13 rotation
@@ -17,17 +18,19 @@ char rotate(char);
 int main(int argc, char* argv[]) {
 
 	char my_buff[128];		//buffer to hold the input string
-	int num_chars, i, chk, err;
+	int num_chars, i, chk;
 
   //DEBUG
   puts("DEBUG--about to check the args in rot\n");
 
   //print out the arguments from argv
+  /*
+  int err;
   for(i=0; i < argc; i++)
   {
     puts("DEBUG--writing the args in rot\n");
-   	err = write(STDOUT_FILENO, argv[i], sizeof(argv[i])-1);
-  }
+   	err = write(STDOUT_FILENO, argv[i], strlen(argv[i]));
+  }*/
 
 
 
@@ -38,6 +41,10 @@ int main(int argc, char* argv[]) {
     puts("DEBUG--inside read loop of rot\n");
 
 	  num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
+
+	  //DEBUG
+    puts("DEBUG--after read block in rot\n");
+
 	  if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
 	  if(num_chars < 0) exit(1);		//if return length < 0, error
 
