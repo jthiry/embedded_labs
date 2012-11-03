@@ -13,42 +13,30 @@
 #include "constants.h"
 
 int C_SWI_handler(unsigned swi_num, unsigned * regs){
-  //variables
-  int ret = 0;
-
-	//Handle Shit
+	
 	switch(swi_num){
-		case 1:
-			//exit
+		
+		case SWI_NUM_EXIT:
 			exit(regs[0]);
 			break;
-		case 3:
-			//read
+
+		case SWI_NUM_READ:
 			return read(regs[0], (void *) regs[1], regs[2]);
 
-		case 4:
-			//write
+		case SWI_NUM_WRITE:
 			return write(regs[0], (void *) regs[1], regs[2]);
 
 		default:
-			//not recognized, throw error
 			puts("Invalid syscall recieved\n");
 			exit(RET_BAD_CODE);
 			break;
 	}
-	return ret;
+	return 0;
 }
 
 //exits the kernel with a given status
-void exit(int status) {
-  _EXIT(status);
-}
+void exit(int status) { _EXIT(status);}
 
-int in_usable_memory( )
-{
-
-
-}
 
 //read from a given file into a buffer for count bytes
 ssize_t read(int fd, void *buf, size_t count) {
@@ -56,16 +44,10 @@ ssize_t read(int fd, void *buf, size_t count) {
 	char *ourBuf = (char *) buf;
 
 	//check if fd isn't stdin, return -EBADF if not
-	if(fd != STDIN_FILENO) {
-		//return error message here
-		return -EBADF;
-	}
+	if(fd != STDIN_FILENO) return -EBADF;
 
 	//check if buf loc and size end up outside of useable memory
-	if((unsigned)buf > 0xa3000000 || (unsigned)buf < 0x40000000 ||
-		((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
-		return -EFAULT;
-	}
+	if(not_usable_memory((unsigned)ourBuf) == 1 ) return -EFAULT;
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -74,82 +56,82 @@ ssize_t read(int fd, void *buf, size_t count) {
 	while(bufCount < count) {
 		//get the next char
 		c = (char) getc();
+		switch(c)
+		{
+			case EOT:
+				return bufCount; 
 
-
-			//check for special cases
-			if(c == 4) {
-				//if char was an EOT
-
-				return bufCount;
-			} else if(c == 8 || c == 127) {
-				//if char was a backspace or delete
-
+			case BACKSPACE:
 				//remove previous char
 				bufCount--;
 				ourBuf[bufCount] = '\0';
-
 				puts("\b \b");
-			} else if(c == 10 || c == 13) {
-				//if char was a newline or cr
-
-				//put \n into buffer
+				break;
+			
+			case DELETE:
+				//remove previous char
+				bufCount--;
+				ourBuf[bufCount] = '\0';
+				puts("\b \b");
+				break;
+			
+			case NEWLINE:
+				//end input
 				ourBuf[bufCount] = '\n';
 				bufCount++;
-
-				//echo \n to stdout
 				putc('\n');
-
-				//return bufcount so far
 				return bufCount;
-			} else {
-				//put char into buf and bufCount++
+			
+			case CARRIAGE_RETURN:
+				ourBuf[bufCount] = '\n';
+				bufCount++;
+				putc('\n');
+				return bufCount;
+			
+			default:
+				//valid character, add it to the buffer
 				ourBuf[bufCount] = c;
 				bufCount++;
-
-				//output char to stdout
 				putc(c);
-			}
-	}
-
-  //return number of chars read into buffer
-  return bufCount;
+		}
+		return bufCount;
 }
 
 //write a buffer to stdout for count bytes
 ssize_t write(int fd, const void *buf, size_t count) {
-	//convert the void * into something useful
+	
+	//turn to char* to make C happy
 	char *ourBuf = (char *) buf;
 
-
 	//check if fd isn't stdout, return -EBADF if not
-	if(fd != STDOUT_FILENO) {
-		//return error message here
-		return -EBADF;
-	}
+	if(fd != STDOUT_FILENO) return -EBADF;
 
 	//check if buf loc and size end up outside of useable memory
-	if((unsigned)buf > 0xa3000000 || (unsigned)buf < 0x40000000 ||
-			((unsigned)buf + count) > 0xa3000000 || ((unsigned)buf + count) < 0x40000000) {
-		return -EFAULT;
-	}
+	if(not_usable_memory((unsigned)ourBuf) == 1 ) return -EFAULT;
 
-
-	//read from stdout, we're assuming it's the same as fd
 	//loop until buf full
 	int bufCount = 0;
-	unsigned int i = count;
-	char c;
-	while(i > 0) {
-		//get the next char
-		c = (char) ourBuf[bufCount];
-
+	while(count > 0) {
 		//output char to stdout
-		putc(c);
-
+		putc((char)ourBuf[bufCount]);
 		bufCount++;
-		i--;
+		count--;
 	}
 
 	//return number of chars read into buffer
 	return bufCount;
+}
+
+//returns 1 or 0
+// (true or false)
+int not_usable_memory(unsigned loc)
+{
+
+	if( (unsigned)loc > 0xa3000000 || 
+		(unsigned)loc < 0x40000000 ||
+		( (unsigned)loc + count) > 0xa3000000 || ((unsigned)loc + count) < 0x40000000) 
+		return 1;
+	else 
+		return 0;
+
 }

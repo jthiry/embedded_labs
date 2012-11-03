@@ -13,5 +13,14 @@
 #define STACK_START 0xa3000000
 #define START_LOCATION 0xa2000000
 
+#define EOT 4
+#define BACKSPACE 8
+#define DELETE 127
+#define NEWLINE 10
+#define CARRIAGE_RETURN 13
+
+#define SWI_NUM_EXIT 1
+#define SWI_NUM_READ 3
+#define SWI_NUM_WRITE 4
 
 #endif
