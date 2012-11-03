@@ -12,6 +12,20 @@
 #include "exit.h"
 #include "constants.h"
 
+
+//returns 1 or 0
+// (true or false)
+int not_usable_memory(unsigned loc, unsigned count)
+{
+
+	if( (unsigned)loc > 0xa3000000 || 
+		(unsigned)loc < 0x40000000 ||
+		( (unsigned)loc + count) > 0xa3000000 || ((unsigned)loc + count) < 0x40000000) 
+		return 1;
+	return 0;
+
+}
+
 int C_SWI_handler(unsigned swi_num, unsigned * regs){
 	
 	switch(swi_num){
@@ -47,7 +61,7 @@ ssize_t read(int fd, void *buf, size_t count) {
 	if(fd != STDIN_FILENO) return -EBADF;
 
 	//check if buf loc and size end up outside of useable memory
-	if(not_usable_memory((unsigned)ourBuf) == 1 ) return -EFAULT;
+	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) return -EFAULT;
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -94,7 +108,8 @@ ssize_t read(int fd, void *buf, size_t count) {
 				bufCount++;
 				putc(c);
 		}
-		return bufCount;
+	}
+	return bufCount;
 }
 
 //write a buffer to stdout for count bytes
@@ -107,7 +122,7 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	if(fd != STDOUT_FILENO) return -EBADF;
 
 	//check if buf loc and size end up outside of useable memory
-	if(not_usable_memory((unsigned)ourBuf) == 1 ) return -EFAULT;
+	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) return -EFAULT;
 
 	//loop until buf full
 	int bufCount = 0;
@@ -122,16 +137,3 @@ ssize_t write(int fd, const void *buf, size_t count) {
 	return bufCount;
 }
 
-//returns 1 or 0
-// (true or false)
-int not_usable_memory(unsigned loc)
-{
-
-	if( (unsigned)loc > 0xa3000000 || 
-		(unsigned)loc < 0x40000000 ||
-		( (unsigned)loc + count) > 0xa3000000 || ((unsigned)loc + count) < 0x40000000) 
-		return 1;
-	else 
-		return 0;
-
-}

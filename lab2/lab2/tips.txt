@@ -1,0 +1,3 @@
+don't fuck up your stack pointers between user and kernal
+
+use your carrots to declare shit
