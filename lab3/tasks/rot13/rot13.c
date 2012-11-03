@@ -27,7 +27,6 @@ int main(int argc, char* argv[]) {
   {
     puts("DEBUG--writing the args in rot\n");
    	err = write(STDOUT_FILENO, argv[i], sizeof(argv[i])-1);
-   	printf("DEBUG--return from write was: %x\n", err);
   }
 
 
@@ -39,7 +38,10 @@ int main(int argc, char* argv[]) {
     puts("DEBUG--inside read loop of rot\n");
 
 	  num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
-	  printf("DEBUG--nchar=%x\n",num_chars);
+
+	  //DEBUG
+    puts("DEBUG--after read block in rot\n");
+
 	  if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
 	  if(num_chars < 0) exit(1);		//if return length < 0, error
 
@@ -49,7 +51,6 @@ int main(int argc, char* argv[]) {
 	  //loop through the whole input str (minus the last char)
 	  for(i = 0; i < num_chars - 1; i++)
 	  {
-		  //printf("%d\n", i ) ;
 		  my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
 	  }
 
@@ -58,7 +59,6 @@ int main(int argc, char* argv[]) {
 		//if return value < 0, error
 		if (chk < 0 )
 		{
-			//printf("%d\n", errno);
 			exit(1);
 		}
 
