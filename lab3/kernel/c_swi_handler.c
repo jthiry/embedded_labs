@@ -114,13 +114,19 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 	char *ourBuf = (char *) buf;
 
 	//check if fd isn't stdout, return -EBADF if not
-	if(fd != STDOUT_FILENO) return -EBADF;
+	if(fd != STDOUT_FILENO) {
+	  puts("DEBUG--not stdout\n");
+	  return -EBADF;
+	}
 
 	//check if buf loc and size end up outside of useable memory
-	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) return -EFAULT;
+	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) {
+	  puts("DEBUG--not usable memory\n");
+	  return -EFAULT;
+	}
 
 	//DEBUG
-  puts("DEBUG--after checks inside write\n");
+  //puts("DEBUG--after checks inside write\n");
 
 	//loop until buf full
 	int bufCount = 0;
