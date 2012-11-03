@@ -130,7 +130,7 @@ ssize_t read(int fd, void *buf, size_t count) {
 ssize_t write(int fd, const void *buf, size_t count) {
 
   //DEBUG
-  puts("DEBUG--inside write\n");
+  //puts("DEBUG--inside write\n");
 
 	//turn to char* to make C happy
 	char *ourBuf = (char *) buf;
