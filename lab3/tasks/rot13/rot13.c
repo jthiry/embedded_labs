@@ -38,6 +38,10 @@ int main(int argc, char* argv[]) {
     puts("DEBUG--inside read loop of rot\n");
 
 	  num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
+
+	  //DEBUG
+    puts("DEBUG--after read block in rot\n");
+
 	  if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
 	  if(num_chars < 0) exit(1);		//if return length < 0, error
 

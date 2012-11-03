@@ -82,12 +82,20 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				ourBuf[bufCount] = '\n';
 				bufCount++;
 				putc('\n');
+
+				//DEBUG
+	      puts("DEBUG--getting out of dodge\n");
+
 				return bufCount;
 
 			case CARRIAGE_RETURN:
 				ourBuf[bufCount] = '\n';
 				bufCount++;
 				putc('\n');
+
+				//DEBUG
+	      puts("DEBUG--getting out of dodge\n");
+
 				return bufCount;
 
 			default:
