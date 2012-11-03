@@ -1,0 +1,11 @@
+/home/jab/Documents/embedded_labs/lab3/kernel/arm/psr.o:  \
+ /home/jab/Documents/embedded_labs/lab3/kernel/arm/psr.c \
+  /home/jab/Documents/embedded_labs/lab3/kernel/include/types.h \
+  /home/jab/Documents/embedded_labs/lab3/kernel/include/arm/psr.h \
+  /home/jab/Documents/embedded_labs/lab3/kernel/include/inline.h
+
+/home/jab/Documents/embedded_labs/lab3/kernel/include/types.h:
+
+/home/jab/Documents/embedded_labs/lab3/kernel/include/arm/psr.h:
+
+/home/jab/Documents/embedded_labs/lab3/kernel/include/inline.h:

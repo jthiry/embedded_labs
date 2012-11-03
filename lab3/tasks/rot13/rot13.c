@@ -20,13 +20,13 @@ int main(int argc, char* argv[]) {
 	int num_chars, i, chk, err;
 
   //DEBUG
-  puts("DEBUG--about to check the args in rot\n");
+  puts("DEBUG--about to check the args in rot");
 
   //print out the arguments from argv
   for(i=0; i < argc; i++)
   {
-    puts("DEBUG--writing the args in rot\n");
-   	err = write(STDOUT_FILENO, argv[i], sizeof(argv[i])-1);
+    puts("DEBUG--writing the args in rot");
+   	err = write(STDOUT_FILENO, argv[i], strlen(argv[i]));
   }
 
 
@@ -35,18 +35,18 @@ int main(int argc, char* argv[]) {
   while( 1 )
   {
     //DEBUG
-    puts("DEBUG--inside read loop of rot\n");
+    puts("DEBUG--inside read loop of rot");
 
 	  num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
 
 	  //DEBUG
-    puts("DEBUG--after read block in rot\n");
+    puts("DEBUG--after read block in rot");
 
 	  if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
 	  if(num_chars < 0) exit(1);		//if return length < 0, error
 
 	  //DEBUG
-    puts("DEBUG--inside read loop of rot\n");
+    puts("DEBUG--inside read loop of rot");
 
 	  //loop through the whole input str (minus the last char)
 	  for(i = 0; i < num_chars - 1; i++)
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
 char rotate(char rot_me)
 {
   //DEBUG
-  puts("DEBUG--rotating shitake mushrooms\n");
+  puts("DEBUG--rotating shitake mushrooms");
 
 	int x = (int) rot_me;			//getting ascii value of char
 	if( (x < 65) || (x > 122) ) exit(1);	//value out of range, error

@@ -37,7 +37,7 @@ void c_exit(int status) { _exit(status);}
 ssize_t c_read(int fd, void *buf, size_t count) {
 
   //DEBUG
-  puts("DEBUG--inside read\n");
+  puts("DEBUG--inside read");
 
 	//convert buf to a char* to make C happy
 	char *ourBuf = (char *) buf;
@@ -49,7 +49,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) return -EFAULT;
 
 	//DEBUG
-	puts("DEBUG--after checks in read\n");
+	puts("DEBUG--after checks in read");
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -84,7 +84,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				putc('\n');
 
 				//DEBUG
-	      puts("DEBUG--getting out of dodge\n");
+	      puts("DEBUG--getting out of dodge");
 
 				return bufCount;
 
@@ -94,7 +94,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				putc('\n');
 
 				//DEBUG
-	      puts("DEBUG--getting out of dodge\n");
+	      puts("DEBUG--getting out of dodge");
 
 				return bufCount;
 
@@ -107,7 +107,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	}
 
 	//DEBUG
-	puts("DEBUG--after read loop\n");
+	puts("DEBUG--after read loop");
 
 	return bufCount;
 }
@@ -123,13 +123,13 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
-	  puts("DEBUG--not stdout\n");
+	  //puts("DEBUG--not stdout");
 	  return -EBADF;
 	}
 
 	//check if buf loc and size end up outside of useable memory
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) {
-	  puts("DEBUG--not usable memory\n");
+	  //puts("DEBUG--not usable memory");
 	  return -EFAULT;
 	}
 
@@ -154,25 +154,25 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:
-		  puts("DEBUG--Inside exit swi\n");
+		  puts("DEBUG--Inside exit swi");
 			c_exit(regs[0]);
 			break;
 
 		case SWI_NUM_READ:
-		  puts("DEBUG--Inside read swi\n");
+		  puts("DEBUG--Inside read swi");
 			return c_read(regs[0], (void *) regs[1], regs[2]);
 
 		case SWI_NUM_WRITE:
-		  puts("DEBUG--Inside write swi\n");
+		  puts("DEBUG--Inside write swi");
 			return c_write(regs[0], (void *) regs[1], regs[2]);
 		case SWI_NUM_TIME:
-			puts("TIME syscall recieved\n");
+			puts("TIME syscall recieved");
 			break;
 		case SWI_NUM_SLEEP:
-			puts("SLEEP syscall recieved\n");
+			puts("SLEEP syscall recieved");
 			break;
 		default:
-			puts("Invalid syscall recieved\n");
+			puts("Invalid syscall recieved");
 			c_exit(RET_BAD_CODE);
 			break;
 	}

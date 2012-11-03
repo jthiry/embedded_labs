@@ -1,5 +1,14 @@
 #include "constants.h"
 #include "kernel_util.h"
+#include <arm/psr.h>
+#include <arm/exception.h>
+#include <arm/interrupt.h>
+#include <arm/timer.h>
+#define INT_ICIP_ADDR   0x00D00000  /* Interrupt Controller IRQ Pending Register */
+#define INT_ICMR_ADDR   0x00D00004  /* Interrupt Controller Mask Register */
+#define INT_ICLR_ADDR   0x00D00008  /* Interrupt Controller Level Register */
+#define INT_ICFP_ADDR   0x00D0000C  /* Interrupt Controller FIQ Pending Register */
+#define INT_ICPR_ADDR   0x00D00010  /* Interrupt Controller Pending Register */
 
 
 void initialize_timer()
