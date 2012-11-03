@@ -1,0 +1,15 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/hello/hello.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/hello/hello.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/unistd.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/bits/fileno.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/sys/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/bits/types.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/unistd.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/bits/fileno.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/sys/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/tasks/libc/include/bits/types.h:

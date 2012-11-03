@@ -10,7 +10,7 @@
 #define INSTR_OUR_LOAD 0xe51ff004
 
 #define START_STACK 0xa3000000
-#define START_USER 0xa2000000
+#define START_USER 0xa0000000
 
 #define EOT 4
 #define BACKSPACE 8
