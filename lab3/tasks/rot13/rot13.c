@@ -18,19 +18,24 @@ int main(int argc, char* argv[]) {
 
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
-  
-	
-//print out the arguments from argv
- for(i=0; i < argc; i++)
- {
- 	write(STDOUT_FILENO, argv[i], sizeof(argv[i])-1);
- }
+
+  //DEBUG
+  puts("DEBUG--about to check the args in rot\n");
+
+  //print out the arguments from argv
+  for(i=0; i < argc; i++)
+  {
+    puts("DEBUG--writing the args in rot\n");
+   	write(STDOUT_FILENO, argv[i], sizeof(argv[i])-1);
+  }
 
 
 
-//indefinite loop
+  //indefinite loop
   while( 1 )
   {
+    //DEBUG
+    puts("DEBUG--inside read loop of rot\n");
 
 	  num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
 	  //printf("nchar=%d\n",num_chars);
@@ -58,6 +63,8 @@ int main(int argc, char* argv[]) {
 }
 char rotate(char rot_me)
 {
+  //DEBUG
+  puts("DEBUG--rotating shitake mushrooms\n");
 
 	int x = (int) rot_me;			//getting ascii value of char
 	if( (x < 65) || (x > 122) ) exit(1);	//value out of range, error
