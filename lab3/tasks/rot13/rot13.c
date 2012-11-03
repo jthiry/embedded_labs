@@ -21,6 +21,8 @@ int main(int argc, char* argv[]) {
 
   //DEBUG
   puts("DEBUG--about to check the args in rot\n");
+  printf("DEBUG--value of arc: %d\n", argc);
+  printf("DEBUG--value of argv[0]: %s\n", argv[0]);
 
   //print out the arguments from argv
   for(i=0; i < argc; i++)
