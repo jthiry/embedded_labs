@@ -1,0 +1,11 @@
+/home/jab/Documents/embedded_labs/lab3/tasks/libc/string/strstr.o:  \
+ /home/jab/Documents/embedded_labs/lab3/tasks/libc/string/strstr.c \
+  /home/jab/Documents/embedded_labs/lab3/tasks/libc/include/string.h \
+  /home/jab/Documents/embedded_labs/lab3/tasks/libc/include/sys/types.h \
+  /home/jab/Documents/embedded_labs/lab3/tasks/libc/include/bits/types.h
+
+/home/jab/Documents/embedded_labs/lab3/tasks/libc/include/string.h:
+
+/home/jab/Documents/embedded_labs/lab3/tasks/libc/include/sys/types.h:
+
+/home/jab/Documents/embedded_labs/lab3/tasks/libc/include/bits/types.h:
