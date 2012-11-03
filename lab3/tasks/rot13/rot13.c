@@ -9,6 +9,7 @@
 
 #include <errno.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 
 //function to do the rot13 rotation
@@ -18,6 +19,14 @@ int main(int argc, char* argv[]) {
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
   
+	
+//print out the arguments from argv
+ for(i=0; i < argc; i++)
+ {
+ 	write(STDOUT_FILENO, argv[i], sizeof(argv[i])-1);
+ }
+
+
 
 //indefinite loop
   while( 1 )
