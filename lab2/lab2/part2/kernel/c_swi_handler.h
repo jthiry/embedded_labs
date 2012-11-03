@@ -8,12 +8,9 @@
  */
 
 //necessary libs
-#include <exports.h>
-#include "bits/fileno.h"
-#include "bits/errno.h"
 
 //prototypes
 int c_swi_handler(unsigned swi_num, unsigned * regs);
-void exit(int status);
-ssize_t read(int fd, void *buf, size_t count);
-ssize_t write(int fd, const void *buf, size_t count);
+void c_exit(int status);
+ssize_t c_read(int fd, void *buf, size_t count);
+ssize_t c_write(int fd, const void *buf, size_t count);

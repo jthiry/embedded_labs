@@ -1,38 +1,46 @@
-/*
- * kernel.c: Kernel main (entry) function
- *
- * Author: Joe Battaglia <JABAT295.gmail.com>
- *         Hans Reichenbach <HansReich.gmail.com>
- *         Josh Thiry <josh.thiry@gmail.com>
- * Date:   10/24/2012
- */
-
 #include <exports.h>
+
 #include "swi_handler.h"
-#include "include/constants.h"
+#include "constants.h"
 #include "kernel_util.h"
 #include "c_kernel_util.h"
 
-int main(int argc, char *argv[]) {
 
+int main(int argc, char** argv)
+{
+
+	unsigned *old_swi_data = malloc( sizeof(unsigned)*3 );
+	//unsigned *old_irq_data = malloc( sizeof(unsigned)*3 );
+	
+  	puts("DEBUG--about to wire in the swi handler in kernel\n");
 
 	//Wire in the SWI Handler
-	unsigned *old_instr = malloc( 4*3 );
-	install_handler( old_instr, (unsigned)S_HANDLER, (unsigned *)VECTOR_SWI );
-	if(old_instr[0] == RET_BAD_CODE)
+	install_handler( old_swi_data, (unsigned)S_HANDLER, (unsigned *)VECTOR_SWI );
+	if(old_swi_data[0] == RET_BAD_CODE)
 		return RET_BAD_CODE;
-
+	
+/*
+	//Wire in the IRQ Handler
+	install_handler( old_irq_data, (unsigned)R_HANDLER, (unsigned *)VECTOR_IRQ );
+	if(old_irq_data[0] == RET_BAD_CODE)
+		return RET_BAD_CODE;
+*/
 	//Set up the stack
-	unsigned* stack_ptr = setup_stack(START_STACK, argc, argv);
-	
-	//Start the user program
-	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER);
+	unsigned* stack_ptr = setup_stack( START_STACK, argc, argv);
 
-	//Unwire the SWI Handler
-	uninstall_handler( old_instr );
+  	puts("DEBUG--just set up stack and handler in kernel\n");
+
+	//Start the user program
+	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
+
+	//Unwire the Handlers
+	uninstall_handler( old_swi_data );
+//	uninstall_handler( old_irq_data );
 	
-	free(old_instr);
+	free(old_swi_data);
+//	free(old_irq_data);
+	
+  	puts("DEBUG--after user prog in kernel\n");
 
 	return status;
 }
-

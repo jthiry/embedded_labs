@@ -9,14 +9,14 @@
 	.file	"exit.S"
 	.text
 
-	.global	_EXIT
+	.global	_exit
 
-_EXIT:
+_exit:
 
   mov r1, #START_STACK          @start at a3million to find return mem addr
   sub r1, r1, #8 @sub 8 from a3million for proper address to find
   ldr pc, [r1]
 	@send program to the memory address given
 
-.type _EXIT, function
-.size _EXIT, .-_EXIT
+.type _exit, function
+.size _exit, .-_exit

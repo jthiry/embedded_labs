@@ -8,7 +8,7 @@
  */
 #include <stdlib.h>
 #include <errno.h>
-#include <string.h>
+#include <exports.h>
 
 //function to do the rot13 rotation
 char rotate(char);
@@ -16,30 +16,9 @@ int main(int argc, char* argv[]) {
 
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
-//	int len;
-//	int found;
-//	char* tmp;
-	/*
-	for(i=0; i < argc; i++)
-	{
-		len = 0;
-		tmp = argv[i];
-		found = 0;
+  
 
-		while (!found)
-		{
-			if(tmp[len] == '\0') found = 1;
-			else len++;
-		}
-		if( write(1, argv[i], len) < 1) exit(1);
-	}
-
-	for(i=0; i < argc; i++)
-	{
-		printf("\targv[%d]=%s\n\thex=%x\n\t*argv[]=%x\n",i,argv[i], argv[i], *argv[i]);
-	}
-*/
-  //indefinite loop
+//indefinite loop
   while( 1 )
   {
 
