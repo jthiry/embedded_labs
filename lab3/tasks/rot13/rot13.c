@@ -18,6 +18,14 @@ int main(int argc, char* argv[]) {
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i, chk;
   
+	
+//print out the arguments from argv
+ for(i=0; i < argc; i++)
+ {
+ 	printf("\targv[%d]=%s\n",i,argv[i]);
+ }
+
+
 
 //indefinite loop
   while( 1 )
