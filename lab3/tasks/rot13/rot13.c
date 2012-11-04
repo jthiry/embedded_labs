@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 	int num_chars, i, chk;
 
   //DEBUG
-  puts("DEBUG--about to check the args in rot\n");
+  //puts("DEBUG--about to check the args in rot\n");
 
   //print out the arguments from argv
   /*
