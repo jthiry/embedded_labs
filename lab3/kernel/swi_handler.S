@@ -1,4 +1,4 @@
-@ S_HANDLER.S: 	contains assembly complement to kernel.c, which uses these functions to 
+ S_HANDLER.S: 	contains assembly complement to kernel.c, which uses these functions to 
 @				intercept swis and then branch to a user program
 @
 @ Authors: Joe Battaglia <jabat295@gmail.com>
