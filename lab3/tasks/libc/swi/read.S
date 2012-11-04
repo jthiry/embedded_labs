@@ -17,8 +17,17 @@ read:
 
 	swi READ_SWI                  @ call the read syscall. (note: uses OABI
                                 @ calling conventions)
+
+  STMFD sp!, {r0-r12, lr}
+	BL printAss               @debug code
+	LDMFD sp!, {r0-r12, lr}
+
 	cmp r0, #0                    @ return 0 if no error
 	bpl no_error                  @ skip code if no error
+
+	STMFD sp!, {r0-r12, lr}
+	BL printAss               @debug code
+	LDMFD sp!, {r0-r12, lr}
 
   @ handle error
 	mov r4, r0                    @ store error num returned to our variable.
