@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 	  if(num_chars < 0) exit(1);		//if return length < 0, error
 
 	  //DEBUG
-    puts("DEBUG--inside read loop of rot\n");
+    puts("DEBUG--after exit check in loop of rot\n");
 
 	  //loop through the whole input str (minus the last char)
 	  for(i = 0; i < num_chars - 1; i++)

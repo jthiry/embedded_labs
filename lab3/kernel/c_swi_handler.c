@@ -14,6 +14,11 @@
 #include "bits/fileno.h"
 #include "bits/errno.h"
 
+//test file for debugging assembly
+void printAss() {
+  puts("DEBUG--assembly tick\n");
+}
+
 
 //returns 1 or 0
 // (true or false)
@@ -37,7 +42,7 @@ void c_exit(int status) { _exit(status);}
 ssize_t c_read(int fd, void *buf, size_t count) {
 
   //DEBUG
-  puts("DEBUG--inside read");
+  puts("DEBUG--inside read\n");
 
 	//convert buf to a char* to make C happy
 	char *ourBuf = (char *) buf;
@@ -49,7 +54,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) return -EFAULT;
 
 	//DEBUG
-	puts("DEBUG--after checks in read");
+	puts("DEBUG--after checks in read\n");
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -84,7 +89,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				putc('\n');
 
 				//DEBUG
-	      puts("DEBUG--getting out of dodge");
+	      puts("DEBUG--getting out of dodge (returning from read)\n");
 
 				return bufCount;
 
@@ -94,7 +99,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				putc('\n');
 
 				//DEBUG
-	      puts("DEBUG--getting out of dodge");
+	      puts("DEBUG--getting out of dodge (returning from read)\n");
 
 				return bufCount;
 
@@ -107,7 +112,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	}
 
 	//DEBUG
-	puts("DEBUG--after read loop");
+	puts("DEBUG--after read loop\n");
 
 	return bufCount;
 }
@@ -163,13 +168,13 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 		case SWI_NUM_WRITE:
 			return c_write(regs[0], (void *) regs[1], regs[2]);
 		case SWI_NUM_TIME:
-			puts("TIME syscall recieved");
+			puts("TIME syscall recieved\n");
 			break;
 		case SWI_NUM_SLEEP:
-			puts("SLEEP syscall recieved");
+			puts("SLEEP syscall recieved\n");
 			break;
 		default:
-			puts("Invalid syscall recieved");
+			puts("Invalid syscall recieved\n");
 			c_exit(RET_BAD_CODE);
 			break;
 	}

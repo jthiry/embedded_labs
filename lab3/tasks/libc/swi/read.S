@@ -7,12 +7,14 @@
 
 #include <bits/swi.h>
 #include <bits/fileno.h>
+
 	.file	"read.S"
 	.text
 
 	.global	read
 read:
 	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
+
 	swi READ_SWI                  @ call the read syscall. (note: uses OABI
                                 @ calling conventions)
 	cmp r0, #0                    @ return 0 if no error
@@ -27,4 +29,4 @@ read:
 
 no_error:
 	ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack
-				      @ return to the calling function
+	@movs pc, lr			      @ return to the calling function

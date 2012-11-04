@@ -30,6 +30,7 @@
 #ifndef ASSEMBLER
 
 #include <inline.h>
+#include <types.h>
 
 INLINE uint32_t read_cpsr(void)
 {
