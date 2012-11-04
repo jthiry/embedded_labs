@@ -14,7 +14,7 @@ int kmain(int argc, char** argv, uint32_t table)
 	app_startup(); /* bss is valid after this point */
 	global_data = table;
 
-	initialize_timers();
+	initialize_timer();
 
 	unsigned *old_swi_data = malloc( sizeof(unsigned)*3 );
 	unsigned *old_irq_data = malloc( sizeof(unsigned)*3 );
