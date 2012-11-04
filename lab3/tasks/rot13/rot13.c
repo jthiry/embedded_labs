@@ -9,6 +9,7 @@
 
 #include <errno.h>
 #include <unistd.h>
+#include <stdlib>
 #include <stdio.h>
 #include <string.h>
 

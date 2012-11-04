@@ -6,6 +6,7 @@
 @	         Josh Thiry <josh.thiry@gmail.com>
 @ Date:    10/14/2012
 
+
 	.file	"swi_handler.S"
 	.text
 
@@ -27,13 +28,17 @@ S_HANDLER:
 	LDR r2, [sp, #14*4]
 
 	STMFD sp!, {r0-r12, lr}
-	BL printAss               @debug code
+	mov r0, sp
+	mov r1, #28
+	BL hexdump               @debug co
 	LDMFD sp!, {r0-r12, lr}
 
 	MSR spsr, r2
 
 	STMFD sp!, {r0-r12, lr}
-	BL printAss               @debug code
+	mov r0, sp
+	mov r1, #28
+	BL hexdump               @debug co
 	LDMFD sp!, {r0-r12, lr}
 
 	LDMFD sp!, {r0-r12, lr}   @ unstack user's registers

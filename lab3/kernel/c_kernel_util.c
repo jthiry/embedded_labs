@@ -8,11 +8,20 @@
 //#define INT_ICLR_ADDR   0x00D00008  /* Interrupt Controller Level Register */
 //#define INT_ICFP_ADDR   0x00D0000C  /* Interrupt Controller FIQ Pending Register */
 //#define INT_ICPR_ADDR   0x00D00010  /* Interrupt Controller Pending Register */
+//
+/*
+INLINE uint32_t reg_read(size_t addr)
+INLINE void reg_write(size_t addr, uint32_t data)
+INLINE void reg_set(size_t addr, uint32_t flags)
+INLINE void reg_clear(size_t addr, uint32_t flags)
 
-
+*/
 void initialize_timer()
 {
-	//OS Timer 
+	//OS Timer match registers 0 and 1
+	//ICMR = 0x0c000000 //enabled
+	//ICLR = 0x0c000000 //IRQs
+	//
 	
 	//setup interrupts
 	//classify/enable/start
