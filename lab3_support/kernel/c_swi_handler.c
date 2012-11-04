@@ -176,27 +176,21 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 void hexdump(void *buf, size_t len)
 {
 	size_t i, j;
-	char *b = (char *)buf;
+	unsigned *b = (unsigned*)buf;
 
 	printf(".---------------------------------------------------------------------------.\n");
-	for (i = 0; i < len; i += 16) {
-		printf("| %08lx      ", i);
-		for (j = i; j < i+16; j++) {
-			if (j % 4 == 0)
-				printf(" ");
+	for (i = 0; i < len; i += 4) {
+		//16 byte increments
+		printf("| %08lx      ", i+(unsigned)buf);
+		for (j = i; j < i+4; j++) 
+		{
+			//for each of the 4 words
 			if (j >= len)
-				printf("  ");
+				printf("  ");//just spaces
 			else
-				printf("%02x", (unsigned char)b[j]);
+				printf("%08x  ", (unsigned)b[j]);
 		}
-
-		printf("       ");
-		for (j = i; j < i+16; j++)
-			if (j >= len)
-				printf(" ");
-			else
-				printf("%c", isgraph(b[j]) ? b[j] : '.');
-		printf(" |\n");
+		printf(" |\n"); //new line
 	}
 	printf("`---------------------------------------------------------------------------'\n");
 }
