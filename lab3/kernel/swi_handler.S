@@ -20,7 +20,7 @@ S_HANDLER:
 	MRS r2, spsr
 	STR r2, [sp, #14*4]       @ store the spsr on the stack
 	MOV r1, sp				  @ pass the stack to the handler as an arg
-	LDR r0, [lr, #-4]         @ load
+	LDR r0, [lr, #-4]         @ load SWI into r0
 	BIC r0,r0, #0xfffffff0	  @ get SWI # by bit-masking
 	BL c_swi_handler
 	str r0, [sp]

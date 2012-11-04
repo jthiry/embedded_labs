@@ -12,6 +12,14 @@
 int main(int argc, char** argv)
 {
 	const char hello[] = "Hello World\r\n";
+	char buf[128];
+	int read_ret;
+
 	write(STDOUT_FILENO, hello, sizeof(hello) - 1);
+
+	read_ret = read(STDOUT_FILENO, buf, 128);
+
+	write(STDOUT_FILENO, buf, read_ret);
+
 	return 0;
 }

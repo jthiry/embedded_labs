@@ -3,5 +3,5 @@
 
 void printAss(void)
 {
-	puts("DEBUG--assembly tick wrapper\n");
+	puts("DEBUG::read wrapper--tick\n");
 }

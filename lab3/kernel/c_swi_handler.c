@@ -16,7 +16,7 @@
 
 //test file for debugging assembly
 void printAss() {
-  puts("DEBUG--assembly tick\n");
+  puts("DEBUG::swi_handler.S--tick\n");
 }
 
 
@@ -42,7 +42,7 @@ void c_exit(int status) { _exit(status);}
 ssize_t c_read(int fd, void *buf, size_t count) {
 
   //DEBUG
-  puts("DEBUG--inside read\n");
+  puts("DEBUG::c_read--beginning of read\n");
 
 	//convert buf to a char* to make C happy
 	char *ourBuf = (char *) buf;
@@ -54,7 +54,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) return -EFAULT;
 
 	//DEBUG
-	puts("DEBUG--after checks in read\n");
+	puts("DEBUG::c_read--after checks in read\n");
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -89,7 +89,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				putc('\n');
 
 				//DEBUG
-	      puts("DEBUG--getting out of dodge (returning from read)\n");
+	      puts("DEBUG::c_read--returning from read\n");
 
 				return bufCount;
 
@@ -99,7 +99,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				putc('\n');
 
 				//DEBUG
-	      puts("DEBUG--getting out of dodge (returning from read)\n");
+	      puts("DEBUG::c_read--returning from read\n");
 
 				return bufCount;
 
@@ -112,7 +112,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	}
 
 	//DEBUG
-	puts("DEBUG--after read loop\n");
+	puts("DEBUG::c_read--after read loop\n");
 
 	return bufCount;
 }
@@ -120,26 +120,18 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 //write a buffer to stdout for count bytes
 ssize_t c_write(int fd, const void *buf, size_t count) {
 
-  //DEBUG
-  //puts("DEBUG--inside write\n");
-
 	//turn to char* to make C happy
 	char *ourBuf = (char *) buf;
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
-	  //puts("DEBUG--not stdout");
 	  return -EBADF;
 	}
 
 	//check if buf loc and size end up outside of useable memory
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) {
-	  //puts("DEBUG--not usable memory");
 	  return -EFAULT;
 	}
-
-	//DEBUG
-  //puts("DEBUG--after checks inside write\n");
 
 	//loop until buf full
 	int bufCount = 0;
