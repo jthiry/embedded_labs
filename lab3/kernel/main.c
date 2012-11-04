@@ -19,7 +19,7 @@ int kmain(int argc, char** argv, uint32_t table)
 	unsigned *old_swi_data = malloc( sizeof(unsigned)*3 );
 	unsigned *old_irq_data = malloc( sizeof(unsigned)*3 );
 
- 	puts("DEBUG--about to wire in the swi handler in kernel\n");
+ 	puts("DEBUG::main.c--about to wire in the swi handler\n");
 
 	//Wire in the SWI Handler
 	install_handler( old_swi_data, (unsigned)S_HANDLER, (unsigned *)VECTOR_SWI );
@@ -44,7 +44,7 @@ int kmain(int argc, char** argv, uint32_t table)
 	free(old_swi_data);
 	free(old_irq_data);
 
-  	puts("DEBUG--after user prog in kernel\n");
+  	puts("DEBUG::main.c--after user prog\n");
 
 	return status;
 }
