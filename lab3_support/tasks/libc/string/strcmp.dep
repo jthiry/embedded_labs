@@ -1,0 +1,12 @@
+ \
+ /home/jab/Documents/embedded_labs/lab3_support/tasks/libc/string/strcmp.o:  \
+ /home/jab/Documents/embedded_labs/lab3_support/tasks/libc/string/strcmp.c \
+  /home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/string.h \
+  /home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/sys/types.h \
+  /home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/bits/types.h
+
+/home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/string.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/sys/types.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/bits/types.h:

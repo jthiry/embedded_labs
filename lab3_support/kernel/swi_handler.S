@@ -6,7 +6,6 @@
 @	         Josh Thiry <josh.thiry@gmail.com>
 @ Date:    10/14/2012
 
-
 	.file	"swi_handler.S"
 	.text
 

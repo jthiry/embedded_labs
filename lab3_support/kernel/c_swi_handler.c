@@ -172,3 +172,31 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 	}
 	return 0;
 }
+
+void hexdump(void *buf, size_t len)
+{
+	size_t i, j;
+	char *b = (char *)buf;
+
+	printf(".---------------------------------------------------------------------------.\n");
+	for (i = 0; i < len; i += 16) {
+		printf("| %08lx      ", i);
+		for (j = i; j < i+16; j++) {
+			if (j % 4 == 0)
+				printf(" ");
+			if (j >= len)
+				printf("  ");
+			else
+				printf("%02x", (unsigned char)b[j]);
+		}
+
+		printf("       ");
+		for (j = i; j < i+16; j++)
+			if (j >= len)
+				printf(" ");
+			else
+				printf("%c", isgraph(b[j]) ? b[j] : '.');
+		printf(" |\n");
+	}
+	printf("`---------------------------------------------------------------------------'\n");
+}
