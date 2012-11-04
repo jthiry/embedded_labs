@@ -5,6 +5,7 @@
 @          Hans Reichenbach <HansReich25@gmail.com>
 @	         Josh Thiry <josh.thiry@gmail.com>
 @ Date:    10/14/2012
+
 	.file	"swi_handler.S"
 	.text
  
@@ -21,7 +22,7 @@ S_HANDLER:
 	MOV r1, sp				  @ pass the stack to the handler as an arg	
 	LDR r0, [lr, #-4]         @ load  
 	BIC r0,r0, #0xfffffff0	  @ get SWI # by bit-masking
-	BL C_SWI_handler
+	BL c_swi_handler
 	str r0, [sp]
 	LDR r2, [sp, #14*4]
 	MSR spsr, r2
