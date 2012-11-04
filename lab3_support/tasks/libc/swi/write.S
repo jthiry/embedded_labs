@@ -28,5 +28,21 @@ write:
 	str r4, [r5]                    @ set errno to positive of syscall return
 
 no_error:
-	ldmfd sp!, {r4-r12, pc}^        @ restore registers from the stack
-	@movs pc, lr					          @ return to calling function
+@@@	
+	STMFD sp!, {r0,r1} 	  @DUMP sp => sp+20
+	mov r0, sp
+	mov r1, #28
+	BL hexdump               
+	LDMFD sp!, {r0,r1}
+@@@	
+	ldmfd sp!, {r4-r12, lr}        @ restore registers from the stack
+@@@	
+	STMFD sp!, {r0,r1} 	  @DUMP sp => sp+20
+	mov r0, sp
+	mov r1, #28
+	BL hexdump               
+	LDMFD sp!, {r0,r1}
+@@@	
+	mov pc, lr
+	
+					@return to calling function

@@ -15,6 +15,8 @@
 #include <bits/swi.h>
 #include <exports.h>
 #include <assert.h>
+#include "swi_handler.h"
+#include "irq_handler.h"
 
 #define PC_OFFSET 0x8
 #define LDR_PC_INSTRUCTION 0xe51ff000 /* ldr pc, [pc, #-0] == 0xe51ff000 */
@@ -26,6 +28,10 @@
 
 /* Globals */
 static uint32_t *uboot_abt_address;
+static uint32_t *uboot_swi_address;
+static uint32_t *uboot_irq_address;
+static uint32_t uboot_swi_ins[2];
+static uint32_t uboot_irq_ins[2];
 static uint32_t uboot_abt_ins[2];
 /* Exported from main - stores r8 */
 extern uint32_t global_data;
@@ -74,6 +80,29 @@ int wire_exception_handler(unsigned exception)
 		uboot_abt_ins[1] = *uboot_exception_address;
 		/* Move address of our abort handler here */
 		*uboot_exception_address = (unsigned int) abort_handler;
+
+	}
+	if (exception == EX_SWI) {
+		/* Save earlier values and wire in our exception handler */
+		uboot_swi_address = uboot_exception_address;
+		uboot_swi_ins[0] = *uboot_exception_address;
+		*uboot_exception_address = LDR_PC_INSTRUCTION | 0x4;
+		uboot_exception_address++;
+		uboot_swi_ins[1] = *uboot_exception_address;
+		/* Move address of our abort handler here */
+		*uboot_exception_address = (unsigned int) S_HANDLER;
+
+	}
+	
+	if (exception == EX_IRQ) {
+		/* Save earlier values and wire in our exception handler */
+		uboot_irq_address = uboot_exception_address;
+		uboot_irq_ins[0] = *uboot_exception_address;
+		*uboot_exception_address = LDR_PC_INSTRUCTION | 0x4;
+		uboot_exception_address++;
+		uboot_irq_ins[1] = *uboot_exception_address;
+		/* Move address of our abort handler here */
+		*uboot_exception_address = (unsigned int) R_HANDLER;
 
 	}
 

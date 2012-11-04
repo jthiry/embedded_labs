@@ -48,16 +48,11 @@ void initialize_timer()
 	
 }
 
+/*
 void install_handler(unsigned* return_val, unsigned location, unsigned int *vector, unsigned offset)
 {
 	unsigned* swi_vec = vector;
 	unsigned vec_swi = swi_vec[0];
-	
-	puts("hexdump of swi_vec:\n");
-	hexdump( swi_vec, 30);
-	
-	puts("hexdump of &swi_vec:\n");
-	hexdump( &swi_vec, 30);
 	
 
 	unsigned inst = _check_inst(vec_swi);
@@ -72,11 +67,6 @@ void install_handler(unsigned* return_val, unsigned location, unsigned int *vect
 	unsigned* jump_tab = (unsigned*)(offset + imm);
 	unsigned* old_handler = (unsigned*)jump_tab[0];
 	
-	puts("hexdump of jump_tab:\n");
-	hexdump( jump_tab, 30);
-	
-	puts("hexdump of old_handler:\n");
-	hexdump( old_handler, 30);
 	
 	//Save the first 8 bytes on the stack
 	return_val[0] = old_handler[0];
@@ -86,14 +76,8 @@ void install_handler(unsigned* return_val, unsigned location, unsigned int *vect
 	old_handler[0] = INSTR_OUR_LOAD; // pc = pc - 4
 	old_handler[1] = location;
 	
-	puts("NEW hexdump of old_handler:\n");
-	hexdump( old_handler, 30);
-	
-	puts("hexdump of location:\n");
-	hexdump( (unsigned*)location, 30);
-
 }
-
+*/
 unsigned* setup_stack(  unsigned stack_start, int argc, char *argv[])
 {
 	//Step 2: Put user prog args onto the stack
