@@ -151,13 +151,16 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:
+			puts("exit syscall recieved\n");
 			c_exit(regs[0]);
 			break;
 
 		case SWI_NUM_READ:
+			puts("read syscall recieved\n");
 			return c_read(regs[0], (void *) regs[1], regs[2]);
 
 		case SWI_NUM_WRITE:
+			puts("write syscall recieved\n");
 			return c_write(regs[0], (void *) regs[1], regs[2]);
 		case SWI_NUM_TIME:
 			puts("TIME syscall recieved\n");

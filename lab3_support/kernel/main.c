@@ -27,10 +27,10 @@ int kmain(int argc, char** argv, uint32_t table)
 	setup_abort_stack();
 	
 
-	/* Wiring in swi handler */
+
 	if (-1 == wire_exception_handler(EX_SWI)) {
 	    printf ("ldr pc, [pc, #immed] not encountered at %d. Exiting.\n",
-		    GET_EXP_VEC_ADDR(EX_FABRT));
+		    GET_EXP_VEC_ADDR(EX_SWI));
 	    return 0xbadc0de;
 	}
 

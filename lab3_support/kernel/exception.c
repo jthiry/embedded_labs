@@ -16,6 +16,7 @@
 #include <exports.h>
 #include <assert.h>
 #include "swi_handler.h"
+#include "c_swi_handler.h"
 #include "irq_handler.h"
 
 #define PC_OFFSET 0x8
