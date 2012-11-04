@@ -1,0 +1,12 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/arm/reg.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/arm/reg.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/include/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/include/arm/reg.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/include/inline.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/include/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/include/arm/reg.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3/kernel/include/inline.h:
