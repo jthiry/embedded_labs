@@ -27,9 +27,9 @@ int kmain(int argc, char** argv, uint32_t table)
 		return RET_BAD_CODE;
 
 	//Wire in the IRQ Handler
-	install_handler( old_irq_data, (unsigned)R_HANDLER, (unsigned *)VECTOR_IRQ );
-	if(old_irq_data[0] == RET_BAD_CODE)
-		return RET_BAD_CODE;
+/*	install_handler( old_irq_data, (unsigned)R_HANDLER, (unsigned *)VECTOR_IRQ );*/
+/*	if(old_irq_data[0] == RET_BAD_CODE)*/
+/*		return RET_BAD_CODE;*/
 
 	//Set up the stack
 	unsigned* stack_ptr = setup_stack( START_STACK, argc, argv);
