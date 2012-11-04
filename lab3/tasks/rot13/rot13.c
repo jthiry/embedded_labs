@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     //DEBUG
     puts("DEBUG::rot13--beginning of read loop\n");
 
-	  num_chars = read(0, my_buff, 128);	//calling the read SWI to read in input
+	  num_chars = read(STDOUT_FILENO, my_buff, 128);	//calling the read SWI to read in input
 
 	  //DEBUG
     puts("DEBUG::rot13--after read block\n");
