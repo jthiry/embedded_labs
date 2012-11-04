@@ -14,6 +14,11 @@
 #include "bits/fileno.h"
 #include "bits/errno.h"
 
+//test file for debugging assembly
+void printAss() {
+  puts("DEBUG--assembly tick\n");
+}
+
 
 //returns 1 or 0
 // (true or false)
