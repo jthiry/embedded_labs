@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 
 	//DEBUG
 	//puts("DEBUG--about to check the args in rot\n");
-	puts("rot13.c::main\n");
+	puts("rot13.c::main++\n");
 
 	//print out the arguments from argv
 	/*
@@ -40,13 +40,12 @@ int main(int argc, char* argv[]) {
 	while( 1 )
 	{
 		//DEBUG
-		puts("DEBUG::rot13--beginning of read loop\n");
+		puts("rot13.c::main::loop++\n");
 
-		num_chars = read(STDOUT_FILENO, my_buff, 128);	//calling the read SWI to read in input
+		num_chars = read(STDIN_FILENO, my_buff, 128);	//calling the read SWI to read in input
+		puts("rot13.c::main::loop::read syscall complete\n");
 
 		//DEBUG
-		puts("DEBUG::rot13--after read block\n");
-
 		if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
 		if(num_chars < 0) exit(1);		//if return length < 0, error
 
