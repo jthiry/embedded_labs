@@ -146,6 +146,24 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 	return bufCount;
 }
 
+//check the time since the kernel was loaded
+size_t c_time() {
+
+}
+
+//stops execution for a given period of time
+void c_sleep(size_t millis) {
+  //find the time parameters
+  size_t time = c_time();
+  size_t quit = time + millis;
+
+  //loop until time is past parameter
+  while(c_time() < quit) {
+    //do nothing
+    ;
+  }
+}
+
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 
 	switch(swi_num){
@@ -182,7 +200,7 @@ void hexdump(void *buf, size_t len)
 	for (i = 0; i < len; i += 4) {
 		//16 byte increments
 		printf("| %08lx      ", i+(unsigned)buf);
-		for (j = i; j < i+4; j++) 
+		for (j = i; j < i+4; j++)
 		{
 			//for each of the 4 words
 			if (j >= len)
