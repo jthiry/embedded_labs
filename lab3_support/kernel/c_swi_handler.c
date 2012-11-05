@@ -148,6 +148,7 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 
 //check the time since the kernel was loaded
 size_t c_time() {
+	return 0;
 
 }
 

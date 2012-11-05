@@ -28,7 +28,7 @@ _enable_user_prog:
 
         mov sp, r0                @ give user sp stack location
 
-        @mov pc, r1
+        mov pc, r1
 
         @return here after exit
         @switch back to kernel mode
