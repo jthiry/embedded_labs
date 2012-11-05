@@ -4,8 +4,11 @@
  * @brief Definitions for the interrupt controller.
  *
  * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
+ *         Joe Battaglia <JABAT295.gmail.com>
+ *         Hans Reichenbach <HansReich.gmail.com>
+ *         Josh Thiry <josh.thiry@gmail.com>
  *
- * @date 2008-07-21
+ * @date 11/5/2012
  *
  * @note The addresses here are the addresses stated in the Intel PXA255
  *       Processor Developer's Manual minus 0x40000000.  This is so that
@@ -54,6 +57,8 @@
 #ifndef ASSEMBLER
 
 /* C code goes here.  Add your group name at the top! */
+//create the volatile global for time storage
+volatile static size_t kernel_time;
 
 #endif /* ASSEMBLER */
 
