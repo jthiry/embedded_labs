@@ -4,8 +4,11 @@
  * @brief Definitions for the OS timer.
  *
  * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
+ *         Joe Battaglia <JABAT295.gmail.com>
+ *         Hans Reichenbach <HansReich.gmail.com>
+ *         Josh Thiry <josh.thiry@gmail.com>
  *
- * @date 2008-07-07
+ * @date 11/5/2012
  *
  * @note The addresses here are the addresses stated in the Intel PXA255
  *       Processor Developer's Manual minus 0x40000000.  This is so that
@@ -39,6 +42,11 @@
 #ifndef ASSEMBLER
 
 /* Add your C code here.  Put your group name at the top! */
+#define TIMER_COUNT_INC       10           /* number of milliseconds we count by */
+#define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .01)   /* how many oscillations between timer counts*/
+
+//create the volatile global for time storage (in milliseconds)
+volatile static size_t kernel_time;
 
 #endif /* ASSEMBLER */
 

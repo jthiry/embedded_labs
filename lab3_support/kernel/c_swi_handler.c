@@ -13,6 +13,7 @@
 #include <exports.h>
 #include "bits/fileno.h"
 #include "bits/errno.h"
+#include "include/arm/interrupt.h"
 
 
 //returns 1 or 0
@@ -42,13 +43,13 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	char *ourBuf = (char *) buf;
 
 	//check if fd isn't stdin, return -EBADF if not
-	if(fd != STDIN_FILENO) 
+	if(fd != STDIN_FILENO)
 	{
 		puts("c_swi_handler.c::c_read::returning EBADF\n");
 		return -EBADF;
 	}
 	//check if buf loc and size end up outside of useable memory
-	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) 	
+	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 )
 	{
 		puts("c_swi_handler.c::c_read::returning EFAULT\n");
 		return -EFAULT;
@@ -147,8 +148,11 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 
 //check the time since the kernel was loaded
 size_t c_time() {
-	return 0;
+  //store the time from the volatile global updated by interrupts into a local var
+  size_t cur_time = kernel_time;
 
+  //return this value
+	return cur_time;
 }
 
 //stops execution for a given period of time
