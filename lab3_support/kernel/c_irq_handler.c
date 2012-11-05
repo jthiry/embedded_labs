@@ -18,9 +18,15 @@
 
 
 
-int c_irq_handler(unsigned swi_num, unsigned * regs){
+int c_irq_handler(unsigned irq_num, unsigned * regs){
+  //disable IRQs?
+
 	//figure out what caused the interrupt
 	//was it the timer interrupt? thats the only one we are servicing
+	if(swi_num != INT_OSTMR_0) {
+	  //you are not the interrupt we are looking for
+	  return 0;
+	}
 
 	//service the interrupt
 	//"make note" of the event and reload OSMR0 with appropriate value
@@ -29,6 +35,8 @@ int c_irq_handler(unsigned swi_num, unsigned * regs){
 	//sleep is done... tell user_prog to continue
 
 	//enable IRQs/FIQs
+
+
 	puts("Inside c_irq_handler.c\n");
 	return 0;
 }
