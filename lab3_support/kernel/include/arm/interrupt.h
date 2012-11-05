@@ -57,8 +57,6 @@
 #ifndef ASSEMBLER
 
 /* C code goes here.  Add your group name at the top! */
-//create the volatile global for time storage
-volatile static size_t kernel_time;
 
 #endif /* ASSEMBLER */
 

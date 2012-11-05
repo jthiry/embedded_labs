@@ -13,6 +13,7 @@
 #include <exports.h>
 #include "bits/fileno.h"
 #include "bits/errno.h"
+#include "include/arm/interrupt.h"
 
 
 //returns 1 or 0
@@ -148,9 +149,10 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 //check the time since the kernel was loaded
 size_t c_time() {
   //store the time from the volatile global updated by interrupts into a local var
+  size_t cur_time = kernel_time;
 
   //return this value
-	return 0;
+	return cur_time;
 }
 
 //stops execution for a given period of time
