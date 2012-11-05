@@ -149,10 +149,10 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 //check the time since the kernel was loaded
 size_t c_time() {
   //store the time from the volatile global updated by interrupts into a local var
-  size_t cur_time = kernel_time;
+ // size_t cur_time = kernel_time;
 
   //return this value
-	return cur_time;
+	return 0;//cur_time;
 }
 
 //stops execution for a given period of time

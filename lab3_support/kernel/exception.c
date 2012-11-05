@@ -81,7 +81,6 @@ int wire_exception_handler(unsigned exception)
 		uboot_abt_ins[1] = *uboot_exception_address;
 		/* Move address of our abort handler here */
 		*uboot_exception_address = (unsigned int) abort_handler;
-		#define ABT_INSTALLED 
 
 	}
 	if (exception == EX_SWI) {
@@ -93,7 +92,6 @@ int wire_exception_handler(unsigned exception)
 		uboot_swi_ins[1] = *uboot_exception_address;
 		/* Move address of our abort handler here */
 		*uboot_exception_address = (unsigned int) S_HANDLER;
-		#define SWI_INSTALLED 
 
 	}
 	
@@ -106,7 +104,6 @@ int wire_exception_handler(unsigned exception)
 		uboot_irq_ins[1] = *uboot_exception_address;
 		/* Move address of our abort handler here */
 		*uboot_exception_address = (unsigned int) R_HANDLER;
-		#define IRQ_INSTALLED 
 
 	}
 
@@ -115,24 +112,27 @@ int wire_exception_handler(unsigned exception)
 
 void restore_handlers()
 {
-	#ifdef IRQ_INSTALLED
+	if(uboot_irq_address != 0)
+	{		
 		puts("uninstalling irq...\n");
 		*uboot_irq_address = uboot_irq_ins[0];
 		uboot_irq_address++;
 		*uboot_irq_address = uboot_irq_ins[1];
-	#endif
-	#ifdef SWI_INSTALLED
+	}		
+	if(uboot_swi_address != 0)
+	{		
 		puts("uninstalling swi...\n");
 		*uboot_swi_address = uboot_swi_ins[0];
 		uboot_swi_address++;
 		*uboot_swi_address = uboot_swi_ins[1];
-	#endif
-	#ifdef ABT_INSTALLED
+	}		
+	if(uboot_abt_address != 0)
+	{		
 		puts("uninstalling abt...\n");
 		*uboot_abt_address = uboot_abt_ins[0];
 		uboot_abt_address++;
 		*uboot_abt_address = uboot_abt_ins[1];
-	#endif
+	}
 }
 
 
