@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -18,44 +19,45 @@ char rotate(char);
 int main(int argc, char* argv[]) {
 
 	char my_buff[128];		//buffer to hold the input string
-	int num_chars, i, chk;
+	int num_chars, i,chk;
 
-  //DEBUG
-  //puts("DEBUG--about to check the args in rot\n");
+	//DEBUG
+	//puts("DEBUG--about to check the args in rot\n");
+	puts("rot13.c::main\n");
 
-  //print out the arguments from argv
-  /*
-  int err;
-  for(i=0; i < argc; i++)
-  {
-    puts("DEBUG--writing the args in rot\n");
-   	err = write(STDOUT_FILENO, argv[i], strlen(argv[i]));
-  }*/
+	//print out the arguments from argv
+	/*
+	int i; 
+	puts("DEBUG--writing the args in rot\n");
+	for(i=0; i < argc; i++)
+	{
+		printf("argv[%d]=%s\n",i , argv[i]);
+	}
+	*/
 
 
+	//loop until user exits with CR or ctrl-D
+	while( 1 )
+	{
+		//DEBUG
+		puts("DEBUG::rot13--beginning of read loop\n");
 
-  //indefinite loop
-  while( 1 )
-  {
-    //DEBUG
-    puts("DEBUG::rot13--beginning of read loop\n");
+		num_chars = read(STDOUT_FILENO, my_buff, 128);	//calling the read SWI to read in input
 
-	  num_chars = read(STDOUT_FILENO, my_buff, 128);	//calling the read SWI to read in input
+		//DEBUG
+		puts("DEBUG::rot13--after read block\n");
 
-	  //DEBUG
-    puts("DEBUG::rot13--after read block\n");
+		if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
+		if(num_chars < 0) exit(1);		//if return length < 0, error
 
-	  if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
-	  if(num_chars < 0) exit(1);		//if return length < 0, error
+		//DEBUG
+		puts("DEBUG::rot13--after exit check in loop\n");
 
-	  //DEBUG
-    puts("DEBUG::rot13--after exit check in loop\n");
-
-	  //loop through the whole input str (minus the last char)
-	  for(i = 0; i < num_chars - 1; i++)
-	  {
-		  my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
-	  }
+		//loop through the whole input str (minus the last char)
+		for(i = 0; i < num_chars - 1; i++)
+		{
+			my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
+		}
 
 		chk = write(1, my_buff, num_chars); 	//calling write SWI to output newly rot13 str
 

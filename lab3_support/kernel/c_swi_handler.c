@@ -166,6 +166,7 @@ void c_sleep(size_t millis) {
 }
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
+	puts("c_swi_handler: swi recieved\n");
 
 	switch(swi_num){
 

@@ -1,0 +1,24 @@
+GUM> go a3000000
+## Starting application at 0xA3000000 ...
+Wiring in swi...
+Setting up stack...
+Starting user prog...
+c_swi_handler: swi recieved
+write syscall recieved
+rot13.c::mainc_swi_handler: swi recieved
+write syscall recieved
+
+c_swi_handler: swi recieved
+write syscall recieved
+DEBUG::rot13--beginning of read loop
+c_swi_handler: swi recieved
+write syscall recieved
+
+c_swi_handler: swi recieved
+read syscall recieved
+DEBUG::c_read--beginning of read
+
+
+U-Boot 1.2.0 (May 10 2008 - 21:17:19) - PXA270@400 MHz - 1604
+
+*** Welcome to Gumstix ***
