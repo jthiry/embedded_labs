@@ -36,7 +36,6 @@ void c_exit(int status) { _exit(status);}
 //read from a given file into a buffer for count bytes
 ssize_t c_read(int fd, void *buf, size_t count) {
 
-	//DEBUG
 	puts("c_swi_handler.c::c_read::++\n");
 
 	//convert buf to a char* to make C happy
@@ -55,8 +54,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 		return -EFAULT;
 	}
 
-	//DEBUG
-	puts("DEBUG::c_read--after checks in read\n");
+	puts("c_swi_handler.c::loop++\n");
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -90,8 +88,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				bufCount++;
 				putc('\n');
 
-				//DEBUG
-	      puts("DEBUG::c_read--returning from read\n");
+				puts("c_swi_handler.c::c_read::loop::exiting loop (NEWLINE)\n");
 
 				return bufCount;
 
@@ -100,8 +97,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				bufCount++;
 				putc('\n');
 
-				//DEBUG
-	      puts("DEBUG::c_read--returning from read\n");
+				puts("c_swi_handler.c::c_read::loop::exiting loop (CARRIAGE_RETURN)\n");
 
 				return bufCount;
 
@@ -113,21 +109,18 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 		}
 	}
 
-	//DEBUG
-	puts("DEBUG::c_read--after read loop\n");
-
 	return bufCount;
 }
 
 //write a buffer to stdout for count bytes
 ssize_t c_write(int fd, const void *buf, size_t count) {
-	puts("c_swi_handler.c::c_write::++\n");
+	//puts("c_swi_handler.c::c_write::++\n");
 
 	//turn to char* to make C happy
 	char *ourBuf = (char *) buf;
-	puts("c_swi_handler.c::c_write::*buf=");
-	puts(ourBuf);
-	puts("\n");
+	//printf("c_swi_handler.c::c_write::*buf=%s, count=%d", ourBuf, count);
+	//puts(ourBuf);
+	//puts("\n");
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
@@ -174,27 +167,27 @@ void c_sleep(size_t millis) {
 }
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
-	puts("c_swi_handler.c::c_swi_handler::++\n");
+//	puts("c_swi_handler.c::c_swi_handler::++\n");
 
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:
-			puts("c_swi_handler.c::c_swi_handler::case swi=EXIT\n");
+//			puts("c_swi_handler.c::c_swi_handler::case swi=EXIT\n");
 			c_exit(regs[0]);
 			break;
 
 		case SWI_NUM_READ:
-			puts("c_swi_handler.c::c_swi_handler::case swi=READ\n");
+//			puts("c_swi_handler.c::c_swi_handler::case swi=READ\n");
 			return c_read(regs[0], (void *) regs[1], regs[2]);
 
 		case SWI_NUM_WRITE:
-			puts("c_swi_handler.c::c_swi_handler::case swi=WRITE\n");
+//			puts("c_swi_handler.c::c_swi_handler::case swi=WRITE\n");
 			return c_write(regs[0], (void *) regs[1], regs[2]);
 		case SWI_NUM_TIME:
-			puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
+//			puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
 			break;
 		case SWI_NUM_SLEEP:
-			puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
+//			puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
 			break;
 		default:
 			puts("Invalid syscall recieved\n");

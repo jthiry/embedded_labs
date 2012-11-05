@@ -52,7 +52,7 @@ CWARNINGS = -Werror $(CWARNINGS_SAFE)
 CWARNINGS1 = $(CWARNINGS_SAFE) $(CWARNINGS_NOISY)
 
 KCFLAGS = -O3 -ffreestanding -ffixed-r8 -nostdinc $(CWARNINGS)
-TCFLAGS = -O3 -ffreestanding -nostdinc $(CWARNINGS)
+TCFLAGS = -O3 -ffreestanding -ffixed-r8 -nostdinc $(CWARNINGS)
 ASFLAGS = -nostdinc -Wall -Wextra -Werror -DASSEMBLER
 KLDFLAGS = -nostdlib -N --fatal-warnings --warn-common -Ttext $(KLOAD_ADDR)
 TLDFLAGS = -nostdlib -N --fatal-warnings --warn-common -Ttext $(TLOAD_ADDR)
