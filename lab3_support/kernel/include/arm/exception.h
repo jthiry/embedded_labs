@@ -29,6 +29,7 @@ int  wire_exception_handler(unsigned exception);
 void c_abt_handler();
 void setup_abort_stack();
 void abort_handler(); /* abort_handler for Gravel - defined in abort.S */
+void restore_handlers();
 #endif /* ASSEMBLER */
 
 #endif /* _EXCEPTION_H_ */

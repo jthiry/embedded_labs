@@ -54,6 +54,10 @@ int kmain(int argc, char** argv, uint32_t table)
 	//Start the user program
 	puts("Starting user prog...\n");
 	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
+
+	puts("restoring handlers...\n");
+	restore_handlers();
+	
 	puts("--Exit steps complete\n");
 
 	return status;

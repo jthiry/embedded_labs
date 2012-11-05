@@ -81,6 +81,7 @@ int wire_exception_handler(unsigned exception)
 		uboot_abt_ins[1] = *uboot_exception_address;
 		/* Move address of our abort handler here */
 		*uboot_exception_address = (unsigned int) abort_handler;
+		#define ABT_INSTALLED 
 
 	}
 	if (exception == EX_SWI) {
@@ -92,6 +93,7 @@ int wire_exception_handler(unsigned exception)
 		uboot_swi_ins[1] = *uboot_exception_address;
 		/* Move address of our abort handler here */
 		*uboot_exception_address = (unsigned int) S_HANDLER;
+		#define SWI_INSTALLED 
 
 	}
 	
@@ -104,10 +106,76 @@ int wire_exception_handler(unsigned exception)
 		uboot_irq_ins[1] = *uboot_exception_address;
 		/* Move address of our abort handler here */
 		*uboot_exception_address = (unsigned int) R_HANDLER;
+		#define IRQ_INSTALLED 
 
 	}
 
 	return 0;
+}
+
+void restore_handlers()
+{
+	#ifdef IRQ_INSTALLED
+		puts("uninstalling irq...\n");
+		*uboot_irq_address = uboot_irq_ins[0];
+		uboot_irq_address++;
+		*uboot_irq_address = uboot_irq_ins[1];
+	#endif
+	#ifdef SWI_INSTALLED
+		puts("uninstalling swi...\n");
+		*uboot_swi_address = uboot_swi_ins[0];
+		uboot_swi_address++;
+		*uboot_swi_address = uboot_swi_ins[1];
+	#endif
+	#ifdef ABT_INSTALLED
+		puts("uninstalling abt...\n");
+		*uboot_abt_address = uboot_abt_ins[0];
+		uboot_abt_address++;
+		*uboot_abt_address = uboot_abt_ins[1];
+	#endif
+}
+
+
+void setup_irq_stack() {
+	//TODO
+	/*
+	uint32_t cpsr;
+
+	// save cpsr value before entering IRQ mode 
+	cpsr = read_cpsr();
+	// Change to IRQ mode with IRQ and FIQs disabled 
+	write_cpsr(PSR_MODE_ABT | PSR_IRQ | PSR_FIQ);
+	// Setup ABT mode stack 
+	asm volatile (
+		"mov sp, %0\n"
+		:
+		:"r"(&abort_stack[ABT_STACK_SIZE - 1])
+		);
+	///Back to SVC 
+	write_cpsr(cpsr);
+	*/
+	return;
+}
+
+void setup_user_stack() {
+	//TODO
+	/*
+	uint32_t cpsr;
+
+	// save cpsr value before entering IRQ mode 
+	cpsr = read_cpsr();
+	// Change to IRQ mode with IRQ and FIQs disabled 
+	write_cpsr(PSR_MODE_ABT | PSR_IRQ | PSR_FIQ);
+	// Setup ABT mode stack 
+	asm volatile (
+		"mov sp, %0\n"
+		:
+		:"r"(&abort_stack[ABT_STACK_SIZE - 1])
+		);
+	///Back to SVC 
+	write_cpsr(cpsr);
+	*/
+	return;
 }
 
 void setup_abort_stack() {
