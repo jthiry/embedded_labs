@@ -20,7 +20,6 @@
 unsigned volatile sleeping = 0;
 
 void c_irq_handler(){
-	debug_enabled =1;
 	if(debug_enabled==1)puts("c_irq_handler.c::c_irq_handler::++\n");
 	//TODO: More defines, move some code over from c_sleep?
 	//Which MR?
