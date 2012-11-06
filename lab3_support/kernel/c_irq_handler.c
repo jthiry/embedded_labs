@@ -19,12 +19,13 @@
 
 
 int c_irq_handler(unsigned irq_num, unsigned * regs){
-  //disable IRQs?
+	
+	//disable IRQs?
 
 	puts("Inside c_irq_handler.c\n");
 
-  //get the time from the counter for drift correction
-  uint32_t init_time = reg_read(OSTMR_OSCR_ADDR);
+	//get the time from the counter for drift correction
+//	uint32_t init_time = reg_read(OSTMR_OSCR_ADDR);
 
 	/* figure out what caused the interrupt
 	 * was it the timer interrupt? thats the only one we are servicing*/
@@ -38,18 +39,18 @@ int c_irq_handler(unsigned irq_num, unsigned * regs){
 	 * account for any drift in time when reloading the register*/
 
 	//figure out the time to reload the match register with
-	uint32_t correction = reg_read(OSTMR_OSCR_ADDR) - init_time;
+//	uint32_t correction = reg_read(OSTMR_OSCR_ADDR) - init_time;
 
 	//add constant for time it takes to execute these instructions?
 
 	//set the match register with the proper value
-	reg_write(OSTMR_OSMR_ADDR(0), (TIMER_COUNT_PERIOD - correction));
+//	reg_write(OSTMR_OSMR_ADDR(0), (TIMER_COUNT_PERIOD - correction));
 
 	//clear the match flag
-	reg_write(OSTMR_OSSR_ADDR, OSTMR_OSSR_M0);
+//	reg_write(OSTMR_OSSR_ADDR, OSTMR_OSSR_M0);
 
 	//increment time count by timer count increment
-	kernel_time += TIMER_COUNT_INC;
+//	kernel_time += TIMER_COUNT_INC;
 
 	//enable IRQs/FIQs?
 

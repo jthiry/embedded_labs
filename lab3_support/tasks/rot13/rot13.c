@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 	char my_buff[128];		//buffer to hold the input string
 	int num_chars, i,chk;
 
-	puts("rot13.c::main++\n");
+	//puts("rot13.c::main++\n");
 
 	//print out the arguments from argv
 	int j; 
@@ -34,15 +34,15 @@ int main(int argc, char* argv[]) {
 	//loop until user exits with CR or ctrl-D
 	while( 1 )
 	{
-		puts("rot13.c::main::loop++\n");
+	//	puts("rot13.c::main::loop++\n");
 
 		num_chars = read(STDIN_FILENO, my_buff, 128);	//calling the read SWI to read in input
-		puts("rot13.c::main::loop::read syscall complete\n");
+	//	puts("rot13.c::main::loop::read syscall complete\n");
 
 		if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
 		if(num_chars < 0) exit(1);		//if return length < 0, error
 
-		printf("rot13.c::main::loop::num chars is valid (%d)\n", num_chars);
+	//	printf("rot13.c::main::loop::num chars is valid (%d)\n", num_chars);
 
 		//loop through the whole input str (minus the last char)
 		for(i = 0; i < num_chars - 1; i++)
@@ -50,16 +50,16 @@ int main(int argc, char* argv[]) {
 			my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
 		}
 
-		puts("rot13.c::main::loop::writing buff back\n");
+	//	puts("rot13.c::main::loop::writing buff back\n");
 		chk = write(1, my_buff, num_chars); 	//calling write SWI to output newly rot13 str
 
 		//if return value < 0, error
 		if (chk < 0 )
 		{
-			puts("rot13.c::main::loop::buff write failed\n");
+	//		puts("rot13.c::main::loop::buff write failed\n");
 			exit(1);
 		}
-		puts("rot13.c::main::loop::buff written\n");
+	//	puts("rot13.c::main::loop::buff written\n");
 
 	}
 	return 0;	//program will never get to here
