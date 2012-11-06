@@ -17,8 +17,12 @@
 #include <arm/interrupt.h>
 #include <arm/timer.h>
 #include <arm/reg.h>
+#include "include/arm/timer.h"
 #include <debug.h>
 
+
+//let this function see the timer value so it can initialize it
+extern volatile size_t kernel_time;
 
 //returns 1 or 0
 // (true or false)

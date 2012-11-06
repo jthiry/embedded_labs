@@ -45,9 +45,6 @@
 #define TIMER_COUNT_INC       10           /* number of milliseconds we count by */
 #define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .01)   /* how many oscillations between timer counts*/
 
-//create the volatile global for time storage (in milliseconds)
-static volatile size_t kernel_time;
-
 #endif /* ASSEMBLER */
 
 #endif /* _TIMER_H_ */
