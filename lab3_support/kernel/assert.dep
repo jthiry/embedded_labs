@@ -1,0 +1,27 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/assert.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/assert.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/assert.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/exports.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/stdarg.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/_exports.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/psr.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/inline.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/exception.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/assert.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/exports.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/stdarg.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/_exports.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/psr.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/inline.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/exception.h:
