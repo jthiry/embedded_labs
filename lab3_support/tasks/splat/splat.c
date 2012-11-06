@@ -13,6 +13,7 @@
 
 int main(int argc, char** argv)
 {
+/*
 	int upright_cursor = '|';
 	int fslash_cursor = '/';
 	int sideways_cursor = '-';
@@ -44,6 +45,6 @@ int main(int argc, char** argv)
 		printf("%c", backspace);
 
 	}
-
+*/
 	return 0;
 }
