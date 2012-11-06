@@ -23,9 +23,10 @@ int main(int argc, char** argv)
   char read_buf[60];
   float time_dif = 0.0;
   int err_check = 0;
+  int i;
 
 //  while(1) {
-  for(int i = 0; i < 3; i++) {
+  for(i = 0; i < 3; i++) {
     //print out the user prompt
     putchar('~');
     putchar(' ');

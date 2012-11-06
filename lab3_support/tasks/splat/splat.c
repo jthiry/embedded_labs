@@ -21,7 +21,8 @@ int main(int argc, char** argv)
 	   unsigned long change_state = 200;
 
 //	   while(1)
-    for(int i = 0; i < 20; i++)
+    int i;
+    for(i = 0; i < 20; i++)
 	   {
 	   	write(STDOUT_FILENO, upright_cursor, 1);
 		sleep(change_state);
