@@ -13,7 +13,7 @@
 #include <debug.h>
 
 //let this function see the timer value so it can initialize it
-unsigned long kernel_time = 0;
+unsigned volatile long kernel_time = 0;
 
 void initialize_timer()
 {

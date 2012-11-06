@@ -40,7 +40,7 @@
 #define OSTMR_FREQ            3250000      /* Oscillator frequency in hz */
 
 #ifndef ASSEMBLER
-extern unsigned long kernel_time;
+extern unsigned volatile long kernel_time;
 #endif /* ASSEMBLER */
 
 #define TIMER_COUNT_INC       5                     /* number of milliseconds we count by */
