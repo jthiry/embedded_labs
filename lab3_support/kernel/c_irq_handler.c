@@ -17,11 +17,15 @@
 #include "include/arm/reg.h"
 #include <debug.h>
 
-//create the volatile global for time storage (in milliseconds)
-
 void c_irq_handler(){
+	reg_write( OSTMR_OSCR_ADDR, 0x0 );            //reset timer
 
-	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
-	reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);
-	kernel_time += 5;
+	/****deal with match register****/
+  //find a way to account for slippage
+  reg_write( OSTMR_OSMR_ADDR(0), (TIMER_COUNT_PERIOD-AVG_DRIFT) );
+	reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);       //clear match flag
+
+	/****increment kernel time****/
+	kernel_time += TIMER_COUNT_INC;
+
 }
