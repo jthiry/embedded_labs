@@ -55,6 +55,4 @@ void c_irq_handler(){
 
 	//enable IRQs/FIQs?
 
-
-	return 0;
 }

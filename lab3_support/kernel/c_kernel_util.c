@@ -31,7 +31,7 @@ INLINE void reg_clear(size_t addr, uint32_t flags)
 */
 
 //let this function see the timer value so it can initialize it
-extern volatile kernel_time;
+extern volatile size_t kernel_time;
 
 void initialize_timer()
 {
