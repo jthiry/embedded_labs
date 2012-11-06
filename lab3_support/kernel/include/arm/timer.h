@@ -40,11 +40,10 @@
 #define OSTMR_FREQ            3250000      /* Oscillator frequency in hz */
 
 #ifndef ASSEMBLER
-
-/* Add your C code here.  Put your group name at the top! */
+extern unsigned long kernel_time;
+#endif /* ASSEMBLER */
 #define TIMER_COUNT_INC       10           /* number of milliseconds we count by */
 #define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .01)   /* how many oscillations between timer counts*/
 
-#endif /* ASSEMBLER */
 
 #endif /* _TIMER_H_ */

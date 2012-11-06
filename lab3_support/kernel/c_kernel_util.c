@@ -32,11 +32,10 @@ INLINE void reg_clear(size_t addr, uint32_t flags)
 */
 
 //let this function see the timer value so it can initialize it
-extern volatile size_t kernel_time;
+unsigned long kernel_time = 0;
 
 void initialize_timer()
 {
-	
 	if(debug_enabled==1)puts("c_kernel_util::initilize_timer::++...\n");
 	//setup interrupts
 	//classify/enable/start
@@ -48,7 +47,10 @@ void initialize_timer()
 	reg_write( INT_ICLR_ADDR, 0x00000000 );
 	//OSMR = 10ms => 5ms resolution 
 	//reg_write( OSTMR_OSMR_ADDR0, 0x3f7A ); // 5ms = 3.25Mz * .005 = 16250 = 0x3f7A 
-	reg_write( 0x00A00000, 3250000 ); //JSUT FOR TESTING, MR = 1s
+	//CALCULATED DRIFT = 6,500 cycles => 16,250 + 6,500 = 22,750
+	reg_write(  0x00A00000, 22750 ); // 5ms = 3.25Mz * .005 = 16250 = 0x3f7A 
+	//reg_write(  0x00A00000, 1625000); // 0.5s
+	//reg_write( 0x00A00000, 3250000 ); //JSUT FOR TESTING, MR = 1s
 	//OSCR = 0
 	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
 	//OIER = MR0 enabled
