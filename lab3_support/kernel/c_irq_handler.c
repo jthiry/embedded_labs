@@ -16,10 +16,11 @@
 #include "include/arm/psr.h"
 #include "include/arm/reg.h"
 
+//create the volatile global for time storage (in milliseconds)
+volatile size_t kernel_time = 0;
 
+void c_irq_handler(){
 
-int c_irq_handler(unsigned irq_num, unsigned * regs){
-	
 	//disable IRQs?
 
 	puts("Inside c_irq_handler.c\n");
