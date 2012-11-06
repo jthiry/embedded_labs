@@ -9,43 +9,38 @@
  */
 
 #include <unistd.h>
-#include <stdio.h>
 
 int main(int argc, char** argv)
 {
-	/*
-	   char upright_cursor = '|';
-	   char fslash_cursor = '/';
-	   char sideways_cursor = '-';
-	   char bslash_cursor = '\\';
-	   char backspace = '\b';
-	   unsigned long change_state = 200000;
+	
+	   const char upright_cursor[] = "|";
+	   const char fslash_cursor[] = "/";
+	   const char sideways_cursor[] = "-";
+	   const char bslash_cursor[] = "\\";
+	   const char backspace[] = "\b";
+	   unsigned long change_state = 200;
 
 	   while(1)
 	   {
-	   	vprintf("%c", upright_cursor);
-		fflush(stdout);
-		usleep(change_state);
+	   	write(STDOUT_FILENO, upright_cursor, 1);
+		sleep(change_state);
 
-		printf("%c", backspace);
-		printf("%c", fslash_cursor);
-		fflush(stdout);
-		usleep(change_state);
+		write(STDOUT_FILENO, backspace, 1);
+		write(STDOUT_FILENO, fslash_cursor, 1);
+		sleep(change_state);
 
-		printf("%c", backspace);
-		printf("%c", sideways_cursor);
-		fflush(stdout);
-		usleep(change_state);
+		write(STDOUT_FILENO, backspace, 1);
+		write(STDOUT_FILENO, sideways_cursor, 1);
+		sleep(change_state);
 
-		printf("%c", backspace);
-		printf("%c", bslash_cursor);
-		fflush(stdout);
-		usleep(change_state);
+		write(STDOUT_FILENO, backspace, 1);
+		write(STDOUT_FILENO, bslash_cursor, 1);
+		sleep(change_state);
 
-		printf("%c", backspace);
+		write(STDOUT_FILENO,backspace, 1);
 
 	}
 	
-*/
+
 	return 0;
 }
