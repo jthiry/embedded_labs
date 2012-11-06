@@ -14,31 +14,31 @@
 int main(int argc, char** argv)
 {
 /*
-	int upright_cursor = '|';
-	int fslash_cursor = '/';
-	int sideways_cursor = '-';
-	int bslash_cursor = '\\';
-	int backspace = '\b';
+	char upright_cursor = '|';
+	char fslash_cursor = '/';
+	char sideways_cursor = '-';
+	char bslash_cursor = '\\';
+	char backspace = '\b';
 	unsigned long change_state = 200000;
 
 	while(1)
 	{
-		printf("%c", (char)upright_cursor);
+		printf("%c", upright_cursor);
 		fflush(stdout);
 		usleep(change_state);
 
 		printf("%c", backspace);
-		printf("%c", (char)fslash_cursor);
+		printf("%c", fslash_cursor);
 		fflush(stdout);
 		usleep(change_state);
 
 		printf("%c", backspace);
-		printf("%c", (char)sideways_cursor);
+		printf("%c", sideways_cursor);
 		fflush(stdout);
 		usleep(change_state);
 
 		printf("%c", backspace);
-		printf("%c", (char)bslash_cursor);
+		printf("%c", bslash_cursor);
 		fflush(stdout);
 		usleep(change_state);
 
