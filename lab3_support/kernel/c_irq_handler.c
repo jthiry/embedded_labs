@@ -18,7 +18,7 @@
 
 
 
-int c_irq_handler(unsigned irq_num, unsigned * regs){
+void c_irq_handler(){
 	
 	//disable IRQs?
 
@@ -55,5 +55,4 @@ int c_irq_handler(unsigned irq_num, unsigned * regs){
 	//enable IRQs/FIQs?
 
 
-	return 0;
 }

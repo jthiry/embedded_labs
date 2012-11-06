@@ -23,7 +23,7 @@ _enable_user_prog:
 
         str r2, [r3]              @ lr we need to save to return from user prog
 
-        MSR   CPSR, #0xD0         @go to user_mode with interrupts disabled
+        MSR   CPSR, #0x50         @go to user_mode with IRQs ON
         @user mode now!
 
         mov sp, r0                @ give user sp stack location

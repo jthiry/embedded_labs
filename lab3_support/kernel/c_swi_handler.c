@@ -14,6 +14,9 @@
 #include "bits/fileno.h"
 #include "bits/errno.h"
 #include "include/arm/interrupt.h"
+#include <arm/interrupt.h>
+#include <arm/timer.h>
+#include <arm/reg.h>
 #include <debug.h>
 
 
@@ -170,27 +173,28 @@ void c_sleep(size_t millis) {
 }
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
-//	if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
+	if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
+//	if(debug_enabled==1) printf("\nOSCR=%d\n",reg_read( OSTMR_OSCR_ADDR)); //reset timer
 
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:
-//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=EXIT\n");
+			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=EXIT\n");
 			c_exit(regs[0]);
 			break;
 
 		case SWI_NUM_READ:
-//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=READ\n");
+			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=READ\n");
 			return c_read(regs[0], (void *) regs[1], regs[2]);
 
 		case SWI_NUM_WRITE:
-//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=WRITE\n");
+			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=WRITE\n");
 			return c_write(regs[0], (void *) regs[1], regs[2]);
 		case SWI_NUM_TIME:
-//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
+			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
 			break;
 		case SWI_NUM_SLEEP:
-//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
+			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
 			break;
 		default:
 			puts("Invalid syscall recieved\n");
