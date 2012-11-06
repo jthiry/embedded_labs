@@ -41,6 +41,7 @@
 
 #ifndef ASSEMBLER
 extern unsigned volatile long kernel_time;
+extern unsigned volatile sleeping;
 #endif /* ASSEMBLER */
 
 #define TIMER_COUNT_INC       5                     /* number of milliseconds we count by */

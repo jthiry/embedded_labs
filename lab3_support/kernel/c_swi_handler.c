@@ -160,20 +160,39 @@ size_t c_time() {
 
 //stops execution for a given period of time
 void c_sleep(size_t millis) {
-  //find the time parameters
-  unsigned long time = c_time();
-  //unsigned long time1 = 0;
-  unsigned long quit = time + (unsigned)millis + 100;
+  	
+	//start sleeping...
+	sleeping = 1;
+	//disable MR1
+	reg_write( OSTMR_OIER_ADDR, 0x0); //No MR enabled
 
-/*  printf("start time: %lu\tquit time: %lu\n", time, quit);*/
-/*  printf("sleeping for %d...\n", (unsigned)millis);*/
+	//export time
+	//TODO: export time missing up to 5ms here
 
-  //loop until time is past parameter
-  while(time < quit) {
-    //time1 = time;
-	  time = c_time();
-	  //if(time > time1) printf("time: %lu\n", time);
-  }
+	// OS Count = 0
+	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
+	
+	//set MR0
+	reg_write( OSTMR_OSMR_ADDR(0), millis * 3250); //3250(cycles/ms)
+
+	//enable MR0
+	reg_write( OSTMR_OIER_ADDR, 0x1);
+
+	if(debug_enabled==1)puts("going into wait loop\n");
+	
+	//wait for interrupt
+	int im_asleep = 1;
+	while(im_asleep) im_asleep = sleeping;
+	
+	//export time
+	kernel_time += (unsigned long)reg_read(OSTMR_OSCR_ADDR);//3250
+
+	// OS Count = 0
+	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
+	
+	//enable MR1, disable MR0
+	reg_write( OSTMR_OIER_ADDR, 0x2);
+
 }
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){

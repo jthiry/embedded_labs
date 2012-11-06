@@ -17,36 +17,27 @@ unsigned volatile long kernel_time = 0;
 
 void initialize_timer()
 {
+	//TODO: More defined constants
 	if(debug_enabled==1)puts("c_kernel_util::initilize_timer::++...\n");
-	//setup interrupts
-	//classify/enable/start
-	//OS Timer match registers 0
-	//ICMR = 0x04000000 //enabled
-	reg_write( INT_ICMR_ADDR, 0x04000000 );
+	
+	//Enable match register 1 and 0 to throw interrupts
+	reg_write( INT_ICMR_ADDR, 0x0C000000 );
 
-	//ICLR = 0x00000000 // all interrupts are IRQs
+	// all interrupts are IRQs
 	reg_write( INT_ICLR_ADDR, 0x00000000 );
-	//OSMR = 10ms => 5ms resolution
-	reg_write( OSTMR_OSMR_ADDR(0), TIMER_COUNT_PERIOD );
-	//OSCR = 0 to reset timer
+	
+	// Match register 1 interrupts every count_period
+	reg_write( OSTMR_OSMR_ADDR(1), TIMER_COUNT_PERIOD );
+	
+	// OS Count = 0
 	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
-	//OIER = MR0 enabled
-	reg_write( OSTMR_OIER_ADDR, 0x1); //just MR0 enabled
+	
+	// Match register sets OSSR flag
+	reg_write( OSTMR_OIER_ADDR, 0x2); //just MR1 to set flag
+	
 	//OSSR = clear all interrupt flags
 	reg_write( OSTMR_OSSR_ADDR, 0xFFFFFFFF );
 
-/*
-	//ICLR = 0x04000000 //IRQs
-	reg_write( INT_ICLR_ADDR, 0x04000000 );
-	//OSMR = 10ms => 5ms resolution
-	//reg_write( OSTMR_OSMR_ADDR0, 0x3f7A ); // 5ms = 3.25Mz * .005 = 16250 = 0x3f7A
-	reg_write( OSTMR_OSMR_ADDR(0), OSTMR_FREQ ); //JSUT FOR TESTING, MR = 1s
-	//OSCR = 0
-	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
-	//OIER = MR0 enabled
-	reg_write( OSTMR_OIER_ADDR, OSTMR_OIER_E0 ); //just MR0 enabled
-
-	*/
 }
 void uninitialize_timer()
 {

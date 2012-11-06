@@ -8,16 +8,17 @@
  * @date   2008-10-29
  */
 #include <unistd.h>
-
+#include <stdio.h>
 int main(int argc, char** argv)
 {
 	int i;
 	const char hello[] = "Sleeping now\r\n";
 	write(STDOUT_FILENO, hello, sizeof(hello) - 1);
 	
-	for(i = 0; i < 1000; i++)
+	for(i = 0; i < 10; i++)
 	{
-		sleep(100);
+		sleep(1000);
+		printf("kernel time is %lu ms\n",time());	
 	}
 
 	return 0;
