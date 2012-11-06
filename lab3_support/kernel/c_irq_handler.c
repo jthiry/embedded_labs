@@ -26,6 +26,10 @@ void c_irq_handler(){
 
 	puts("Inside c_irq_handler.c\n");
 	if(debug_enabled==1) printf("OSCR=%d\n",reg_read( OSTMR_OSCR_ADDR)); //reset timer
+	//OSCR = 0
+	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
+	//clear the match flag
+	reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);
 
 	//get the time from the counter for drift correction
 	//uint32_t init_time = reg_read(OSTMR_OSCR_ADDR);
@@ -49,8 +53,6 @@ void c_irq_handler(){
 	//set the match register with the proper value
 //	reg_write(OSTMR_OSMR_ADDR(0), (TIMER_COUNT_PERIOD - correction));
 
-	//clear the match flag
-	reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);
 
 	//increment time count by timer count increment
 //	kernel_time += TIMER_COUNT_INC;
