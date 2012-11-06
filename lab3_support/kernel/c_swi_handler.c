@@ -14,6 +14,7 @@
 #include "bits/fileno.h"
 #include "bits/errno.h"
 #include "include/arm/interrupt.h"
+#include "include/arm/timer.h"
 
 
 //returns 1 or 0
