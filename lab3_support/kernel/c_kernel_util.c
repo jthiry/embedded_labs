@@ -71,6 +71,12 @@ void initialize_timer()
 
 	*/
 }
+void uninitialize_timer()
+{
+	if(debug_enabled==1)puts("c_kernel_util::uninitilize_timer::--...\n");
+	reg_write( INT_ICMR_ADDR, 0x00000000 );
+	reg_write( OSTMR_OIER_ADDR, 0x0); //just MR0 enabled
+}
 
 /*
 void install_handler(unsigned* return_val, unsigned location, unsigned int *vector, unsigned offset)

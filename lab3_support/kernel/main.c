@@ -69,6 +69,9 @@ int kmain(int argc, char** argv, uint32_t table)
 	if(debug_enabled==1)puts("Starting user prog...\n");
 	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
 
+	if(debug_enabled==1)puts("Killing timers...\n");
+	uninitialize_timer();
+	
 	if(debug_enabled==1)puts("Restoring handlers...\n");
 	restore_handlers();
 	

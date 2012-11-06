@@ -1,0 +1,14 @@
+/home/jab/Documents/embedded_labs/lab3_support/uboot/stubs.o:  \
+ /home/jab/Documents/embedded_labs/lab3_support/uboot/stubs.c \
+  /home/jab/Documents/embedded_labs/lab3_support/uboot/include/exports.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/types.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/stdarg.h \
+  /home/jab/Documents/embedded_labs/lab3_support/uboot/include/_exports.h
+
+/home/jab/Documents/embedded_labs/lab3_support/uboot/include/exports.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/types.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/stdarg.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/uboot/include/_exports.h:
