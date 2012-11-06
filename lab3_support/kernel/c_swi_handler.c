@@ -14,6 +14,7 @@
 #include "bits/fileno.h"
 #include "bits/errno.h"
 #include "include/arm/interrupt.h"
+#include <debug.h>
 
 
 //returns 1 or 0
@@ -37,7 +38,7 @@ void c_exit(int status) { _exit(status);}
 //read from a given file into a buffer for count bytes
 ssize_t c_read(int fd, void *buf, size_t count) {
 
-	puts("c_swi_handler.c::c_read::++\n");
+	if(debug_enabled==1)puts("c_swi_handler.c::c_read::++\n");
 
 	//convert buf to a char* to make C happy
 	char *ourBuf = (char *) buf;
@@ -45,17 +46,17 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	//check if fd isn't stdin, return -EBADF if not
 	if(fd != STDIN_FILENO)
 	{
-		puts("c_swi_handler.c::c_read::returning EBADF\n");
+		if(debug_enabled==1)puts("c_swi_handler.c::c_read::returning EBADF\n");
 		return -EBADF;
 	}
 	//check if buf loc and size end up outside of useable memory
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 )
 	{
-		puts("c_swi_handler.c::c_read::returning EFAULT\n");
+		if(debug_enabled==1)puts("c_swi_handler.c::c_read::returning EFAULT\n");
 		return -EFAULT;
 	}
 
-	puts("c_swi_handler.c::loop++\n");
+	if(debug_enabled==1)puts("c_swi_handler.c::loop++\n");
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -89,7 +90,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				bufCount++;
 				putc('\n');
 
-				puts("c_swi_handler.c::c_read::loop::exiting loop (NEWLINE)\n");
+				if(debug_enabled==1)puts("c_swi_handler.c::c_read::loop::exiting loop (NEWLINE)\n");
 
 				return bufCount;
 
@@ -98,7 +99,7 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				bufCount++;
 				putc('\n');
 
-				puts("c_swi_handler.c::c_read::loop::exiting loop (CARRIAGE_RETURN)\n");
+				if(debug_enabled==1)puts("c_swi_handler.c::c_read::loop::exiting loop (CARRIAGE_RETURN)\n");
 
 				return bufCount;
 
@@ -115,13 +116,13 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 
 //write a buffer to stdout for count bytes
 ssize_t c_write(int fd, const void *buf, size_t count) {
-	//puts("c_swi_handler.c::c_write::++\n");
+	//if(debug_enabled==1)puts("c_swi_handler.c::c_write::++\n");
 
 	//turn to char* to make C happy
 	char *ourBuf = (char *) buf;
 	//printf("c_swi_handler.c::c_write::*buf=%s, count=%d", ourBuf, count);
-	//puts(ourBuf);
-	//puts("\n");
+	//if(debug_enabled==1)puts(ourBuf);
+	//if(debug_enabled==1)puts("\n");
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
@@ -169,27 +170,27 @@ void c_sleep(size_t millis) {
 }
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
-//	puts("c_swi_handler.c::c_swi_handler::++\n");
+//	if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
 
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:
-//			puts("c_swi_handler.c::c_swi_handler::case swi=EXIT\n");
+//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=EXIT\n");
 			c_exit(regs[0]);
 			break;
 
 		case SWI_NUM_READ:
-//			puts("c_swi_handler.c::c_swi_handler::case swi=READ\n");
+//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=READ\n");
 			return c_read(regs[0], (void *) regs[1], regs[2]);
 
 		case SWI_NUM_WRITE:
-//			puts("c_swi_handler.c::c_swi_handler::case swi=WRITE\n");
+//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=WRITE\n");
 			return c_write(regs[0], (void *) regs[1], regs[2]);
 		case SWI_NUM_TIME:
-//			puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
+//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
 			break;
 		case SWI_NUM_SLEEP:
-//			puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
+//			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
 			break;
 		default:
 			puts("Invalid syscall recieved\n");

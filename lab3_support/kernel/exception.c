@@ -18,6 +18,7 @@
 #include "swi_handler.h"
 #include "c_swi_handler.h"
 #include "irq_handler.h"
+#include <debug.h>
 
 #define PC_OFFSET 0x8
 #define LDR_PC_INSTRUCTION 0xe51ff000 /* ldr pc, [pc, #-0] == 0xe51ff000 */
@@ -114,21 +115,21 @@ void restore_handlers()
 {
 	if(uboot_irq_address != 0)
 	{		
-		puts("uninstalling irq...\n");
+		if(debug_enabled==1)puts("uninstalling irq...\n");
 		*uboot_irq_address = uboot_irq_ins[0];
 		uboot_irq_address++;
 		*uboot_irq_address = uboot_irq_ins[1];
 	}		
 	if(uboot_swi_address != 0)
 	{		
-		puts("uninstalling swi...\n");
+		if(debug_enabled==1)puts("uninstalling swi...\n");
 		*uboot_swi_address = uboot_swi_ins[0];
 		uboot_swi_address++;
 		*uboot_swi_address = uboot_swi_ins[1];
 	}		
 	if(uboot_abt_address != 0)
 	{		
-		puts("uninstalling abt...\n");
+		if(debug_enabled==1)puts("uninstalling abt...\n");
 		*uboot_abt_address = uboot_abt_ins[0];
 		uboot_abt_address++;
 		*uboot_abt_address = uboot_abt_ins[1];
