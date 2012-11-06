@@ -18,6 +18,9 @@
 #include <debug.h>
 
 
+//let this function see the timer value so it can initialize it
+extern volatile kernel_time;
+
 //returns 1 or 0
 // (true or false)
 int not_usable_memory(unsigned loc, unsigned count)
