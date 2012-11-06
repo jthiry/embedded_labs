@@ -56,6 +56,5 @@ int main(int argc, char** argv)
 		time_dif = (end_time - start_time)*.001;
 		printf("You took %.1fs\n", time_dif);
 	}
-
 	return 0;
 }
