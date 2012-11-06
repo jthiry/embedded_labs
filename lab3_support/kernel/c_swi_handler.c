@@ -21,8 +21,6 @@
 #include <debug.h>
 
 
-//let this function see the timer value so it can initialize it
-extern volatile size_t kernel_time;
 
 //returns 1 or 0
 // (true or false)
@@ -157,10 +155,7 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 //check the time since the kernel was loaded
 size_t c_time() {
   //store the time from the volatile global updated by interrupts into a local var
- // size_t cur_time = kernel_time;
-
-  //return this value
-	return 0;//cur_time;
+	return kernel_time;
 }
 
 //stops execution for a given period of time
@@ -178,6 +173,10 @@ void c_sleep(size_t millis) {
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 	if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
+	unsigned long theirs = get_timer(0);
+	unsigned long ours = c_time();
+	unsigned long theirs2 = get_timer(0);
+	printf("\t%lu\t%lu\t%lu\n",theirs, ours, theirs2);
 
 	switch(swi_num){
 
@@ -195,9 +194,10 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 			return c_write(regs[0], (void *) regs[1], regs[2]);
 		case SWI_NUM_TIME:
 			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
-			break;
+			return c_time();
 		case SWI_NUM_SLEEP:
 			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
+			c_sleep(regs[0]);
 			break;
 		default:
 			puts("Invalid syscall recieved\n");
