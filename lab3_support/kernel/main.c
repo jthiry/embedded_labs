@@ -44,14 +44,16 @@ int kmain(int argc, char** argv, uint32_t table)
 	    return 0xbadc0de;
 	}
 	
+
 	if(debug_enabled==1)puts("Wiring in irq handler...\n");
 
-	/* Wiring in irq handler */
+	// Wiring in irq handler 
 	if (-1 == wire_exception_handler(EX_IRQ)) {
 	    printf ("ldr pc, [pc, #immed] not encountered at %d. Exiting.\n",
 		    GET_EXP_VEC_ADDR(EX_FABRT));
 	    return 0xbadc0de;
 	}
+
 
 	
 	if(debug_enabled==1)puts("Initializing timers...\n");

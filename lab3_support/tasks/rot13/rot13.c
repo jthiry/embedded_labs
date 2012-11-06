@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 	//	puts("rot13.c::main::loop++\n");
 	//printf("\t%lu\t%d\n",time(), get_timer());
 	//		
-		time();
+		//sleep(2000);
 		num_chars = read(STDIN_FILENO, my_buff, 128);	//calling the read SWI to read in input
 	//	puts("rot13.c::main::loop::read syscall complete\n");
 

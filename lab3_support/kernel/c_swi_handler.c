@@ -161,22 +161,22 @@ size_t c_time() {
 //stops execution for a given period of time
 void c_sleep(size_t millis) {
   //find the time parameters
-  size_t time = c_time();
-  size_t quit = time + millis;
+  unsigned long time = c_time();
+  unsigned long  quit = time + (unsigned)millis;
+  printf("sleeping for %d...", (unsigned)millis);
 
   //loop until time is past parameter
-  while(c_time() < quit) {
-    //do nothing
-    ;
+  while(time < quit) {
+	  time = c_time();
   }
 }
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 	if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
-	unsigned long theirs = get_timer(0);
-	unsigned long ours = c_time();
-	unsigned long theirs2 = get_timer(0);
-	printf("\t%lu\t%lu\t%lu\n",theirs, ours, theirs2);
+	//unsigned long theirs = get_timer(0);
+	//unsigned long ours = c_time();
+	//unsigned long theirs2 = get_timer(0);
+	//printf("\t%lu\t%lu\t%lu\n",theirs, ours, theirs2);
 
 	switch(swi_num){
 
