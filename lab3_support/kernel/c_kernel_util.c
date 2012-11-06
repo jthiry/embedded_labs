@@ -10,6 +10,7 @@
 #include <bits/swi.h>
 #include <exports.h>
 #include <assert.h>
+#include <debug.h>
 //#include <arm/reg.h>
 //#define INT_ICIP_ADDR   0x00D00000  /* Interrupt Controller IRQ Pending Register */
 //#define INT_ICMR_ADDR   0x00D00004  /* Interrupt Controller Mask Register */
@@ -35,11 +36,27 @@ extern volatile size_t kernel_time;
 
 void initialize_timer()
 {
+	
+	if(debug_enabled==1)puts("c_kernel_util::initilize_timer::++...\n");
 	//setup interrupts
 	//classify/enable/start
 	//OS Timer match registers 0
 	//ICMR = 0x04000000 //enabled
 	reg_write( INT_ICMR_ADDR, 0x04000000 );
+	
+	//ICLR = 0x00000000 // all interrupts are IRQs
+	reg_write( INT_ICLR_ADDR, 0x00000000 );
+	//OSMR = 10ms => 5ms resolution 
+	//reg_write( OSTMR_OSMR_ADDR0, 0x3f7A ); // 5ms = 3.25Mz * .005 = 16250 = 0x3f7A 
+	reg_write( 0x00A00000, 3250000 ); //JSUT FOR TESTING, MR = 1s
+	//OSCR = 0
+	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
+	//OIER = MR0 enabled
+	reg_write( OSTMR_OIER_ADDR, 0x1); //just MR0 enabled
+	//OSSR = clear all interrupt flags
+	reg_write( OSTMR_OSSR_ADDR, 0xFFFFFFFF );
+	
+/*	
 	//ICLR = 0x04000000 //IRQs
 	reg_write( INT_ICLR_ADDR, 0x04000000 );
 	//OSMR = 10ms => 5ms resolution
@@ -50,6 +67,7 @@ void initialize_timer()
 	//OIER = MR0 enabled
 	reg_write( OSTMR_OIER_ADDR, OSTMR_OIER_E0 ); //just MR0 enabled
 
+	*/
 }
 
 /*

@@ -73,6 +73,8 @@ int wire_exception_handler(unsigned exception)
 
 	uboot_exception_address = (unsigned int *) *jumptable_address;
 
+	puts("exception.c::wire_handler:: address dump");
+	hexdump(uboot_exception_address, 16);
 	if (exception == EX_FABRT) {
 		/* Save earlier values and wire in our exception handler */
 		uboot_abt_address = uboot_exception_address;
