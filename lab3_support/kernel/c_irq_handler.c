@@ -15,6 +15,7 @@
 #include "include/arm/timer.h"
 #include "include/arm/psr.h"
 #include "include/arm/reg.h"
+#include <debug.h>
 
 //create the volatile global for time storage (in milliseconds)
 volatile size_t kernel_time = 0;
@@ -24,9 +25,10 @@ void c_irq_handler(){
 	//disable IRQs?
 
 	puts("Inside c_irq_handler.c\n");
+	if(debug_enabled==1) printf("OSCR=%d\n",reg_read( OSTMR_OSCR_ADDR)); //reset timer
 
 	//get the time from the counter for drift correction
-//	uint32_t init_time = reg_read(OSTMR_OSCR_ADDR);
+	//uint32_t init_time = reg_read(OSTMR_OSCR_ADDR);
 
 	/* figure out what caused the interrupt
 	 * was it the timer interrupt? thats the only one we are servicing*/
@@ -48,7 +50,7 @@ void c_irq_handler(){
 //	reg_write(OSTMR_OSMR_ADDR(0), (TIMER_COUNT_PERIOD - correction));
 
 	//clear the match flag
-//	reg_write(OSTMR_OSSR_ADDR, OSTMR_OSSR_M0);
+	reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);
 
 	//increment time count by timer count increment
 //	kernel_time += TIMER_COUNT_INC;

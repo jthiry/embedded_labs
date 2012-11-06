@@ -26,6 +26,7 @@
 /* Mask offset bits to 1s and set bit indicating positive offset */
 
 #define ABT_STACK_SIZE 256
+#define IRQ_STACK_SIZE 256
 
 
 /* Globals */
@@ -39,6 +40,7 @@ static uint32_t uboot_abt_ins[2];
 extern uint32_t global_data;
 /* Setting up IRQ stack in bss of kernel */
 uint32_t abort_stack[ABT_STACK_SIZE];
+uint32_t irq_stack[IRQ_STACK_SIZE];
 
 int wire_exception_handler(unsigned exception)
 {
@@ -73,7 +75,7 @@ int wire_exception_handler(unsigned exception)
 
 	uboot_exception_address = (unsigned int *) *jumptable_address;
 
-	puts("exception.c::wire_handler:: address dump");
+	puts("exception.c::wire_handler:: address dump\n");
 	hexdump(uboot_exception_address, 16);
 	if (exception == EX_FABRT) {
 		/* Save earlier values and wire in our exception handler */
@@ -110,6 +112,8 @@ int wire_exception_handler(unsigned exception)
 
 	}
 
+	puts("exception.c::wire_handler:: post dump\n");
+	hexdump(uboot_exception_address, 16);
 	return 0;
 }
 
@@ -141,22 +145,22 @@ void restore_handlers()
 
 void setup_irq_stack() {
 	//TODO
-	/*
+	
 	uint32_t cpsr;
 
 	// save cpsr value before entering IRQ mode 
 	cpsr = read_cpsr();
 	// Change to IRQ mode with IRQ and FIQs disabled 
-	write_cpsr(PSR_MODE_ABT | PSR_IRQ | PSR_FIQ);
+	write_cpsr(PSR_MODE_IRQ | PSR_IRQ | PSR_FIQ);
 	// Setup ABT mode stack 
 	asm volatile (
 		"mov sp, %0\n"
 		:
-		:"r"(&abort_stack[ABT_STACK_SIZE - 1])
+		:"r"(&irq_stack[IRQ_STACK_SIZE - 1])
 		);
 	///Back to SVC 
 	write_cpsr(cpsr);
-	*/
+	
 	return;
 }
 

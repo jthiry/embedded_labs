@@ -16,7 +16,6 @@
 R_HANDLER:
 	@WE ARE NOW IN SVC MODE
 	@ we have the SVC sp, and our LR points to write.S
-	ldr pc, =0xdeadbeef
 	STMFD sp!, {r0-r12,lr}   	  @ store the lr(write.S) onto the SVC stack
 	BL c_irq_handler
 	LDMFD sp!, {r0-r12, lr}   @ unstack user's registers

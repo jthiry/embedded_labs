@@ -33,6 +33,7 @@ int kmain(int argc, char** argv, uint32_t table)
 	if(debug_enabled==1)puts("Setting up abort stack...\n");
 	/* setup abort stack */
 	setup_abort_stack();
+	setup_irq_stack();
 	//Our code starts here
 	
 	if(debug_enabled==1)puts("Wiring in swi handler...\n");

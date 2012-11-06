@@ -178,7 +178,6 @@ void c_sleep(size_t millis) {
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 	if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
-//	if(debug_enabled==1) printf("\nOSCR=%d\n",reg_read( OSTMR_OSCR_ADDR)); //reset timer
 
 	switch(swi_num){
 
