@@ -1,0 +1,5 @@
+/home/jab/Documents/embedded_labs/lab3_support/kernel/kernel_util.o:  \
+ /home/jab/Documents/embedded_labs/lab3_support/kernel/kernel_util.S \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/constants.h
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/constants.h:

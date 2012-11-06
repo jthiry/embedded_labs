@@ -1,0 +1,5 @@
+/home/jab/Documents/embedded_labs/lab3_support/tasks/exit/exit.o:  \
+ /home/jab/Documents/embedded_labs/lab3_support/tasks/exit/exit.S \
+  /home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/bits/swi.h
+
+/home/jab/Documents/embedded_labs/lab3_support/tasks/libc/include/bits/swi.h:

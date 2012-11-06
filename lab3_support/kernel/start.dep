@@ -1,0 +1,5 @@
+/home/jab/Documents/embedded_labs/lab3_support/kernel/start.o:  \
+ /home/jab/Documents/embedded_labs/lab3_support/kernel/start.S \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/asm.h
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/asm.h:

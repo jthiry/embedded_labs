@@ -1,0 +1,38 @@
+/home/jab/Documents/embedded_labs/lab3_support/kernel/c_irq_handler.o:  \
+ /home/jab/Documents/embedded_labs/lab3_support/kernel/c_irq_handler.c \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/constants.h \
+  /home/jab/Documents/embedded_labs/lab3_support/uboot/include/exports.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/types.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/stdarg.h \
+  /home/jab/Documents/embedded_labs/lab3_support/uboot/include/_exports.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/interrupt.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/exception.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/timer.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/psr.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/inline.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/reg.h \
+  /home/jab/Documents/embedded_labs/lab3_support/kernel/include/debug.h
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/constants.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/uboot/include/exports.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/types.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/stdarg.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/uboot/include/_exports.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/interrupt.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/exception.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/timer.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/psr.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/inline.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/arm/reg.h:
+
+/home/jab/Documents/embedded_labs/lab3_support/kernel/include/debug.h:
