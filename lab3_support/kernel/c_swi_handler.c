@@ -165,8 +165,8 @@ void c_sleep(size_t millis) {
   //unsigned long time1 = 0;
   unsigned long quit = time + (unsigned)millis;
 
-  printf("start time: %lu\tquit time: %lu\n", time, quit);
-  printf("sleeping for %d...\n", (unsigned)millis);
+/*  printf("start time: %lu\tquit time: %lu\n", time, quit);*/
+/*  printf("sleeping for %d...\n", (unsigned)millis);*/
 
   //loop until time is past parameter
   while(time < quit) {

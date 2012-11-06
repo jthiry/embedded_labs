@@ -24,7 +24,8 @@ int main(int argc, char** argv)
   float time_dif = 0.0;
   int err_check = 0;
 
-  while(1) {
+//  while(1) {
+  for(int i = 0; i < 3; i++) {
     //print out the user prompt
     putchar('~');
     putchar(' ');

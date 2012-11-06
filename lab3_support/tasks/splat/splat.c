@@ -1,5 +1,5 @@
 /* @file splat.c:  @brief Displays a spinning cursor.
- *	
+ *
  *	Authors:
  * 		Joe Battaglia <JABAT295@gmail.com>
  * 		Hans Reichenbach <HansReich25@gmail.com>
@@ -12,7 +12,7 @@
 
 int main(int argc, char** argv)
 {
-	
+
 	   const char upright_cursor[] = "|";
 	   const char fslash_cursor[] = "/";
 	   const char sideways_cursor[] = "-";
@@ -20,7 +20,8 @@ int main(int argc, char** argv)
 	   const char backspace[] = "\b";
 	   unsigned long change_state = 200;
 
-	   while(1)
+//	   while(1)
+    for(int i = 0; i < 20; i++)
 	   {
 	   	write(STDOUT_FILENO, upright_cursor, 1);
 		sleep(change_state);
@@ -40,7 +41,7 @@ int main(int argc, char** argv)
 		write(STDOUT_FILENO,backspace, 1);
 
 	}
-	
+
 
 	return 0;
 }
