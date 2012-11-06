@@ -1,10 +1,10 @@
-/** @file splat.c
+/* @file splat.c:  @brief Displays a spinning cursor.
+ *	
+ *	Authors:
+ * 		Joe Battaglia <JABAT295@gmail.com>
+ * 		Hans Reichenbach <HansReich25@gmail.com>
+ * 		Josh Thiry <josh.thiry@gmail.com>
  *
- * @brief Displays a spinning cursor.
- *Authors:
- *		Joe Battaglia <JABAT295@gmail.com>
- *		Hans Reichenbach <HansReich25@gmail.com>
- *		Josh Thiry <josh.thiry@gmail.com>
  * Links to libc.
  */
 
@@ -13,17 +13,17 @@
 
 int main(int argc, char** argv)
 {
-/*
-	char upright_cursor = '|';
-	char fslash_cursor = '/';
-	char sideways_cursor = '-';
-	char bslash_cursor = '\\';
-	char backspace = '\b';
-	unsigned long change_state = 200000;
+	/*
+	   char upright_cursor = '|';
+	   char fslash_cursor = '/';
+	   char sideways_cursor = '-';
+	   char bslash_cursor = '\\';
+	   char backspace = '\b';
+	   unsigned long change_state = 200000;
 
-	while(1)
-	{
-		printf("%c", upright_cursor);
+	   while(1)
+	   {
+	   	vprintf("%c", upright_cursor);
 		fflush(stdout);
 		usleep(change_state);
 
@@ -45,6 +45,7 @@ int main(int argc, char** argv)
 		printf("%c", backspace);
 
 	}
+	
 */
 	return 0;
 }

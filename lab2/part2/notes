@@ -1,0 +1,11 @@
+cmp [.b, .w, .l] addr1 addr2 count
+	- compares memory
+
+md  [.b, .w, .l] address [# objects]
+	- memory display
+
+mm [.b, .w, .l] address
+	- memory modify, auto incredment address
+
+mw [.b, .w, .l] address value [count]
+	- write memory
