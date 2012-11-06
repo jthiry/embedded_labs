@@ -172,12 +172,12 @@ void c_sleep(size_t millis) {
   while(time < quit) {
     time1 = time;
 	  time = c_time();
-	  if(time != time1) printf("time: %lu\n", time);
+	  if(time > time1) printf("time: %lu\n", time);
   }
 }
 
 int c_swi_handler(unsigned swi_num, unsigned * regs){
-	if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
+	//if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
 	//unsigned long theirs = get_timer(0);
 	//unsigned long ours = c_time();
 	//unsigned long theirs2 = get_timer(0);
