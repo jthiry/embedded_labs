@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     //get the current time
     start_time = time(NULL);
 
-    printf("start_time: %llu\n", (unsigned long long) start_time);
+    //printf("start_time: %llu\n", (unsigned long long) start_time);
 
     //call read to let the user type in the prompt
     //make sure to provide a sensical max length into read
@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     //get the current time for comparison
     end_time = time(NULL);
 
-    printf("end_time: %llu\n", (unsigned long long) end_time);
+    //printf("end_time: %llu\n", (unsigned long long) end_time);
 
     //echo what the user typed
     printf("%s\n", read_buf);
