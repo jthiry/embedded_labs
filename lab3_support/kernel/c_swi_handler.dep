@@ -1,0 +1,48 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/c_swi_handler.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/c_swi_handler.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/exit.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/constants.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/exports.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/stdarg.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/_exports.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/bits/fileno.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/bits/errno.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/interrupt.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/interrupt.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/timer.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/reg.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/inline.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/timer.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/debug.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/exit.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/constants.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/exports.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/stdarg.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/uboot/include/_exports.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/bits/fileno.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/bits/errno.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/interrupt.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/interrupt.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/timer.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/reg.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/inline.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/arm/timer.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/kernel/include/debug.h:
