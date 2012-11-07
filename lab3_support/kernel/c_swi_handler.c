@@ -43,25 +43,19 @@ void c_exit(int status) { _exit(status);}
 //read from a given file into a buffer for count bytes
 ssize_t c_read(int fd, void *buf, size_t count) {
 
-	if(debug_enabled==1)puts("c_swi_handler.c::c_read::++\n");
-
 	//convert buf to a char* to make C happy
 	char *ourBuf = (char *) buf;
 
 	//check if fd isn't stdin, return -EBADF if not
 	if(fd != STDIN_FILENO)
 	{
-		if(debug_enabled==1)puts("c_swi_handler.c::c_read::returning EBADF\n");
 		return -EBADF;
 	}
 	//check if buf loc and size end up outside of useable memory
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 )
 	{
-		if(debug_enabled==1)puts("c_swi_handler.c::c_read::returning EFAULT\n");
 		return -EFAULT;
 	}
-
-	if(debug_enabled==1)puts("c_swi_handler.c::loop++\n");
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -94,18 +88,12 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				ourBuf[bufCount] = '\n';
 				bufCount++;
 				putc('\n');
-
-				if(debug_enabled==1)puts("c_swi_handler.c::c_read::loop::exiting loop (NEWLINE)\n");
-
 				return bufCount;
 
 			case CARRIAGE_RETURN:
 				ourBuf[bufCount] = '\n';
 				bufCount++;
 				putc('\n');
-
-				if(debug_enabled==1)puts("c_swi_handler.c::c_read::loop::exiting loop (CARRIAGE_RETURN)\n");
-
 				return bufCount;
 
 			default:
@@ -121,13 +109,9 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 
 //write a buffer to stdout for count bytes
 ssize_t c_write(int fd, const void *buf, size_t count) {
-	//if(debug_enabled==1)puts("c_swi_handler.c::c_write::++\n");
 
 	//turn to char* to make C happy
 	char *ourBuf = (char *) buf;
-	//printf("c_swi_handler.c::c_write::*buf=%s, count=%d", ourBuf, count);
-	//if(debug_enabled==1)puts(ourBuf);
-	//if(debug_enabled==1)puts("\n");
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
@@ -154,101 +138,73 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 
 //check the time since the kernel was loaded
 size_t c_time() {
-  //store the time from the volatile global updated by interrupts into a local var
 	return kernel_time;
 }
 
 //stops execution for a given period of time
 void c_sleep(size_t millis) {
-  	
+
 	//start sleeping...
 	sleeping = 1;
+
 	//disable MR1
 	reg_write( OSTMR_OIER_ADDR, 0x0); //No MR enabled
 
 	//export time
 	//TODO: export time missing up to 5ms here
 
-	// OS Count = 0
-	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
-	
+	//reset timer
+	reg_write( OSTMR_OSCR_ADDR, 0x0 );
+
 	//set MR0
-	reg_write( OSTMR_OSMR_ADDR(0), millis * 3250); //3250(cycles/ms)
+	reg_write( OSTMR_OSMR_ADDR(0), millis * CLOCKS_PER_MILLI);
 
 	//enable MR0
-	reg_write( OSTMR_OIER_ADDR, 0x1);
+	reg_write( OSTMR_OIER_ADDR, OSTMR_OSSR_M0);
 
 	if(debug_enabled==1)puts("going into wait loop\n");
-	
+
 	//wait for interrupt
 	int im_asleep = 1;
 	while(im_asleep) im_asleep = sleeping;
-	
+
 	//export time
 	kernel_time += (unsigned long)reg_read(OSTMR_OSCR_ADDR);//3250
 
-	// OS Count = 0
-	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
-	
+	//reset timer
+	reg_write( OSTMR_OSCR_ADDR, 0x0 );
+
 	//enable MR1, disable MR0
-	reg_write( OSTMR_OIER_ADDR, 0x2);
+	reg_write( OSTMR_OIER_ADDR, OSTMR_OSSR_M1);
 
 }
 
+//call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
-	//if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::++\n");
-	//unsigned long theirs = get_timer(0);
-	//unsigned long ours = c_time();
-	//unsigned long theirs2 = get_timer(0);
-	//printf("\t%lu\t%lu\t%lu\n",theirs, ours, theirs2);
 
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:
-			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=EXIT\n");
 			c_exit(regs[0]);
 			break;
 
 		case SWI_NUM_READ:
-			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=READ\n");
 			return c_read(regs[0], (void *) regs[1], regs[2]);
 
 		case SWI_NUM_WRITE:
-			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=WRITE\n");
 			return c_write(regs[0], (void *) regs[1], regs[2]);
+
 		case SWI_NUM_TIME:
-			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=TIME\n");
 			return c_time();
+
 		case SWI_NUM_SLEEP:
-			if(debug_enabled==1)puts("c_swi_handler.c::c_swi_handler::case swi=SLEEP\n");
 			c_sleep(regs[0]);
 			break;
+
 		default:
 			puts("Invalid syscall recieved\n");
 			c_exit(RET_BAD_CODE);
 			break;
 	}
 	return 0;
-}
-
-void hexdump(void *buf, size_t len)
-{
-	size_t i, j;
-	unsigned *b = (unsigned*)buf;
-
-	printf(".---------------------------------------------------------------------------.\n");
-	for (i = 0; i < len; i += 4) {
-		//16 byte increments
-		printf("| %08lx      ", i+(unsigned)buf);
-		for (j = i; j < i+4; j++)
-		{
-			//for each of the 4 words
-			if (j >= len)
-				printf("  ");//just spaces
-			else
-				printf("%08x  ", (unsigned)b[j]);
-		}
-		printf(" |\n"); //new line
-	}
-	printf("`---------------------------------------------------------------------------'\n");
 }
