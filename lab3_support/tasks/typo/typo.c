@@ -21,15 +21,15 @@ int main(int argc, char** argv)
   //declare necessary variables
   unsigned long start_time, end_time;
   char read_buf[60];
+  char feedback_buf[40];
   float time_dif = 0.0;
   int err_check = 0;
-  int i;
+  int i, dif_ints, dif_dec;
 
 //  while(1) {
   for(i = 0; i < 3; i++) {
     //print out the user prompt
-    putchar('~');
-    putchar(' ');
+    write(STDOUT_FILENO, "~ ", 2);
 
     //get the current time
     start_time = time();
@@ -53,8 +53,11 @@ int main(int argc, char** argv)
     write(STDOUT_FILENO, read_buf, err_check);
 
     //print how long it took them to type to tenth of second
-    time_dif = (end_time - start_time)*.001;
-    printf("You took %.1fs\n", time_dif);
+    time_dif = end_time - start_time;
+    dif_ints = time_dif/1000;
+    dif_dec = (time_dif/100) - (dif_ints*10);
+    printf("You took %d.%d\n", dif_ints, dif_dec);
+    printf("You took %fs\n", time_dif);
   }
 
 	return 0;
