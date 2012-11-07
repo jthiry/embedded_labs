@@ -34,6 +34,12 @@ int main(int argc, char** argv)
 	}
 	puts("Sleeping complete\n");
 	printf("Current time is %lu\n",time());
+	while(1)
+	{
+
+		printf("Current time is %lus\n",time()/1000);
+	
+	}
 
 	return 0;
 }

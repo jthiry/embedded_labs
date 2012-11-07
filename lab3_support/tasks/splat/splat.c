@@ -13,18 +13,18 @@
 int main(int argc, char** argv)
 {
 
-	   const char upright_cursor[] = "|";
-	   const char fslash_cursor[] = "/";
-	   const char sideways_cursor[] = "-";
-	   const char bslash_cursor[] = "\\";
-	   const char backspace[] = "\b";
-	   unsigned long change_state = 200;
+	const char upright_cursor[] = "|";
+	const char fslash_cursor[] = "/";
+	const char sideways_cursor[] = "-";
+	const char bslash_cursor[] = "\\";
+	const char backspace[] = "\b";
+	unsigned long change_state = 200;
 
-//	   while(1)
-    int i;
-    for(i = 0; i < 20; i++)
-	   {
-	   	write(STDOUT_FILENO, upright_cursor, 1);
+	//	   while(1)
+	int i;
+	for(i = 0; i < 20; i++)
+	{
+		write(STDOUT_FILENO, upright_cursor, 1);
 		sleep(change_state);
 
 		write(STDOUT_FILENO, backspace, 1);
