@@ -21,12 +21,13 @@ int main(int argc, char** argv)
 	char bslash_cursor = '\\';
 	char backspace = '\b';
 	char space = ' ';
+	int flush_screen = 12;
 	unsigned long change_state = 200000;
 	
 	
 	while(1)
 	{
-		system("clear");
+		printf("%c", (char)flush_screen); 
 		printf("%c", space);
 		printf("%c", space);
 		printf("%c", upright_cursor);
@@ -78,7 +79,7 @@ int main(int argc, char** argv)
                 usleep(change_state);
 
 
-		system("clear");
+		printf("%c", (char)flush_screen);
                 printf("%c", backspace);
 		printf("%c", space);
 		printf("\n");
@@ -86,7 +87,7 @@ int main(int argc, char** argv)
                 fflush(stdout);
                 usleep(change_state);
 
-		system("clear");
+		printf("%c", (char)flush_screen);
 		printf("%c", space);
                 printf("%c", bslash_cursor);
                 fflush(stdout);
