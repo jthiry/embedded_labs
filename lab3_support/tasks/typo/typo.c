@@ -21,12 +21,11 @@ int main(int argc, char** argv)
   //declare necessary variables
   unsigned long start_time, end_time;
   char read_buf[60];
-  char feedback_buf[40];
   float time_dif = 0.0;
   int err_check = 0;
   int i, dif_ints, dif_dec;
 
-//  while(1) {
+//  while(1) {  TODO
   for(i = 0; i < 3; i++) {
     //print out the user prompt
     write(STDOUT_FILENO, "~ ", 2);
@@ -46,9 +45,6 @@ int main(int argc, char** argv)
     //get the current time for comparison
     end_time = time();
 
-    //DEBUG
-    printf("start_time: %lu\tend_time: %lu\n", start_time, end_time);
-
     //echo what the user typed
     write(STDOUT_FILENO, read_buf, err_check);
 
@@ -57,7 +53,6 @@ int main(int argc, char** argv)
     dif_ints = time_dif/1000;
     dif_dec = (time_dif/100) - (dif_ints*10);
     printf("You took %d.%d\n", dif_ints, dif_dec);
-    printf("You took %fs\n", time_dif);
   }
 
 	return 0;
