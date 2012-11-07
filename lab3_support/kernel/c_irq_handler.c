@@ -22,28 +22,20 @@ unsigned volatile sleeping = 0;
 void c_irq_handler(){
 	//Which MR?
 	unsigned intSrc = reg_read(OSTMR_OSSR_ADDR);
+	if(debug_enabled==1)printf("IRQ recieved, kernel_time=%lu\n intSrc=%08x\n", kernel_time, intSrc);
 
-	//MR1 is just a timer update
-	if(intSrc & OSTMR_OSSR_M1)
-	{
-		reg_write( OSTMR_OSCR_ADDR, 0x0 );            //reset timer
-		reg_write( OSTMR_OSMR_ADDR(1), (TIMER_COUNT_PERIOD) ); //set the match register value
-		reg_write(OSTMR_OSSR_ADDR, CLEAR_ALL_FLAGS);       //clear match flag
-
-		/****increment kernel time****/
-		kernel_time += TIMER_COUNT_INC;
-	}
 	//MR0 is a sleep ending
-	else if(intSrc & OSTMR_OSSR_M0)
+	if(intSrc & OSTMR_OSSR_M0) 
 	{
-		//stop sleeping
 		sleeping = 0;
-		reg_write(OSTMR_OSSR_ADDR, CLEAR_ALL_FLAGS);       //clear match flag
+
 	}
-
-////stop sleeping
-//sleeping = 0;
-//reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF); //clear match flag
-//}
-
+	//(We just interrupted a busy wait)
+	
+	//export time
+	kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
+	//Timer=0
+	reg_write( OSTMR_OSCR_ADDR, 0x0 );            //reset timer
+	//All interupts have been handled
+	reg_write(OSTMR_OSSR_ADDR, CLEAR_ALL_FLAGS);       //clear match flag
 }
