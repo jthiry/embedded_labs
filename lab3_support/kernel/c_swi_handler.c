@@ -138,12 +138,14 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 
 //check the time since the kernel was loaded
 size_t c_time() {
-	return kernel_time;
+	unsigned long _time = kernel_time;
+	return _time;
 }
 
 //stops execution for a given period of time
 void c_sleep(size_t millis) {
 
+	
 	//start sleeping...
 	sleeping = 1;
 
@@ -168,12 +170,12 @@ void c_sleep(size_t millis) {
 	while(im_asleep) im_asleep = sleeping;
 
 	//export time
-	unsigned long export_time = (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
-	kernel_time+= export_time;
-	if(debug_enabled ==1)printf("Done sleeping! slept for %lums, new kernel_time is %lu\n",export_time, kernel_time);
+	//unsigned long export_time = (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
+	//kernel_time+= export_time;
+	if(debug_enabled ==1)printf("Done sleeping! new kernel_time is %lu\n", kernel_time);
 
 	//reset timer
-	reg_write( OSTMR_OSCR_ADDR, 0x0 );
+	//reg_write( OSTMR_OSCR_ADDR, 0x0 );
 
 	//enable MR1, disable MR0
 	reg_write( OSTMR_OIER_ADDR, OSTMR_OSSR_M1);
