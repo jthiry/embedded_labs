@@ -23,14 +23,13 @@ int main(int argc, char** argv)
 
 	const char hello[] = "Sleeping now\r\n";
 
-	
+
 	printf("Looping %d times for %dms\n", loops, millis);
 	printf("Current time is %lu\n",time());
 	write(STDOUT_FILENO, hello, sizeof(hello) - 1);
 	for(i = 0; i < loops; i++)
 	{
 		sleep(millis);
-		//printf("Loop %d complete, kernel time is %lu ms\n", i, time());	
 	}
 	puts("Sleeping complete\n");
 	printf("Current time is %lu\n",time());
