@@ -151,16 +151,16 @@ void c_sleep(size_t millis) {
 	reg_write( OSTMR_OIER_ADDR, 0x0);
 
 	//export time
-	//kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
+	kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
 
 	//reset timer
 	reg_write( OSTMR_OSCR_ADDR, 0x0 );
 
 	//set MR0
-	reg_write( OSTMR_OSMR_ADDR(0), millis * 3250);
+	reg_write( OSTMR_OSMR_ADDR(0), millis * CLOCKS_PER_MILLI);
 
 	//enable MR0
-	reg_write( OSTMR_OIER_ADDR, 0x1);
+	reg_write( OSTMR_OIER_ADDR, OSTMR_OSSR_M0);
 
 	//wait for interrupt
 	if(debug_enabled==1)printf("going into wait loop, kernel_time is %lu\n", kernel_time);
@@ -168,7 +168,7 @@ void c_sleep(size_t millis) {
 	while(im_asleep) im_asleep = sleeping;
 
 	//export time
-	unsigned long export_time = (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / 3250);
+	unsigned long export_time = (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
 	kernel_time+= export_time;
 	if(debug_enabled ==1)printf("Done sleeping! slept for %lums, new kernel_time is %lu\n",export_time, kernel_time);
 
@@ -176,7 +176,7 @@ void c_sleep(size_t millis) {
 	reg_write( OSTMR_OSCR_ADDR, 0x0 );
 
 	//enable MR1, disable MR0
-	reg_write( OSTMR_OIER_ADDR, 0x2);
+	reg_write( OSTMR_OIER_ADDR, OSTMR_OSSR_M1);
 
 }
 

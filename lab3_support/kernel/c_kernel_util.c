@@ -33,17 +33,17 @@ void initialize_timer()
 	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
 	
 	// Match register sets OSSR flag
-	reg_write( OSTMR_OIER_ADDR, 0x2); //just MR1 to set flag
+	reg_write( OSTMR_OIER_ADDR, OSTMR_OSSR_M1); //just MR1 to set flag
 	
 	//OSSR = clear all interrupt flags
-	reg_write( OSTMR_OSSR_ADDR, 0xFFFFFFFF );
+	reg_write( OSTMR_OSSR_ADDR, CLEAR_ALL_FLAGS);
 
 }
 void uninitialize_timer()
 {
 	if(debug_enabled==1)puts("c_kernel_util::uninitilize_timer::--...\n");
-	reg_write( INT_ICMR_ADDR, 0x00000000 );
-	reg_write( OSTMR_OIER_ADDR, 0x0); //just MR0 enabled
+	reg_write( INT_ICMR_ADDR, 0x00000000 );//disable all interrupt flags from causing actual interrupts
+	reg_write( OSTMR_OIER_ADDR, 0x0); //disable all int sources from causing flags
 }
 
 unsigned* setup_stack(  unsigned stack_start, int argc, char *argv[])
