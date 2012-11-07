@@ -20,7 +20,6 @@
 unsigned volatile sleeping = 0;
 
 void c_irq_handler(){
-	//TODO: More defines, move some code over from c_sleep?
 	//Which MR?
 	unsigned intSrc = reg_read(OSTMR_OSSR_ADDR);
 
@@ -29,7 +28,7 @@ void c_irq_handler(){
 	{
 		reg_write( OSTMR_OSCR_ADDR, 0x0 );            //reset timer
 		reg_write( OSTMR_OSMR_ADDR(1), (TIMER_COUNT_PERIOD) ); //set the match register value
-		reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);       //clear match flag
+		reg_write(OSTMR_OSSR_ADDR, CLEAR_ALL_FLAGS);       //clear match flag
 
 		/****increment kernel time****/
 		kernel_time += TIMER_COUNT_INC;
@@ -39,7 +38,7 @@ void c_irq_handler(){
 	{
 		//stop sleeping
 		sleeping = 0;
-		reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);       //clear match flag
+		reg_write(OSTMR_OSSR_ADDR, CLEAR_ALL_FLAGS);       //clear match flag
 	}
 
 }

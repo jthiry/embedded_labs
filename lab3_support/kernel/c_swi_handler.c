@@ -147,11 +147,11 @@ void c_sleep(size_t millis) {
 	//start sleeping...
 	sleeping = 1;
 
-	//disable MR1
-	reg_write( OSTMR_OIER_ADDR, 0x0); //No MR enabled
+	//disable interrupts
+	reg_write( OSTMR_OIER_ADDR, 0x0);
 
 	//export time
-	//TODO: export time missing up to 5ms here
+	kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
 
 	//reset timer
 	reg_write( OSTMR_OSCR_ADDR, 0x0 );
@@ -162,14 +162,12 @@ void c_sleep(size_t millis) {
 	//enable MR0
 	reg_write( OSTMR_OIER_ADDR, OSTMR_OSSR_M0);
 
-	if(debug_enabled==1)puts("going into wait loop\n");
-
 	//wait for interrupt
 	int im_asleep = 1;
 	while(im_asleep) im_asleep = sleeping;
 
 	//export time
-	kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR)/3250);
+	kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
 
 	//reset timer
 	reg_write( OSTMR_OSCR_ADDR, 0x0 );

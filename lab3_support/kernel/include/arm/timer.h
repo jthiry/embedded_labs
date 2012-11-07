@@ -48,6 +48,6 @@ extern unsigned volatile sleeping;
 #define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .005)   /* how many oscillations between timer counts*/
 #define AVG_DRIFT             0                     /* avg drift in oscillations per timer count period*/
 #define CLOCKS_PER_MILLI      OSTMR_FREQ/1000       /* oscillations per millisecond */
-
+#define CLEAR_ALL_FLAGS       0xFFFFFFFF            /* value to mask all interrupts */
 
 #endif /* _TIMER_H_ */
