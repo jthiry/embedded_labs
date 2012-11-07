@@ -45,7 +45,7 @@ extern unsigned volatile long kernel_time;
 
 #define TIMER_COUNT_INC       5                     /* number of milliseconds we count by */
 #define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .005)   /* how many oscillations between timer counts*/
-#define AVG_DRIFT             6500                  /* avg drift in oscillations per timer count period*/
+#define AVG_DRIFT             0                  /* avg drift in oscillations per timer count period*/
 
 
 #endif /* _TIMER_H_ */

@@ -163,7 +163,7 @@ void c_sleep(size_t millis) {
   //find the time parameters
   unsigned long time = c_time();
   //unsigned long time1 = 0;
-  unsigned long quit = time + (unsigned)millis;
+  unsigned long quit = time + (unsigned)millis + 100;
 
 /*  printf("start time: %lu\tquit time: %lu\n", time, quit);*/
 /*  printf("sleeping for %d...\n", (unsigned)millis);*/

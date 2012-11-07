@@ -11,8 +11,14 @@
 
 int main(int argc, char** argv)
 {
-	const char hello[] = "Hello World\r\n";
+	int i;
+	const char hello[] = "Sleeping now\r\n";
 	write(STDOUT_FILENO, hello, sizeof(hello) - 1);
+	
+	for(i = 0; i < 1000; i++)
+	{
+		sleep(100);
+	}
 
 	return 0;
 }
