@@ -1,0 +1,9 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/stdlib/ctype.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/stdlib/ctype.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/ctype.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/inline.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/ctype.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/inline.h:

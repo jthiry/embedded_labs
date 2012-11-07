@@ -19,7 +19,8 @@ R_HANDLER:
 	STMFD sp!, {r0-r12,lr}   	  @ store the lr(write.S) onto the SVC stack
 	BL c_irq_handler
 	LDMFD sp!, {r0-r12, lr}   @ unstack user's registers
-	MOVS pc, lr               @ return from handler back to the user program
+	SUBS pc, lr, #4
+	@MOVS pc, lr               @ return from handler back to the user program
 	@THE LAST INSTRUCTION SHOULD HAVE PUT US BACK INTO USER MODE
 .type R_HANDLER, function
 .size R_HANDLER, .-R_HANDLER
