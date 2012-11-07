@@ -169,7 +169,7 @@ void c_sleep(size_t millis) {
 	while(im_asleep) im_asleep = sleeping;
 
 	//export time
-	kernel_time += (unsigned long)reg_read(OSTMR_OSCR_ADDR);//3250
+	kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR)/3250);
 
 	//reset timer
 	reg_write( OSTMR_OSCR_ADDR, 0x0 );
