@@ -21,7 +21,7 @@ void initialize_timer()
 	if(debug_enabled==1)puts("c_kernel_util::initilize_timer::++...\n");
 
 	//Enable match register 1 and 0 to throw interrupts
-	reg_write( INT_ICMR_ADDR, (2^INT_OSTMR_0 | 2^INT_OSTMR_1) );
+	reg_write( INT_ICMR_ADDR, ((2^INT_OSTMR_0) | (2^INT_OSTMR_1)) );
 
 	// all interrupts are IRQs
 	reg_write( INT_ICLR_ADDR, 0x00000000 );
