@@ -23,7 +23,7 @@ _enable_user_prog:
 
         str r2, [r3]              @ lr we need to save to return from user prog
 
-        MSR   CPSR, #0x50         @go to user_mode with IRQs ON
+        MSR   CPSR, #0x50         @go to user_mode with IRQs ON and FIQs off
         @user mode now!
 
         mov sp, r0                @ give user sp stack location
@@ -34,7 +34,7 @@ _enable_user_prog:
         @switch back to kernel mode
         @r0 is return status
 	mrs r2, cpsr
-	bic r2, r2, #0xc0 @disable irq/fiq
+	orr r2, r2, #0xc0 	@disable irq/fiq
 	msr cpsr, r2
         mov r1, #START_STACK
         sub r1, r1, #4

@@ -42,6 +42,7 @@ extern uint32_t global_data;
 uint32_t abort_stack[ABT_STACK_SIZE];
 uint32_t irq_stack[IRQ_STACK_SIZE];
 
+//Provided to us to wire in Abort handler
 int wire_exception_handler(unsigned exception)
 {
 	unsigned *exception_vector;
@@ -75,8 +76,6 @@ int wire_exception_handler(unsigned exception)
 
 	uboot_exception_address = (unsigned int *) *jumptable_address;
 
-	//puts("exception.c::wire_handler:: address dump\n");
-	//hexdump(uboot_exception_address, 16);
 	if (exception == EX_FABRT) {
 		/* Save earlier values and wire in our exception handler */
 		uboot_abt_address = uboot_exception_address;
@@ -88,6 +87,8 @@ int wire_exception_handler(unsigned exception)
 		*uboot_exception_address = (unsigned int) abort_handler;
 
 	}
+
+	//This part was added to wire in SWI handler
 	if (exception == EX_SWI) {
 		/* Save earlier values and wire in our exception handler */
 		uboot_swi_address = uboot_exception_address;
@@ -100,6 +101,7 @@ int wire_exception_handler(unsigned exception)
 
 	}
 
+	//This part was added to wire in IRQ handler
 	if (exception == EX_IRQ) {
 		/* Save earlier values and wire in our exception handler */
 		uboot_irq_address = uboot_exception_address;
@@ -117,8 +119,10 @@ int wire_exception_handler(unsigned exception)
 	return 0;
 }
 
+//Return the IRQ/SWI/ABT handlers to how they were BEFORE we installed our 8 bytes
 void restore_handlers()
 {
+	//if irq was replaced, restore the uboot handler
 	if(uboot_irq_address != 0)
 	{
 		if(debug_enabled==1)
@@ -127,6 +131,7 @@ void restore_handlers()
 		uboot_irq_address++;
 		*uboot_irq_address = uboot_irq_ins[1];
 	}
+	//if swi was replaced, restore the uboot handler
 	if(uboot_swi_address != 0)
 	{
 		if(debug_enabled==1)
@@ -135,6 +140,7 @@ void restore_handlers()
 		uboot_swi_address++;
 		*uboot_swi_address = uboot_swi_ins[1];
 	}
+	//if abt was replaced, restore the uboot handler
 	if(uboot_abt_address != 0)
 	{
 		if(debug_enabled==1)
@@ -146,9 +152,8 @@ void restore_handlers()
 }
 
 
+//copied from setup_abt_stack
 void setup_irq_stack() {
-	//TODO
-
 	uint32_t cpsr;
 
 	// save cpsr value before entering IRQ mode
@@ -167,27 +172,7 @@ void setup_irq_stack() {
 	return;
 }
 
-void setup_user_stack() {
-	//TODO
-	/*
-	uint32_t cpsr;
-
-	// save cpsr value before entering IRQ mode
-	cpsr = read_cpsr();
-	// Change to IRQ mode with IRQ and FIQs disabled
-	write_cpsr(PSR_MODE_ABT | PSR_IRQ | PSR_FIQ);
-	// Setup ABT mode stack
-	asm volatile (
-		"mov sp, %0\n"
-		:
-		:"r"(&abort_stack[ABT_STACK_SIZE - 1])
-		);
-	///Back to SVC
-	write_cpsr(cpsr);
-	*/
-	return;
-}
-
+//Function provided by TA
 void setup_abort_stack() {
 	uint32_t cpsr;
 
