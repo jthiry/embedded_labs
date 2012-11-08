@@ -23,9 +23,9 @@ int main(int argc, char** argv)
   //declare necessary variables
   unsigned long start_time, end_time;
   char read_buf[60];
-  //float time_dif = 0.0;
+  float time_dif = 0.0;
   int err_check = 0;
-  //int dif_ints, dif_dec;
+  int dif_ints, dif_dec;
   unsigned long diff;
 
   while(1) {
