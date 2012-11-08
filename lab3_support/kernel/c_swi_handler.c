@@ -163,14 +163,16 @@ void c_sleep(size_t millis) {
 	reg_write( OSTMR_OIER_ADDR, 0x1);
 
 	//wait for interrupt
-	if(debug_enabled==1)printf("going into wait loop, kernel_time is %lu\n", kernel_time);
+	if(debug_enabled==1)
+		printf("going into wait loop, kernel_time is %lu\n", kernel_time);
 	int im_asleep = 1;
 	while(im_asleep) im_asleep = sleeping;
 
 	//export time
 	unsigned long export_time = (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / 3250);
 	kernel_time+= export_time;
-	if(debug_enabled ==1)printf("Done sleeping! slept for %lums, new kernel_time is %lu\n",export_time, kernel_time);
+	if(debug_enabled ==1)
+		printf("Done sleeping! slept for %lums, new kernel_time is %lu\n",export_time, kernel_time);
 
 	//reset timer
 	reg_write( OSTMR_OSCR_ADDR, 0x0 );

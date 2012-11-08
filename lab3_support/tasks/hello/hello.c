@@ -12,7 +12,7 @@
 #include <stdlib.h>
 int main(int argc, char** argv)
 {
-	int i;
+	int i, n = 0;
 	int loops = 10;
 	int millis = 1000;
 	if(argc > 2)
@@ -34,10 +34,11 @@ int main(int argc, char** argv)
 	}
 	puts("Sleeping complete\n");
 	printf("Current time is %lu\n",time());
-	while(1)
+	while(n < 10000)
 	{
 
 		printf("Current time is %lus\n",time()/1000);
+		n++;
 	
 	}
 

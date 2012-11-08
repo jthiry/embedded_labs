@@ -121,21 +121,24 @@ void restore_handlers()
 {
 	if(uboot_irq_address != 0)
 	{
-		if(debug_enabled==1)puts("uninstalling irq...\n");
+		if(debug_enabled==1)
+			puts("uninstalling irq...\n");
 		*uboot_irq_address = uboot_irq_ins[0];
 		uboot_irq_address++;
 		*uboot_irq_address = uboot_irq_ins[1];
 	}
 	if(uboot_swi_address != 0)
 	{
-		if(debug_enabled==1)puts("uninstalling swi...\n");
+		if(debug_enabled==1)
+			puts("uninstalling swi...\n");
 		*uboot_swi_address = uboot_swi_ins[0];
 		uboot_swi_address++;
 		*uboot_swi_address = uboot_swi_ins[1];
 	}
 	if(uboot_abt_address != 0)
 	{
-		if(debug_enabled==1)puts("uninstalling abt...\n");
+		if(debug_enabled==1)
+			puts("uninstalling abt...\n");
 		*uboot_abt_address = uboot_abt_ins[0];
 		uboot_abt_address++;
 		*uboot_abt_address = uboot_abt_ins[1];
