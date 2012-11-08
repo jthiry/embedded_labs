@@ -56,8 +56,18 @@
 
 #ifndef ASSEMBLER
 
-/* C code goes here.  Add your group name at the top! */
+/*
+void disable_interrupts(){
 
+
+
+}
+void enable_interrupt(unsigned interrupt_source){
+
+
+
+}
+*/
 #endif /* ASSEMBLER */
 
 #endif /* _INTERRUPT_H_ */
