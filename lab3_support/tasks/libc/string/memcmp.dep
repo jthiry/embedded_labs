@@ -1,0 +1,12 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/string/memcmp.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/string/memcmp.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/string.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/sys/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/bits/types.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/string.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/sys/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab3_support/tasks/libc/include/bits/types.h:
