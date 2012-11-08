@@ -19,7 +19,7 @@ S_HANDLER:
 	@ we have the SVC sp, and our LR points to write.S
 	STMFD sp!, {r0-r12,lr}   	  @ store the lr(write.S) onto the SVC stack
 	MRS r0, cpsr
-	BIC r0, r0, #0x80
+	BIC r0, r0, #0x80	 @enabling IRQs
 	MSR cpsr, r0
 	MOV r1, sp		  @ pass the stack to the handler as an arg
 	LDR r0, [lr, #-4]         @ load SWI into r0

@@ -11,17 +11,19 @@
 #include <debug.h>
 
 uint32_t global_data;
-int debug_enabled = 1;
+int debug_enabled = 0;
 
 
 int kmain(int argc, char** argv, uint32_t table)
 {
-	if(debug_enabled==1)puts("Kernel initalization...\n");
+	if(debug_enabled==1)
+		puts("Kernel initalization...\n");
 
 	app_startup(); /* bss is valid after this point */
 	global_data = table;
 
-	if(debug_enabled==1)puts("Wiring in abort handler...\n");
+	if(debug_enabled==1)
+		puts("Wiring in abort handler...\n");
 
 	/* Wiring in Data abort handler */
 	if (-1 == wire_exception_handler(EX_FABRT)) {
@@ -30,13 +32,15 @@ int kmain(int argc, char** argv, uint32_t table)
 	    return 0xbadc0de;
 	}
 
-	if(debug_enabled==1)puts("Setting up abort stack...\n");
+	if(debug_enabled==1)
+		puts("Setting up abort stack...\n");
 	/* setup abort stack */
 	setup_abort_stack();
 	setup_irq_stack();
 	//Our code starts here
 
-	if(debug_enabled==1)puts("Wiring in swi handler...\n");
+	if(debug_enabled==1)
+		puts("Wiring in swi handler...\n");
 
 	if (-1 == wire_exception_handler(EX_SWI)) {
 	    printf ("ldr pc, [pc, #immed] not encountered at %d. Exiting.\n",
@@ -45,7 +49,8 @@ int kmain(int argc, char** argv, uint32_t table)
 	}
 
 
-	if(debug_enabled==1)puts("Wiring in irq handler...\n");
+	if(debug_enabled==1)
+		puts("Wiring in irq handler...\n");
 
 	// Wiring in irq handler
 	if (-1 == wire_exception_handler(EX_IRQ)) {
@@ -56,26 +61,32 @@ int kmain(int argc, char** argv, uint32_t table)
 
 
 
-	if(debug_enabled==1)puts("Initializing timers...\n");
+	if(debug_enabled==1)
+		puts("Initializing timers...\n");
 
 	initialize_timer();
 
 
-	if(debug_enabled==1)puts("Setting up stack...\n");
+	if(debug_enabled==1)
+		puts("Setting up stack...\n");
 
 	//Set up the stack
 	unsigned* stack_ptr = setup_stack( START_STACK, argc, argv);
 	//Start the user program
-	if(debug_enabled==1)puts("Starting user prog...\n");
+	if(debug_enabled==1)
+		puts("Starting user prog...\n");
 	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
 
-	if(debug_enabled==1)puts("Killing timers...\n");
+	if(debug_enabled==1)
+		puts("Killing timers...\n");
 	uninitialize_timer();
 	
-	if(debug_enabled==1)puts("Restoring handlers...\n");
+	if(debug_enabled==1)
+		puts("Restoring handlers...\n");
 	restore_handlers();
 
-	if(debug_enabled==1)puts("Exiting kernel.\n");
+	if(debug_enabled==1)
+		puts("Exiting kernel.\n");
 
 	return status;
 }

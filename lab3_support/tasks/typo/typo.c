@@ -37,8 +37,7 @@ int main(int argc, char** argv)
 
 	  //call read to let the user type in the prompt
 	  //make sure to provide a sensical max length into read
-	  err_check = read(STDIN_FILENO, read_buf, (size_t) MAX_INPUT_LEN);
-
+	  err_check = read(STDIN_FILENO, read_buf, (size_t)MAX_INPUT_LEN);
 	  //check that read didn't crash
 	  if(err_check < 1) {
 		  return -1;
@@ -51,11 +50,7 @@ int main(int argc, char** argv)
 	  //echo what the user typed
 	  write(STDOUT_FILENO, read_buf, err_check);
 
-	  printf("%lu ms\n", diff);
-	  printf("waiting that long!....\n");
-	  printf("Start: %lu ms\n", time());
-	  sleep(diff);
-	  printf("Finish: %lu ms\n", time());
+	  printf("%lu seconds\n", (diff/1000));
 	
 	  //print how long it took them to type to tenth of second
 	  //    time_dif = end_time - start_time;

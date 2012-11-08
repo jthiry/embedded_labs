@@ -34,7 +34,7 @@ _enable_user_prog:
         @switch back to kernel mode
         @r0 is return status
 	mrs r2, cpsr
-	bic r2, r2, #0xc0 @disable irq/fiq
+	ORR r2, r2, #0xc0 @disable irq/fiq
 	msr cpsr, r2
         mov r1, #START_STACK
         sub r1, r1, #4
