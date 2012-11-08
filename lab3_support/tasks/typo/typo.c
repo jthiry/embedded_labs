@@ -23,10 +23,9 @@ int main(int argc, char** argv)
   //declare necessary variables
   unsigned long start_time, end_time;
   char read_buf[60];
-  float time_dif = 0.0;
+  unsigned long time_dif;
   int err_check = 0;
   int dif_ints, dif_dec;
-  unsigned long diff;
 
   while(1) {
 	  //print out the user prompt
@@ -46,7 +45,6 @@ int main(int argc, char** argv)
 
 	  //get the current time for comparison
 	  end_time = time();
-	  diff = end_time - start_time;
 
 	  //echo what the user typed
 	  write(STDOUT_FILENO, read_buf, err_check);
