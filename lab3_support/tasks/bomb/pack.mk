@@ -1,0 +1,6 @@
+PROGS_BOMB_OBJS := bomb.o
+PROGS_BOMB_OBJS := $(PROGS_BOMB_OBJS:%=$(TDIR)/bomb/%)
+ALL_OBJS += $(PROGS_BOMB_OBJS)
+
+$(TDIR)/bin/bomb : $(TSTART) $(PROGS_BOMB_OBJS) $(TLIBC)
+
