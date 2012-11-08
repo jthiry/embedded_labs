@@ -37,6 +37,7 @@ int main(int argc, char** argv)
 
 	  //call read to let the user type in the prompt
 	  //make sure to provide a sensical max length into read
+	  err_check = read(STDIN_FILENO, read_buf, (size_t)MAX_INPUT_LEN);
 	  //check that read didn't crash
 	  if(err_check < 1) {
 		  return -1;
