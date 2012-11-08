@@ -11,7 +11,7 @@
 #include <debug.h>
 
 uint32_t global_data;
-int debug_enabled = 0;
+int debug_enabled = 1;
 
 
 int kmain(int argc, char** argv, uint32_t table)
