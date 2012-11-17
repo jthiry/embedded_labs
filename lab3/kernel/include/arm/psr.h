@@ -4,8 +4,9 @@
  * @brief Definitions for ARM program state registers (CPSR and SPSRs).
  *
  * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
+ *         Chinmay Kamat <chinmaykamat@cmu.edu>
  *
- * @date 2008-08-13
+ * @date Sat, 27 October 2012 02:35:41 EDT
  */
 
 #ifndef _PSR_H_
@@ -30,13 +31,20 @@
 #ifndef ASSEMBLER
 
 #include <inline.h>
-#include <types.h>
 
 INLINE uint32_t read_cpsr(void)
 {
 	uint32_t cpsr;
 	asm volatile ("mrs %0, cpsr" : "=r" (cpsr));
 	return cpsr;
+}
+
+INLINE void write_cpsr(uint32_t cpsr_val)
+{
+	asm volatile ("msr cpsr, %0\n"
+		      :
+		      : "r" (cpsr_val));
+	return;
 }
 
 #endif /* ASSEMBLER */

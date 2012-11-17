@@ -1,58 +1,51 @@
 #include "constants.h"
 #include "kernel_util.h"
+#include <types.h>
+#include "c_swi_handler.h"
+#include <arm/psr.h>
 #include <arm/exception.h>
 #include <arm/interrupt.h>
 #include <arm/timer.h>
-//#define INT_ICIP_ADDR   0x00D00000  /* Interrupt Controller IRQ Pending Register */
-//#define INT_ICMR_ADDR   0x00D00004  /* Interrupt Controller Mask Register */
-//#define INT_ICLR_ADDR   0x00D00008  /* Interrupt Controller Level Register */
-//#define INT_ICFP_ADDR   0x00D0000C  /* Interrupt Controller FIQ Pending Register */
-//#define INT_ICPR_ADDR   0x00D00010  /* Interrupt Controller Pending Register */
-//
-/*
-INLINE uint32_t reg_read(size_t addr)
-INLINE void reg_write(size_t addr, uint32_t data)
-INLINE void reg_set(size_t addr, uint32_t flags)
-INLINE void reg_clear(size_t addr, uint32_t flags)
+#include <arm/reg.h>
+#include <bits/swi.h>
+#include <exports.h>
+#include <assert.h>
+#include <debug.h>
 
-*/
+//let this function see the timer value so it can initialize it
+unsigned volatile long kernel_time = 0;
+
 void initialize_timer()
 {
-	//OS Timer match registers 0 and 1
-	//ICMR = 0x0c000000 //enabled
-	//ICLR = 0x0c000000 //IRQs
-	//
+	//TODO: More defined constants
+	if(debug_enabled==1)
+		puts("c_kernel_util::initilize_timer::++...\n");
 	
-	//setup interrupts
-	//classify/enable/start
+	//Enable match register 1 and 0 to throw interrupts
+	reg_write( INT_ICMR_ADDR, 0x0C000000 );
+
+	// all interrupts are IRQs
+	reg_write( INT_ICLR_ADDR, 0x00000000 );
+	
+	// Match register 1 interrupts every count_period
+	reg_write( OSTMR_OSMR_ADDR(1), TIMER_COUNT_PERIOD );
+	
+	// OS Count = 0
+	reg_write( OSTMR_OSCR_ADDR, 0x0 ); //reset timer
+	
+	// Match register sets OSSR flag
+	reg_write( OSTMR_OIER_ADDR, 0x2); //just MR1 to set flag
+	
+	//OSSR = clear all interrupt flags
+	reg_write( OSTMR_OSSR_ADDR, 0xFFFFFFFF );
+
 }
-
-void install_handler(unsigned* return_val, unsigned location, unsigned int *vector)
+void uninitialize_timer()
 {
-	unsigned* swi_vec = vector;
-	unsigned vec_swi = swi_vec[0];
-
-	unsigned inst = _check_inst(vec_swi);
-	unsigned imm = _get_imm(vec_swi);
-	if(inst != INSTR_TYPE_LOAD)
-	{
-		return_val[0] = (unsigned)RET_BAD_CODE;
-		return ;
-	}
-	//Extract the address of the SWI handler
-	//unsigned* jump_tab = (unsigned*)0x24;
-	unsigned* jump_tab = (unsigned*)(OFFSET_SWI_JUMP + imm);
-	unsigned* s_handler = (unsigned*)jump_tab[0];
-	
-	//Save the first 8 bytes on the stack
-	return_val[0] = s_handler[0];
-	return_val[1] = s_handler[1];
-	return_val[2] = (unsigned)s_handler;
-	//Replace them with our instruction and new address
-	unsigned our_load = INSTR_OUR_LOAD; // pc = pc - 4
-	s_handler[0] = our_load;
-	s_handler[1] = location;
-
+	if(debug_enabled==1)
+		puts("c_kernel_util::uninitilize_timer::--...\n");
+	reg_write( INT_ICMR_ADDR, 0x00000000 );
+	reg_write( OSTMR_OIER_ADDR, 0x0); //just MR0 enabled
 }
 
 unsigned* setup_stack(  unsigned stack_start, int argc, char *argv[])
@@ -77,5 +70,5 @@ void uninstall_handler( unsigned* old_instr )
 	unsigned * s_handler = (unsigned*)old_instr[2];
 	s_handler[0] = old_instr[0];
 	s_handler[1] = old_instr[1];
-	
+
 }

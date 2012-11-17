@@ -14,20 +14,13 @@
 
 	.global	R_HANDLER
 R_HANDLER:
-	SUB sp, sp, #4            @ leave room on stack for SPSR
-	STMFD sp!, {r0-r12, lr}   @ store user's gp registers
-	MRS r2, spsr
-	STR r2, [sp, #14*4]       @ store the spsr on the stack
-	MOV r1, sp				  @ pass the stack to the handler as an arg	
-	LDR r0, [lr, #-4]         @ load  
-	BIC r0,r0, #0xfffffff0	  @ get SWI # by bit-masking
+	@WE ARE NOW IN SVC MODE
+	@ we have the SVC sp, and our LR points to write.S
+	STMFD sp!, {r0-r12,lr}   	  @ store the lr(write.S) onto the SVC stack
 	BL c_irq_handler
-	str r0, [sp]
-	LDR r2, [sp, #14*4]
-	MSR spsr, r2
 	LDMFD sp!, {r0-r12, lr}   @ unstack user's registers
-	ADD sp, sp, #4            @ remove space used to store SPSR
-	MOVS pc, lr               @ return from handler back to the user program
+	SUBS pc, lr, #4              @ return from handler back to the user program
+	@THE LAST INSTRUCTION SHOULD HAVE PUT US BACK INTO USER MODE
 .type R_HANDLER, function
 .size R_HANDLER, .-R_HANDLER
 
