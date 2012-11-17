@@ -38,5 +38,13 @@ INLINE uint32_t read_cpsr(void)
 	return cpsr;
 }
 
+INLINE void write_cpsr(uint32_t cpsr_val)
+{
+	asm volatile ("msr cpsr, %0\n"
+		      :
+		      : "r" (cpsr_val));
+	return;
+}
+
 #endif /* ASSEMBLER */
 #endif /* _EXCEPTION_H_ */

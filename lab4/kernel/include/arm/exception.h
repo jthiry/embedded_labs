@@ -65,6 +65,15 @@ INLINE void disable_interrupts(void)
 	asm volatile ("msr cpsr_c, %0" : : "r" (cpsr) : "memory", "cc");
 }
 
+#define GET_EXP_VEC_ADDR(exp) ((exp) * 4)
+/* C function prototypes go here! Add your group name at the top! */
+void c_abt_handler();
+void setup_abort_stack();
+void setup_irq_stack();
+void setup_user_stack();
+void abort_handler(); /* abort_handler for Gravel - defined in abort.S */
+void restore_handlers();
+
 #endif /* ASSEMBLER */
 
 #endif /* _EXCEPTION_H_ */
