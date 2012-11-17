@@ -6,6 +6,8 @@
  *         Josh Thiry <josh.thiry@gmail.com>
  * Date:   10/24/2012
  */
+#ifndef C_SWI_HANDLER_H
+#define C_SWI_HANDLER_H
 
 //necessary libs
 
@@ -14,3 +16,5 @@ int c_swi_handler(unsigned swi_num, unsigned * regs);
 void c_exit(int status);
 ssize_t c_read(int fd, void *buf, size_t count);
 ssize_t c_write(int fd, const void *buf, size_t count);
+void hexdump(void *buf, size_t len);
+#endif

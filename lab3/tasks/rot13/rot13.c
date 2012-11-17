@@ -9,8 +9,8 @@
 
 #include <errno.h>
 #include <unistd.h>
-#include <stdlib>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -19,60 +19,55 @@ char rotate(char);
 int main(int argc, char* argv[]) {
 
 	char my_buff[128];		//buffer to hold the input string
-	int num_chars, i, chk;
+	int num_chars, i,chk;
 
-  //DEBUG
-  //puts("DEBUG--about to check the args in rot\n");
+	//puts("rot13.c::main++\n");
 
-  //print out the arguments from argv
-  /*
-  int err;
-  for(i=0; i < argc; i++)
-  {
-    puts("DEBUG--writing the args in rot\n");
-   	err = write(STDOUT_FILENO, argv[i], strlen(argv[i]));
-  }*/
+	//print out the arguments from argv
+	int j; 
+	for(j=0; j < argc; j++)
+	{
+		printf("rotc.c::main::argv[%d]=%s\n",j , argv[j]);
+	}
 
 
+	//loop until user exits with CR or ctrl-D
+	while( 1 )
+	{
+	//	puts("rot13.c::main::loop++\n");
+	//printf("\t%lu\t%d\n",time(), get_timer());
+	//		
+		//sleep(2000);
+		num_chars = read(STDIN_FILENO, my_buff, 128);	//calling the read SWI to read in input
+	//	puts("rot13.c::main::loop::read syscall complete\n");
 
-  //indefinite loop
-  while( 1 )
-  {
-    //DEBUG
-    puts("DEBUG::rot13--beginning of read loop\n");
+		if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
+		if(num_chars < 0) exit(1);		//if return length < 0, error
 
-	  num_chars = read(STDOUT_FILENO, my_buff, 128);	//calling the read SWI to read in input
+	//	printf("rot13.c::main::loop::num chars is valid (%d)\n", num_chars);
 
-	  //DEBUG
-    puts("DEBUG::rot13--after read block\n");
+		//loop through the whole input str (minus the last char)
+		for(i = 0; i < num_chars - 1; i++)
+		{
+			my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
+		}
 
-	  if(num_chars == 0) exit(0);		//if return length is 0, nothing was entered
-	  if(num_chars < 0) exit(1);		//if return length < 0, error
-
-	  //DEBUG
-    puts("DEBUG::rot13--after exit check in loop\n");
-
-	  //loop through the whole input str (minus the last char)
-	  for(i = 0; i < num_chars - 1; i++)
-	  {
-		  my_buff[i] = rotate(my_buff[i]);	//call the rot14 function for current char
-	  }
-
+	//	puts("rot13.c::main::loop::writing buff back\n");
 		chk = write(1, my_buff, num_chars); 	//calling write SWI to output newly rot13 str
 
 		//if return value < 0, error
 		if (chk < 0 )
 		{
+	//		puts("rot13.c::main::loop::buff write failed\n");
 			exit(1);
 		}
+	//	puts("rot13.c::main::loop::buff written\n");
 
 	}
 	return 0;	//program will never get to here
 }
 char rotate(char rot_me)
 {
-  //DEBUG
-  puts("DEBUG::rot13--rotating shitake mushrooms\n");
 
 	int x = (int) rot_me;			//getting ascii value of char
 	if( (x < 65) || (x > 122) ) exit(1);	//value out of range, error

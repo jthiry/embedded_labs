@@ -4,8 +4,11 @@
  * @brief Definitions for the OS timer.
  *
  * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
+ *         Joe Battaglia <JABAT295.gmail.com>
+ *         Hans Reichenbach <HansReich.gmail.com>
+ *         Josh Thiry <josh.thiry@gmail.com>
  *
- * @date 2008-07-07
+ * @date 11/5/2012
  *
  * @note The addresses here are the addresses stated in the Intel PXA255
  *       Processor Developer's Manual minus 0x40000000.  This is so that
@@ -34,12 +37,17 @@
 #define OSTMR_OIER_E2         0x00000004   /* Enable match 2 */
 #define OSTMR_OIER_E3         0x00000008   /* Enable match 3 */
 
-#define OSTMR_FREQ            3686400      /* Oscillator frequency in hz */
+#define OSTMR_FREQ            3250000      /* Oscillator frequency in hz */
 
 #ifndef ASSEMBLER
-
-/* Add your C code here.  Put your group name at the top! */
-
+extern unsigned volatile long kernel_time;
+extern unsigned volatile sleeping;
 #endif /* ASSEMBLER */
+
+#define TIMER_COUNT_INC       5                     /* number of milliseconds we count by */
+#define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .005)   /* how many oscillations between timer counts*/
+#define AVG_DRIFT             0                     /* avg drift in oscillations per timer count period*/
+#define CLOCKS_PER_MILLI      OSTMR_FREQ/1000       /* oscillations per millisecond */
+#define CLEAR_ALL_FLAGS       0xFFFFFFFF            /* value to mask all interrupts */
 
 #endif /* _TIMER_H_ */

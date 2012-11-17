@@ -16,18 +16,8 @@ read:
 	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
 
 	swi READ_SWI                  @ call the read syscall. (note: uses OABI
-                                @ calling conventions)
-
-  STMFD sp!, {r0-r12, lr}
-	BL printAss               @debug code
-	LDMFD sp!, {r0-r12, lr}
-
 	cmp r0, #0                    @ return 0 if no error
 	bpl no_error                  @ skip code if no error
-
-	STMFD sp!, {r0-r12, lr}
-	BL printAss               @debug code
-	LDMFD sp!, {r0-r12, lr}
 
   @ handle error
 	mov r4, r0                    @ store error num returned to our variable.
@@ -37,5 +27,5 @@ read:
 	str r4, [r5]                  @ set errno to positive of syscall return
 
 no_error:
-	ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack
-	@movs pc, lr			      @ return to the calling function
+	ldmfd sp!, {r4-r12, lr}      @ restore registers from the stack
+	mov pc, lr			      @ return to the calling function

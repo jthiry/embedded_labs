@@ -13,11 +13,13 @@
 #include <exports.h>
 #include "bits/fileno.h"
 #include "bits/errno.h"
+#include "include/arm/interrupt.h"
+#include <arm/interrupt.h>
+#include <arm/timer.h>
+#include <arm/reg.h>
+#include "include/arm/timer.h"
+#include <debug.h>
 
-//test file for debugging assembly
-void printAss() {
-  puts("DEBUG::swi_handler.S--tick\n");
-}
 
 
 //returns 1 or 0
@@ -41,20 +43,19 @@ void c_exit(int status) { _exit(status);}
 //read from a given file into a buffer for count bytes
 ssize_t c_read(int fd, void *buf, size_t count) {
 
-  //DEBUG
-  puts("DEBUG::c_read--beginning of read\n");
-
 	//convert buf to a char* to make C happy
 	char *ourBuf = (char *) buf;
 
 	//check if fd isn't stdin, return -EBADF if not
-	if(fd != STDIN_FILENO) return -EBADF;
-
+	if(fd != STDIN_FILENO)
+	{
+		return -EBADF;
+	}
 	//check if buf loc and size end up outside of useable memory
-	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) return -EFAULT;
-
-	//DEBUG
-	puts("DEBUG::c_read--after checks in read\n");
+	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 )
+	{
+		return -EFAULT;
+	}
 
 	//read from stdin, we're assuming it's the same as fd
 	//loop until buf full
@@ -87,20 +88,12 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				ourBuf[bufCount] = '\n';
 				bufCount++;
 				putc('\n');
-
-				//DEBUG
-	      puts("DEBUG::c_read--returning from read\n");
-
 				return bufCount;
 
 			case CARRIAGE_RETURN:
 				ourBuf[bufCount] = '\n';
 				bufCount++;
 				putc('\n');
-
-				//DEBUG
-	      puts("DEBUG::c_read--returning from read\n");
-
 				return bufCount;
 
 			default:
@@ -110,9 +103,6 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 				putc(c);
 		}
 	}
-
-	//DEBUG
-	puts("DEBUG::c_read--after read loop\n");
 
 	return bufCount;
 }
@@ -125,11 +115,13 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
-	  return -EBADF;
+		if(debug_enabled ==1) printf ("c_write:: EBADF\n") ; 
+		return -EBADF;
 	}
 
 	//check if buf loc and size end up outside of useable memory
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) {
+		if(debug_enabled ==1) printf ("c_write:: EFAULT\n") ; 
 	  return -EFAULT;
 	}
 
@@ -146,8 +138,34 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 	return bufCount;
 }
 
+//check the time since the kernel was loaded
+size_t c_time() {
+	return kernel_time;
+}
+
+//stops execution for a given period of time
+void c_sleep(size_t millis) {
+
+	unsigned long cur_time, stop_time;
+	
+	//read time
+	cur_time = kernel_time;
+
+	stop_time = cur_time + millis;
+
+	
+	while(cur_time < stop_time )
+	{
+		//read time
+		cur_time = kernel_time;
+		//if(debug_enabled == 1)printf("sleeping... cur=%lu < stop=%lu\n", cur_time, stop_time);
+	}
+}
+
+//call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 
+	if(debug_enabled ==1) printf ("c_swi_handler:: swi_num = %d\n", swi_num ) ; 
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:
@@ -159,12 +177,14 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 
 		case SWI_NUM_WRITE:
 			return c_write(regs[0], (void *) regs[1], regs[2]);
+
 		case SWI_NUM_TIME:
-			puts("TIME syscall recieved\n");
-			break;
+			return c_time();
+
 		case SWI_NUM_SLEEP:
-			puts("SLEEP syscall recieved\n");
+			c_sleep(regs[0]);
 			break;
+
 		default:
 			puts("Invalid syscall recieved\n");
 			c_exit(RET_BAD_CODE);

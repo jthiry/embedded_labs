@@ -15,17 +15,23 @@
 #include "include/arm/timer.h"
 #include "include/arm/psr.h"
 #include "include/arm/reg.h"
+#include <debug.h>
 
+unsigned volatile sleeping = 0;
 
+void c_irq_handler(){
+	//Which MR?
+	unsigned intSrc = reg_read(OSTMR_OSSR_ADDR);
 
-int c_irq_handler(unsigned swi_num, unsigned * regs){
-	//figure out what caused the interrupt
-	//was it the timer interrupt? thats the only one we are servicing
-	
-	//service the interrupt
-	//sleep is done... tell user_prog to continue
-	
-	//enable IRQs/FIQs
-	puts("Inside c_irq_handler.c\n");
-	return 0;
+	//MR1 is just a timer update
+	if(intSrc & 0x2)
+	{
+		reg_write( OSTMR_OSCR_ADDR, 0x0 );            //reset timer
+		reg_write( OSTMR_OSMR_ADDR(1), (TIMER_COUNT_PERIOD) ); //set the match register value
+		reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);       //clear match flag
+
+		/****increment kernel time****/
+		kernel_time += TIMER_COUNT_INC;
+	}
+
 }

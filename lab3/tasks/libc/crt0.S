@@ -1,19 +1,17 @@
-@ crt0.S: Execution startup routine
-@
-@ Authors: Joe Battaglia <jabat295@gmail.com>
-@          Hans Reichenbach <HansReich25@gmail.com>
-@	         Josh Thiry <josh.thiry@gmail.com>
-@ Date:    10/14/2012
+/** @file crt0.S
+ *
+ * @brief Execution startup routine
+ *
+ * @author Mike Kasick <mkasick@andrew.cmu.edu>
+ * @date   Sun, 07 Oct 2007 01:51:29 -0400
+ */
 
-#include <bits/errno.h>
-#include <bits/swi.h>
-#include <bits/fileno.h>
+#include <asm.h>
+#include "bits/swi.h"
 
-	.file	"crt0.S"
-	.text
+	.file "crt0.S"
 
-	.global	_start
-_start:
+FUNC(_start)
 	ldmfd sp!, {r0}     @ pull argc off the stack and put in r0
 	mov r1, sp          @ put the address of argv into r1
 	
@@ -23,6 +21,3 @@ _start:
 done_args:
 	bl main             @ gets the address for the main function
 	swi EXIT_SWI        @ exit the routine
-
-
-	
