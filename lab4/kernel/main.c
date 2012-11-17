@@ -29,6 +29,8 @@
 
 uint32_t global_data;
 
+int debug_enabled = 0;
+
 int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused)), uint32_t table)
 {
   if(debug_enabled==1)
