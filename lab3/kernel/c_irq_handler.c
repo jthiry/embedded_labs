@@ -33,17 +33,5 @@ void c_irq_handler(){
 		/****increment kernel time****/
 		kernel_time += TIMER_COUNT_INC;
 	}
-	//MR0 is a sleep ending
-	else if(intSrc & 0x1)
-	{
-		//stop sleeping
-		sleeping = 0;
-		reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF);       //clear match flag
-	}
-
-////stop sleeping
-//sleeping = 0;
-//reg_write(OSTMR_OSSR_ADDR, 0xFFFFFFFF); //clear match flag
-//}
 
 }

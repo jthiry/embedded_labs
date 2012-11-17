@@ -46,11 +46,13 @@ int main(int argc, char** argv)
 		//get the current time for comparison
 		end_time = time();
 
-		//DEBUG
-//		printf("start_time: %lu\tend_time: %lu\n", start_time, end_time);
-
 		//echo what the user typed
-		write(STDOUT_FILENO, read_buf, err_check);
+		err_check = write(STDOUT_FILENO, read_buf, err_check);
+
+		//check that write didn't crash
+		if(err_check < 1) {
+			return -1;
+		}
 
 		//print how long it took them to type to tenth of second
 		time_dif = (end_time - start_time);
