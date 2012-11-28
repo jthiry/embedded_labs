@@ -16,6 +16,8 @@
 #include <syscall.h>
 #include <exports.h>
 #include <kernel.h>
+#include <constants.h>
+#include <debug.h>
 
 #define EOT_CHAR 0x04
 #define DEL_CHAR 0x7f

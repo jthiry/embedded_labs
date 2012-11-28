@@ -19,21 +19,22 @@
 #include <arm/reg.h>
 #include "include/arm/timer.h"
 #include <debug.h>
+#include <syscall.h>
 
 
 
 //returns 1 or 0
 // (true or false)
-int not_usable_memory(unsigned loc, unsigned count)
-{
+/*int not_usable_memory(unsigned loc, unsigned count)*/
+/*{*/
 
-	if( (unsigned)loc > START_STACK ||
-		(unsigned)loc < END_UBOOT ||
-		( (unsigned)loc + count) > START_STACK || ((unsigned)loc + count) < END_UBOOT)
-		return 1;
-	return 0;
+/*	if( (unsigned)loc > START_STACK ||*/
+/*		(unsigned)loc < END_UBOOT ||*/
+/*		( (unsigned)loc + count) > START_STACK || ((unsigned)loc + count) < END_UBOOT)*/
+/*		return 1;*/
+/*	return 0;*/
 
-}
+/*}*/
 
 
 
