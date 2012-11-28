@@ -50,6 +50,9 @@ void destroy_exception(void);
 void install_exception_handler(unsigned int exn_num, void (*handler)(void))
 	__attribute__((nonnull));
 
+//temp prototypes REMOVE THESE BEFORE TURNING IN
+int wire_exception_handler(unsigned exception);
+
 INLINE void enable_interrupts(void)
 {
 	uint32_t cpsr;

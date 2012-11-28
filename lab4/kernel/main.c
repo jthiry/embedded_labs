@@ -93,7 +93,7 @@ int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused))
 	//Start the user program
 	if(debug_enabled==1)
 		puts("Starting user prog...\n");
-	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
+	_enable_user_prog( (unsigned)stack_ptr, START_USER );
 
 	if(debug_enabled==1)
 		puts("Killing timers...\n");
