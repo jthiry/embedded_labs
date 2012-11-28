@@ -36,8 +36,14 @@ int not_usable_memory(unsigned loc, unsigned count)
 }
 
 
+
+
+
 //exits the kernel with a given status
 void c_exit(int status) { _exit(status);}
+
+
+
 
 
 //read from a given file into a buffer for count bytes
@@ -107,6 +113,13 @@ ssize_t c_read(int fd, void *buf, size_t count) {
 	return bufCount;
 }
 
+
+
+
+
+
+
+
 //write a buffer to stdout for count bytes
 ssize_t c_write(int fd, const void *buf, size_t count) {
 
@@ -138,10 +151,24 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 	return bufCount;
 }
 
+
+
+
+
+
+
+
 //check the time since the kernel was loaded
 size_t c_time() {
 	return kernel_time;
 }
+
+
+
+
+
+
+
 
 //stops execution for a given period of time
 void c_sleep(size_t millis) {
@@ -161,6 +188,13 @@ void c_sleep(size_t millis) {
 		//if(debug_enabled == 1)printf("sleeping... cur=%lu < stop=%lu\n", cur_time, stop_time);
 	}
 }
+
+
+
+
+
+
+
 
 //call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
