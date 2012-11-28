@@ -7,6 +7,11 @@
  *
  * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
  * @date   2008-11-16
+ *
+ * @author Joe Battaglia <JABAT295.gmail.com>
+ * @author Hans Reichenbach <HansReich.gmail.com>
+ * @author Josh Thiry <josh.thiry@gmail.com>
+ * @date   11/28/2012
  */
 
 #include <types.h>
