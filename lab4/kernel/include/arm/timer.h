@@ -38,6 +38,9 @@
 
 #ifndef ASSEMBLER
 
+extern unsigned volatile long kernel_time;
+extern unsigned volatile sleeping;
+
 void init_timer(void);
 void destroy_timer(void);
 void timer_handler(unsigned int int_num);
@@ -45,5 +48,11 @@ unsigned long get_ticks(void);
 unsigned long get_millis(void);
 
 #endif /* ASSEMBLER */
+
+#define TIMER_COUNT_INC       5                     /* number of milliseconds we count by */
+#define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .005)   /* how many oscillations between timer counts*/
+#define AVG_DRIFT             0                     /* avg drift in oscillations per timer count period*/
+#define CLOCKS_PER_MILLI      OSTMR_FREQ/1000       /* oscillations per millisecond */
+#define CLEAR_ALL_FLAGS       0xFFFFFFFF            /* value to mask all interrupts */
 
 #endif /* _TIMER_H_ */

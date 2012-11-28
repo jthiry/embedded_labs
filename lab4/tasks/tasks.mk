@@ -12,7 +12,7 @@ include $(PACKAGE_MKS)
 
 $(PACKAGES) : % : $(TDIR)/bin/%.bin $(TDIR)/%/skyeye.conf $(TDIR)/%/package.bin
 
-# Create a skyeye conf file link local to each binary so that you can easily 
+# Create a skyeye conf file link local to each binary so that you can easily
 # invoke skyeye.  Similarly create a symlink to the actual binary.
 %/skyeye.conf :
 	@echo LN $(notdir $@)
@@ -24,5 +24,4 @@ $(TDIR)/%/package.bin : $(TDIR)/bin/%.bin
 
 $(PACKAGE_TARGETS):
 	@echo LD $(notdir $@)
-	@$(LD) -static $(LDFLAGS) -o $@ $^
-
+	@$(LD) -static $(LDFLAGS) -o $@ $^ $(LIBC_GROUP)

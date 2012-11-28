@@ -115,11 +115,13 @@ ssize_t c_write(int fd, const void *buf, size_t count) {
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
-	  return -EBADF;
+		if(debug_enabled ==1) printf ("c_write:: EBADF\n") ;
+		return -EBADF;
 	}
 
 	//check if buf loc and size end up outside of useable memory
 	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) {
+		if(debug_enabled ==1) printf ("c_write:: EFAULT\n") ;
 	  return -EFAULT;
 	}
 
@@ -144,47 +146,26 @@ size_t c_time() {
 //stops execution for a given period of time
 void c_sleep(size_t millis) {
 
-	//start sleeping...
-	sleeping = 1;
+	unsigned long cur_time, stop_time;
 
-	//disable interrupts
-	reg_write( OSTMR_OIER_ADDR, 0x0);
+	//read time
+	cur_time = kernel_time;
 
-	//export time
-	//kernel_time += (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / CLOCKS_PER_MILLI);
+	stop_time = cur_time + millis;
 
-	//reset timer
-	reg_write( OSTMR_OSCR_ADDR, 0x0 );
 
-	//set MR0
-	reg_write( OSTMR_OSMR_ADDR(0), millis * 3250);
-
-	//enable MR0
-	reg_write( OSTMR_OIER_ADDR, 0x1);
-
-	//wait for interrupt
-	if(debug_enabled==1)
-		printf("going into wait loop, kernel_time is %lu\n", kernel_time);
-	int im_asleep = 1;
-	while(im_asleep) im_asleep = sleeping;
-
-	//export time
-	unsigned long export_time = (unsigned long)(reg_read(OSTMR_OSCR_ADDR) / 3250);
-	kernel_time+= export_time;
-	if(debug_enabled ==1)
-		printf("Done sleeping! slept for %lums, new kernel_time is %lu\n",export_time, kernel_time);
-
-	//reset timer
-	reg_write( OSTMR_OSCR_ADDR, 0x0 );
-
-	//enable MR1, disable MR0
-	reg_write( OSTMR_OIER_ADDR, 0x2);
-
+	while(cur_time < stop_time )
+	{
+		//read time
+		cur_time = kernel_time;
+		//if(debug_enabled == 1)printf("sleeping... cur=%lu < stop=%lu\n", cur_time, stop_time);
+	}
 }
 
 //call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 
+	if(debug_enabled ==1) printf ("c_swi_handler:: swi_num = %d\n", swi_num ) ;
 	switch(swi_num){
 
 		case SWI_NUM_EXIT:

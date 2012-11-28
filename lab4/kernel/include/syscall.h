@@ -14,6 +14,7 @@
 
 ssize_t read_syscall(int fd, void *buf, size_t count);
 ssize_t write_syscall(int fd, const void *buf, size_t count);
+int not_usable_memory(unsigned loc, unsigned count);
 
 unsigned long time_syscall(void);
 void sleep_syscall(unsigned long millis);

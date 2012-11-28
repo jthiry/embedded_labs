@@ -23,6 +23,7 @@
 #ifndef ASSEMBLER
 
 #include <inline.h>
+#include "arm/psr.h"
 
 /* Register context. */
 struct ex_context
@@ -49,6 +50,9 @@ void destroy_exception(void);
 void install_exception_handler(unsigned int exn_num, void (*handler)(void))
 	__attribute__((nonnull));
 
+//temp prototypes REMOVE THESE BEFORE TURNING IN
+int wire_exception_handler(unsigned exception);
+
 INLINE void enable_interrupts(void)
 {
 	uint32_t cpsr;
@@ -64,6 +68,15 @@ INLINE void disable_interrupts(void)
 	cpsr |= PSR_IRQ | PSR_FIQ;
 	asm volatile ("msr cpsr_c, %0" : : "r" (cpsr) : "memory", "cc");
 }
+
+#define GET_EXP_VEC_ADDR(exp) ((exp) * 4)
+/* C function prototypes go here! Add your group name at the top! */
+void c_abt_handler();
+void setup_abort_stack();
+void setup_irq_stack();
+void setup_user_stack();
+void abort_handler(); /* abort_handler for Gravel - defined in abort.S */
+void restore_handlers();
 
 #endif /* ASSEMBLER */
 
