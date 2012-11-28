@@ -93,7 +93,7 @@ int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused))
 	//Start the user program
 	if(debug_enabled==1)
 		puts("Starting user prog...\n");
-	_enable_user_prog( (unsigned)stack_ptr, START_USER );
+	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
 
 	if(debug_enabled==1)
 		puts("Killing timers...\n");
@@ -106,7 +106,7 @@ int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused))
 	if(debug_enabled==1)
 		puts("Exiting kernel.\n");
 
-
+  return status;
 
 	assert(0);        /* should never get here */
 }
