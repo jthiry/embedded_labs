@@ -138,22 +138,3 @@ ssize_t write_syscall(int fd  __attribute__((unused)), const void *buf  __attrib
 	return bufCount;
 
 }
-
-
-
-
-
-
-
-//returns 1 or 0 based on if buffer is in a valid space
-// (true or false)
-/*int not_usable_memory(unsigned loc, unsigned count)*/
-/*{*/
-
-/*	if( (unsigned)loc > START_STACK ||*/
-/*		(unsigned)loc < END_UBOOT ||*/
-/*		( (unsigned)loc + count) > START_STACK || ((unsigned)loc + count) < END_UBOOT)*/
-/*		return 1;*/
-/*	return 0;*/
-
-/*}*/
