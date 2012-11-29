@@ -95,6 +95,33 @@ int mutex_lock(int mutex  __attribute__((unused)))
    * also check if this process is the one already holding the
    * mutex and return EDEADLOCK if it is
    */
+  if(!(gtMutex[mutex].bAvailable)) {
+    //mutex isn't available so check for deadlock
+    if(gtMutex[mutex].pHolding_Tcb == get_cur_tcb()) {
+      enable_interrupts();
+      return -EDEADLOCK;
+    }
+
+    //add to sleep queue
+    if(gtMutex[mutex].pSleep_queue < (tcb_t *)0) {
+      //no sleep queue yet so make this the first
+      gtMutex[mutex].pSleep_queue = get_cur_tcb();
+    } else {
+      //a sleep queue already exists so find the end
+      tcb_t* t = gtMutex[mutex].pSleep_queue;
+      while(t.sleep_queue > (tcb_t *)-1) {
+        t = t.sleep_queue;
+      }
+
+      //add the current task to the end of the sleep chain
+      t.sleep_queue = get_cur_tcb();
+    }
+
+    //enable interrupts and put task to sleep
+    enable_interrupts();
+    dispatch_sleep();
+    disable_interrupts();
+  }
 
   //lock the mutex
   gtMutex[mutex].bLock = TRUE;
@@ -126,6 +153,10 @@ int mutex_unlock(int mutex  __attribute__((unused)))
   }
 
   //check if the current task holds the rights to the lock
+  if(gtMutex[mutex].pHolding_Tcb != get_cur_tcb()) {
+    enable_interrupts();
+    return -EPERM;
+  }
 
   /* check if the mutex has waiting processes
    *
