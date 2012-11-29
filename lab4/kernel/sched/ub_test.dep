@@ -1,0 +1,15 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/sched/ub_test.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/sched/ub_test.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/sched.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/task.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/config.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/sched.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/task.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/config.h:
