@@ -41,7 +41,7 @@ ssize_t read_syscall(int fd __attribute__((unused)), void *buf __attribute__((un
 		return -EBADF;
 	}
 	//check if buf loc and size end up outside of useable memory
-	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 )
+	if(valid_addr(ourBuf, (size_t)count, END_UBOOT, START_STACK) == 1 )
 	{
 		return -EFAULT;
 	}
@@ -117,7 +117,7 @@ ssize_t write_syscall(int fd  __attribute__((unused)), const void *buf  __attrib
 	}
 
 	//check if buf loc and size end up outside of useable memory
-	if(not_usable_memory((unsigned)ourBuf, (unsigned)count) == 1 ) {
+	if(valid_addr(ourBuf, (size_t)count, END_UBOOT, START_STACK) == 1 ) {
 		if(debug_enabled ==1) printf ("c_write:: EFAULT\n") ;
 	  return -EFAULT;
 	}
@@ -144,13 +144,13 @@ ssize_t write_syscall(int fd  __attribute__((unused)), const void *buf  __attrib
 
 //returns 1 or 0 based on if buffer is in a valid space
 // (true or false)
-int not_usable_memory(unsigned loc, unsigned count)
-{
+/*int not_usable_memory(unsigned loc, unsigned count)*/
+/*{*/
 
-	if( (unsigned)loc > START_STACK ||
-		(unsigned)loc < END_UBOOT ||
-		( (unsigned)loc + count) > START_STACK || ((unsigned)loc + count) < END_UBOOT)
-		return 1;
-	return 0;
+/*	if( (unsigned)loc > START_STACK ||*/
+/*		(unsigned)loc < END_UBOOT ||*/
+/*		( (unsigned)loc + count) > START_STACK || ((unsigned)loc + count) < END_UBOOT)*/
+/*		return 1;*/
+/*	return 0;*/
 
-}
+/*}*/
