@@ -52,18 +52,19 @@ int wire_exception_handler(unsigned exception)
 
 	if (((*exception_vector | POSITIVE_LDR_INSTRUCTION_MASK)
 	     ^ (LDR_PC_INSTRUCTION | POSITIVE_LDR_INSTRUCTION_MASK)) != 0) {
-		/*
-		 * Mask exception_vector and LDR_PC_INSTRUCTION with
-		 * POSITIVE_LDR_INSTRUCTION mask to account for ldr instruction
-		 * with any negative or positive offset.
-		 * Check if ldr instruction found at exception.
-		 * else return error */
+  /*
+	 * Mask exception_vector and LDR_PC_INSTRUCTION with
+	 * POSITIVE_LDR_INSTRUCTION mask to account for ldr instruction
+	 * with any negative or positive offset.
+	 * Check if ldr instruction found at exception.
+	 * else return error */
 		return -1;
 	}
+
 	/*
 	 * Value at 0x8 is 0xe59ff014 == ldr pc, [pc, #0x14]
 	 */
-	relative_offset = *exception_vector & 0xFFF; /* extract relative offset */
+	relative_offset = *exception_vector & 0xFFF; // extract relative offset
 
 	/*
 	 * pc value at this stage is exception vector + 0x8
@@ -78,36 +79,36 @@ int wire_exception_handler(unsigned exception)
 	//puts("exception.c::wire_handler:: address dump\n");
 	//hexdump(uboot_exception_address, 16);
 	if (exception == EX_FABRT) {
-		/* Save earlier values and wire in our exception handler */
+		// Save earlier values and wire in our exception handler
 		uboot_abt_address = uboot_exception_address;
 		uboot_abt_ins[0] = *uboot_exception_address;
 		*uboot_exception_address = LDR_PC_INSTRUCTION | 0x4;
 		uboot_exception_address++;
 		uboot_abt_ins[1] = *uboot_exception_address;
-		/* Move address of our abort handler here */
+		// Move address of our abort handler here
 		*uboot_exception_address = (unsigned int) abort_handler;
 
 	}
 	if (exception == EX_SWI) {
-		/* Save earlier values and wire in our exception handler */
+		// Save earlier values and wire in our exception handler
 		uboot_swi_address = uboot_exception_address;
 		uboot_swi_ins[0] = *uboot_exception_address;
 		*uboot_exception_address = LDR_PC_INSTRUCTION | 0x4;
 		uboot_exception_address++;
 		uboot_swi_ins[1] = *uboot_exception_address;
-		/* Move address of our abort handler here */
+		// Move address of our abort handler here
 		*uboot_exception_address = (unsigned int) S_HANDLER;
 
 	}
 
 	if (exception == EX_IRQ) {
-		/* Save earlier values and wire in our exception handler */
+		// Save earlier values and wire in our exception handler
 		uboot_irq_address = uboot_exception_address;
 		uboot_irq_ins[0] = *uboot_exception_address;
 		*uboot_exception_address = LDR_PC_INSTRUCTION | 0x4;
 		uboot_exception_address++;
 		uboot_irq_ins[1] = *uboot_exception_address;
-		/* Move address of our abort handler here */
+		// Move address of our abort handler here
 		*uboot_exception_address = (unsigned int) R_HANDLER;
 
 	}
