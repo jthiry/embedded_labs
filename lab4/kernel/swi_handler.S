@@ -18,13 +18,31 @@ S_HANDLER:
 	@WE ARE NOW IN SVC MODE
 	@ we have the SVC sp, and our LR points to write.S
 	STMFD sp!, {r0-r12,lr}   	  @ store the lr(write.S) onto the SVC stack
+
+	/* save spsr */
+        ldr     ip, =global_data2
+	mrs 	r5, spsr
+        str     r5, [ip]
+
+	/* Set up r8 correctly with u-boot dispatch table. */
+        ldr      ip, =global_data
+        ldr      r8, [ip]
+
 	MRS r0, cpsr
-	BIC r0, r0, #0x80
+	BIC r0, r0, #0x80	  @enable IRQs
 	MSR cpsr, r0
+
+
 	MOV r1, sp		  @ pass the stack to the handler as an arg
 	LDR r0, [lr, #-4]         @ load SWI into r0
 	BIC r0,r0, #0xfffffff0	  @ get SWI # by bit-masking
 	BL c_swi_handler
+	
+	/* restore spsr */  
+        ldr     ip, =global_data2
+        ldr     r5, [ip]
+	msr 	spsr, r5
+	
 	str r0, [sp]
 	LDMFD sp!, {r0-r12, lr}   @ unstack user's registers
 	MOVS pc, lr               @ return from handler back to the user program

@@ -12,14 +12,15 @@
 @ which handles it. Once the irq is handled we branch back to the user program
 
 
-@	.global	R_HANDLER
-@R_HANDLER:
+	.global	R_HANDLER
+R_HANDLER:
 	@WE ARE NOW IN SVC MODE
 	@ we have the SVC sp, and our LR points to write.S
-@	STMFD sp!, {r0-r12,lr}   	  @ store the lr(write.S) onto the SVC stack
-@	BL c_irq_handler
-@	LDMFD sp!, {r0-r12, lr}   @ unstack user's registers
-@	SUBS pc, lr, #4              @ return from handler back to the user program
+	STMFD sp!, {r0-r12,lr}   	  @ store the lr(write.S) onto the SVC stack
+
+	BL c_irq_handler
+	LDMFD sp!, {r0-r12, lr}   @ unstack user's registers
+	SUBS pc, lr, #4              @ return from handler back to the user program
 	@THE LAST INSTRUCTION SHOULD HAVE PUT US BACK INTO USER MODE
-@.type R_HANDLER, function
-@.size R_HANDLER, .-R_HANDLER
+.type R_HANDLER, function
+.size R_HANDLER, .-R_HANDLER

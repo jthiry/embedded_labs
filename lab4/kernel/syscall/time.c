@@ -23,7 +23,10 @@
  */
 unsigned long time_syscall(void)
 {
-  return kernel_time;
+	//disable ints
+	unsigned long _time = kernel_time;
+	//enable ints
+  return _time;
 }
 
 
@@ -42,8 +45,9 @@ void sleep_syscall(unsigned long millis  __attribute__((unused)))
   unsigned long cur_time, stop_time;
 
 	//read time
+	//disable ints
 	cur_time = kernel_time;
-
+	//enables ints
 	stop_time = cur_time + millis;
 
 

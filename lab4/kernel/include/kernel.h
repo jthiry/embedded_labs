@@ -12,6 +12,7 @@
 #include <types.h>
 
 extern uint32_t global_data;
+extern uint32_t global_data2;
 int enter_user_mode(void);
 int valid_addr(const void* start, size_t count, uintptr_t base, uintptr_t bound);
 

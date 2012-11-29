@@ -31,8 +31,9 @@
 #include <arm/physmem.h>
 
 uint32_t global_data;
+uint32_t global_data2;
 
-int debug_enabled = 0;
+int debug_enabled = 1;
 
 int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused)), uint32_t table)
 {
