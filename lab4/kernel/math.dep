@@ -1,9 +1,0 @@
- \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/math.o:  \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/math.c \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/math.h
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h:
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/math.h:
