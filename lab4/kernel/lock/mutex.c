@@ -26,10 +26,16 @@ int mutexID;
 
 void mutex_init()
 {
+  //disable interrupts
+  disable_interrupts();
+
 	//set up mutex id variable
 	mutexID = 0;
 
 	//initialize values for mutex array?
+
+	//enable interrupts
+	enable_interrupts();
 }
 
 
@@ -39,20 +45,27 @@ void mutex_init()
 int mutex_create(void)
 {
   //disable interrupts
-
+  disable_interrupts();
 
 	//see if a mutex id is available
 	if(mutexID >= OS_NUM_MUTEX) {
 	  //no mutex IDs available
+
+	  enable_interrupts();
 	  return -ENOMEM;
 	}
 
-	//initialize mutex block
-
-	//assign a new id
+	//increment ID count
 	mutexID++;
 
+	//initialize mutex block
+	gtMutex[mutexID].bAvailable = TRUE;
+	gtMutex[mutexID].bLock = FALSE;
+	gtMutex[mutexID].pHolding_Tcb = (tcb_t*)-1;
+	gtMutex[mutexID].pSleep_queue = (tcb_t*)-1;
+
 	//enable interrupts
+	enable_interrupts();
 
 	return mutexID;
 
@@ -66,11 +79,13 @@ int mutex_create(void)
 int mutex_lock(int mutex  __attribute__((unused)))
 {
   //disable interrupts
-
+  disable_interrupts();
 
   //check validity of the mutex id (return EINVAL if not valid)
-
-  //find the right mutex
+  if(mutex < 0 || mutex > mutexID) {
+    enable_interrupts();
+    return -EINVAL;
+  }
 
   /* check if the mutex is available
    *
@@ -81,9 +96,16 @@ int mutex_lock(int mutex  __attribute__((unused)))
    * mutex and return EDEADLOCK if it is
    */
 
-  //enable interrupts
+  //lock the mutex
+  gtMutex[mutex].bLock = TRUE;
+  gtMutex[mutex].bAvailable = FALSE;
+  gtMutex[mutex].pHolding_Tcb = get_cur_tcb();
 
-	return 1; // fix this to return the correct value
+  //enable interrupts
+  enable_interrupts();
+
+  //return success
+	return 0;
 }
 
 
@@ -95,9 +117,13 @@ int mutex_lock(int mutex  __attribute__((unused)))
 int mutex_unlock(int mutex  __attribute__((unused)))
 {
   //disable interrupts
-
+  disable_interrupts();
 
   //check validity of mutex id
+  if(mutex < 0 || mutex > mutexID) {
+    enable_interrupts();
+    return -EINVAL;
+  }
 
   //check if the current task holds the rights to the lock
 
@@ -112,5 +138,7 @@ int mutex_unlock(int mutex  __attribute__((unused)))
    */
 
   //enable interrupts
+  enable_interrupts();
+
 	return 1; // fix this to return the correct value
 }
