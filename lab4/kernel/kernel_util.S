@@ -8,6 +8,7 @@
         .file   "kernel_util.S"
         .text
 #include "constants.h"
+#include <arm/physmem.h>
 
 
 
@@ -15,7 +16,7 @@
 _enable_user_prog:
         STMFD sp!, {r1-r12, lr}   @ sp and lr are banked!!
 
-        mov r3, #START_STACK 	  @ init sp location
+        mov r3, #START_KERNEL 	  @ init sp location
         sub r3, r3, #4            @svc sp gets stored here for later
         STR sp, [r3]              @sp we need to save
         sub r3, r3, #4            @link register goes here`for later
@@ -36,7 +37,7 @@ _enable_user_prog:
 	mrs r2, cpsr
 	bic r2, r2, #0xc0 @disable irq/fiq
 	msr cpsr, r2
-        mov r1, #START_STACK
+        mov r1, #START_KERNEL
         sub r1, r1, #4
         LDR sp, [r1]
         LDMFD sp!, {r1-r12, lr}
@@ -45,7 +46,7 @@ _enable_user_prog:
 .type _enable_user_prog, function
 .size _enable_user_prog, .-_enable_user_prog
 
- 
+
 	.global _check_inst
 _check_inst:
         STMFD sp!, {r1-r12, lr}         @store registers and lr
@@ -69,4 +70,3 @@ _get_imm:
 
 .type _get_imm, function
 .size _get_imm, .-_get_imm
-

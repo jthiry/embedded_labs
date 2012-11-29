@@ -25,7 +25,10 @@
 #include "constants.h"
 #include "kernel_util.h"
 #include "c_kernel_util.h"
+
+/* new includes*/
 #include <debug.h>
+#include <arm/physmem.h>
 
 uint32_t global_data;
 
@@ -89,11 +92,11 @@ int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused))
 		puts("Setting up stack...\n");
 
 	//Set up the stack
-	unsigned* stack_ptr = setup_stack( START_STACK, argc, argv);
+	unsigned* stack_ptr = setup_stack( START_KERNEL, argc, argv);
 	//Start the user program
 	if(debug_enabled==1)
 		puts("Starting user prog...\n");
-	int status = _enable_user_prog( (unsigned)stack_ptr, START_USER );
+	int status = _enable_user_prog( (unsigned)stack_ptr, RAM_START_ADDR );
 
 	if(debug_enabled==1)
 		puts("Killing timers...\n");

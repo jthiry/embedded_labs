@@ -6,6 +6,7 @@
 @ Date:    10/14/2012
 
 #include "constants.h"
+#include <arm/physmem.h>
 	.file	"exit.S"
 	.text
 
@@ -13,8 +14,8 @@
 
 _exit:
 
-  mov r1, #START_STACK          @start at a3million to find return mem addr
-  sub r1, r1, #8 @sub 8 from a3million for proper address to find
+  mov r1, #START_KERNEL         @start at a3million to find return mem addr
+  sub r1, r1, #8                @sub 8 from a3million for proper address to find
   ldr pc, [r1]
 	@send program to the memory address given
 

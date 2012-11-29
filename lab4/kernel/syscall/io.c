@@ -26,6 +26,9 @@
 
 #define EOT_CHAR 0x04
 #define DEL_CHAR 0x7f
+#define BACKSPACE 8
+#define NEWLINE 10
+#define CARRIAGE_RETURN 13
 
 
 /* Read count bytes (or less) from fd into the buffer buf. */
@@ -41,7 +44,7 @@ ssize_t read_syscall(int fd __attribute__((unused)), void *buf __attribute__((un
 		return -EBADF;
 	}
 	//check if buf loc and size end up outside of useable memory
-	if(valid_addr(ourBuf, (size_t)count, END_UBOOT, START_STACK) == 1 )
+	if(valid_addr(ourBuf, (size_t)count, FLASH_END_ADDR, RAM_START_ADDR) == 1 )
 	{
 		return -EFAULT;
 	}
@@ -55,7 +58,7 @@ ssize_t read_syscall(int fd __attribute__((unused)), void *buf __attribute__((un
 		c = (char) getc();
 		switch(c)
 		{
-			case EOT:
+			case EOT_CHAR:
 				return bufCount;
 
 			case BACKSPACE:
@@ -65,7 +68,7 @@ ssize_t read_syscall(int fd __attribute__((unused)), void *buf __attribute__((un
 				puts("\b \b");
 				break;
 
-			case DELETE:
+			case DEL_CHAR:
 				//remove previous char
 				bufCount--;
 				ourBuf[bufCount] = '\0';
@@ -117,7 +120,7 @@ ssize_t write_syscall(int fd  __attribute__((unused)), const void *buf  __attrib
 	}
 
 	//check if buf loc and size end up outside of useable memory
-	if(valid_addr(ourBuf, (size_t)count, END_UBOOT, START_STACK) == 1 ) {
+	if(valid_addr(ourBuf, (size_t)count, FLASH_END_ADDR, RAM_START_ADDR) == 1 ) {
 		if(debug_enabled ==1) printf ("c_write:: EFAULT\n") ;
 	  return -EFAULT;
 	}
