@@ -17,7 +17,7 @@
 #include <assert.h>
 #include "swi_handler.h"
 #include "c_swi_handler.h"
-#include "irq_handler.h"
+#include <arm/irq_handler.h>
 #include <debug.h>
 
 #define PC_OFFSET 0x8
@@ -108,8 +108,9 @@ int wire_exception_handler(unsigned exception)
 		*uboot_exception_address = LDR_PC_INSTRUCTION | 0x4;
 		uboot_exception_address++;
 		uboot_irq_ins[1] = *uboot_exception_address;
+
 		// Move address of our abort handler here
-		*uboot_exception_address = (unsigned int) R_HANDLER;
+		*uboot_exception_address = (unsigned int) irq_wrapper;
 
 	}
 
