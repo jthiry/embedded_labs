@@ -109,12 +109,12 @@ int mutex_lock(int mutex  __attribute__((unused)))
     } else {
       //a sleep queue already exists so find the end
       tcb_t* t = gtMutex[mutex].pSleep_queue;
-      while(t.sleep_queue > (tcb_t *)-1) {
-        t = t.sleep_queue;
+      while((*t).sleep_queue > (tcb_t *)-1) {
+        t = (*t).sleep_queue;
       }
 
       //add the current task to the end of the sleep chain
-      t.sleep_queue = get_cur_tcb();
+      (*t).sleep_queue = get_cur_tcb();
     }
 
     //enable interrupts and put task to sleep
@@ -162,7 +162,10 @@ int mutex_unlock(int mutex  __attribute__((unused)))
    *
    * if there is a process waiting then remove it from the queue,
    * set it to be the active tcb for the mutex, and let it know
-   * it can run now (available flag?)
+   * it can run now
+   *
+   * make sure not to clobber the sleep queue, reset it to the
+   * next one in line
    *
    * if there isn't a process waiting then clear the holding tcb,
    * set the flag to available, and remove the lock
@@ -171,5 +174,5 @@ int mutex_unlock(int mutex  __attribute__((unused)))
   //enable interrupts
   enable_interrupts();
 
-	return 1; // fix this to return the correct value
+	return 0;
 }
