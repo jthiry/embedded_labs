@@ -78,7 +78,7 @@ int mutex_create(void)
 
 
 
-int mutex_lock(int mutex  __attribute__((unused)))
+int mutex_lock(int mutex)
 {
   //disable interrupts
   disable_interrupts();
@@ -146,7 +146,7 @@ int mutex_lock(int mutex  __attribute__((unused)))
 
 
 
-int mutex_unlock(int mutex  __attribute__((unused)))
+int mutex_unlock(int mutex)
 {
   //disable interrupts
   disable_interrupts();
