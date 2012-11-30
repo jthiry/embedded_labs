@@ -48,11 +48,14 @@ int main(int argc, char** argv)
 
 		//echo what the user typed
 		err_check = write(STDOUT_FILENO, read_buf, err_check);
-
+		
+		puts("Just exited write");
 		//check that write didn't crash
 		if(err_check < 1) {
 			return -1;
 		}
+		
+		puts("Passed the error check for write");
 
 		//print how long it took them to type to tenth of second
 		time_dif = (end_time - start_time);

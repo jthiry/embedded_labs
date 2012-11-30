@@ -16,6 +16,7 @@
 #include <bits/errno.h>
 #include <arm/timer.h>
 #include <syscall.h>
+#include <arm/exception.h>
 
 
 /*
@@ -23,7 +24,10 @@
  */
 unsigned long time_syscall(void)
 {
-  return kernel_time;
+	disable_interrupts();
+	unsigned long _time = kernel_time;
+	enable_interrupts();
+  return _time;
 }
 
 
@@ -41,16 +45,18 @@ void sleep_syscall(unsigned long millis  __attribute__((unused)))
 {
   unsigned long cur_time, stop_time;
 
-	//read time
-	cur_time = kernel_time;
+	disable_interrupts();		//disable interrupts for concurrency issues
+	cur_time = kernel_time;		//read the time
+	enable_interrupts();    	//reenable interrupts again
 
 	stop_time = cur_time + millis;
 
 
 	while(cur_time < stop_time )
 	{
-		//read time
-		cur_time = kernel_time;
+		disable_interrupts();	//disable interrupts for concurrency issues
+		cur_time = kernel_time;	//read the time
+		enable_interrupts();	//reenable interupts again
 		//if(debug_enabled == 1)printf("sleeping... cur=%lu < stop=%lu\n", cur_time, stop_time);
 	}
 }
