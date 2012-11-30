@@ -120,13 +120,16 @@ int mutex_lock(int mutex  __attribute__((unused)))
     //enable interrupts and put task to sleep
     enable_interrupts();
     dispatch_sleep();
-    disable_interrupts();
+    return 0;
   }
 
   //lock the mutex
   gtMutex[mutex].bLock = TRUE;
   gtMutex[mutex].bAvailable = FALSE;
   gtMutex[mutex].pHolding_Tcb = get_cur_tcb();
+
+  //do tcb stuff
+  (*get_cur_tcb()).holds_lock += 1;
 
   //enable interrupts
   enable_interrupts();
@@ -170,6 +173,31 @@ int mutex_unlock(int mutex  __attribute__((unused)))
    * if there isn't a process waiting then clear the holding tcb,
    * set the flag to available, and remove the lock
    */
+  if(gtMutex[mutex].pSleep_queue < (tcb_t *) 0) {
+    //nothing waiting on mutex so just free it
+    gtMutex[mutex].bAvailable = TRUE;
+	  gtMutex[mutex].bLock = FALSE;
+	  gtMutex[mutex].pHolding_Tcb = (tcb_t*)-1;
+  } else {
+    /*
+     * something waiting so shift the queue and tell the waiting
+     * task that the mutex is available
+     */
+
+    //shift the sleep queue
+    tcb_t* t = gtMutex[mutex].pSleep_queue;
+    gtMutex[mutex].pSleep_queue = (*t).sleep_queue;
+
+    //pass the mutex to the next tcb in the queue
+    gtMutex[mutex].pHolding_Tcb = t;
+    (*t).holds_lock += 1;
+
+    //activate the sleeping task
+    runqueue_add(t, (*t).cur_prio);
+  }
+
+  //decrement tcb hold counter
+  (*get_cur_tcb()).holds_lock -= 1;
 
   //enable interrupts
   enable_interrupts();
