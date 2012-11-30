@@ -3,10 +3,12 @@
  *
  * @brief Implements mutices.
  *
- * @author Harry Q Bovik < PUT YOUR NAMES HERE
+ * @author Joe Battaglia <JABAT295.gmail.com>
+ *          Hans Reichenbach <HansReich.gmail.com>
+ *          Josh Thiry <josh.thiry@gmail.com>
  *
+ * @date    11/29/12
  *
- * @date
  */
 
 //#define DEBUG_MUTEX
@@ -181,12 +183,14 @@ int mutex_unlock(int mutex  __attribute__((unused)))
   } else {
     /*
      * something waiting so shift the queue and tell the waiting
-     * task that the mutex is available
+     * task that the mutex is available after passing the mutex
+     * to the waiting task
      */
 
     //shift the sleep queue
     tcb_t* t = gtMutex[mutex].pSleep_queue;
     gtMutex[mutex].pSleep_queue = (*t).sleep_queue;
+    (*t).sleep_queue = (tcb_t *) -1;
 
     //pass the mutex to the next tcb in the queue
     gtMutex[mutex].pHolding_Tcb = t;
