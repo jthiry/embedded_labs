@@ -48,7 +48,7 @@ FUNC(ctx_switch_full)
 
 	/*Load the stack pointer of process */
         /* Load the registers for the process */
-        /* Return back to dispath_nosave() */
+        /* Return */
 
 	
 
@@ -57,4 +57,4 @@ FUNC(ctx_switch_half)
 	/* r0 points to target context? */
 	/*Load the stack pointer of process */
 	/* Load the registers for the process */
-	/* Return back to dispath_nosave() */
+	/* Return */
