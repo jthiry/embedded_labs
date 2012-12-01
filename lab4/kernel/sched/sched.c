@@ -94,19 +94,19 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 
 	//set up idle tcb
 	tcb_t* idle_tcb;
-	idle_tcb = &system_tcb[OS_MAX_TASKS - 1]; //last TCB, idle task
+	idle_tcb = &system_tcb[OS_MAX_TASKS - 1];     //last TCB, idle task
 	//create its tcb entry
-	idle_tcb->native_prio = OS_MAX_TASKS + 1;		//reserve priority_lvl 1
+	idle_tcb->native_prio = OS_MAX_TASKS + 1;     //reserve priority_lvl 1
 	idle_tcb->cur_prio = OS_MAX_TASKS + 1;  			// cur prio = native prio
 	//according to launch_task:
 	idle_tcb->context.r4 = (uint32_t)&idle;				//lamba = entry point
-	idle_tcb->context.r6 = (uint32_t)0;  				//stack_pos... shouldnt need this
-	idle_tcb->context.lr = (void*)0xfeedbeef;	
+	idle_tcb->context.r6 = (uint32_t)0;  				  //stack_pos... shouldnt need this
+	idle_tcb->context.lr = (void*)0xfeedbeef;
 	idle_tcb->holds_lock = 0;
 	idle_tcb->sleep_queue = 0;
 	//idle->kstack =
 	//idle->kstack_high =
 	//put it in the run_queue (make it runnable)
 	runqueue_add( idle_tcb, idle_tcb->native_prio );
-	dispatch_init(idle_tcb);	
+	dispatch_init(idle_tcb);
 }
