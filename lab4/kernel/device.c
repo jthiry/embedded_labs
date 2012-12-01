@@ -110,5 +110,7 @@ void dev_update(unsigned long millis )
 			devices[i].next_match += dev_freq[i];
 		}
 	}
+	//re-evaluate our priorities
+	dispatch_save();
 }
 
