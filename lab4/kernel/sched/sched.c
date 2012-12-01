@@ -65,12 +65,12 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	//make idle task schedulable
 
 	size_t i;
-	tcb_t* cur_tcb = &(system_tcb[0]);
-	task_t* cur_task = tasks[0];
+	tcb_t* cur_tcb; 
+	task_t* cur_task;;
 	//for each task
 	for( i = 0; i < num_tasks - 1; i++)
 	{
-		*cur_tcb = system_tcb[i+1];
+		cur_tcb = &system_tcb[i+1];
 		cur_task = tasks[i];
 
 		//create its tcb entry
