@@ -1,0 +1,57 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/c_kernel_util.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/c_kernel_util.c \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/constants.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/kernel_util.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/c_swi_handler.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/psr.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/inline.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/exception.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/interrupt.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/timer.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/reg.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/bits/swi.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/uboot/include/exports.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/stdarg.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/uboot/include/_exports.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/assert.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/debug.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/task.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/config.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/constants.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/kernel_util.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/c_swi_handler.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/psr.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/inline.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/exception.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/interrupt.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/timer.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/reg.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/bits/swi.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/uboot/include/exports.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/stdarg.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/uboot/include/_exports.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/assert.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/debug.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/task.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/config.h:
