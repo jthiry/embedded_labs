@@ -6,8 +6,10 @@
  * no co-processor registers and that the caller is in SVC mode. Furthermore,
  * the SPSR is considered a spare/scratch register and hence, is not saved.
  *
- * @author Kartik Subramanian
- * @date   2008-11-21
+ *  @author  Joe Battaglia <JABAT295.gmail.com>
+ *          Hans Reichenbach <HansReich.gmail.com>
+ *          Josh Thiry <josh.thiry@gmail.com>
+ * @date   2012-11-29
  */
 
 	.file "ctx_switch_asm.S"
@@ -41,7 +43,18 @@ FUNC(launch_task)
 /* r0 points to the target context, r1 to the current context. */
 /* add your code to perform a full context switch */
 FUNC(ctx_switch_full)
+	/*Save the stack pointer */
+	/* Save the registers and return address */
 
+	/*Load the stack pointer of process */
+        /* Load the registers for the process */
+        /* Return */
+
+	
 
 /*add your code to perform a half context switch */	
 FUNC(ctx_switch_half)
+	/* r0 points to target context? */
+	/*Load the stack pointer of process */
+	/* Load the registers for the process */
+	/* Return */
