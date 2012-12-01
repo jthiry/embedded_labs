@@ -45,17 +45,35 @@ FUNC(launch_task)
 FUNC(ctx_switch_full)
 	/*Save the stack pointer */
 	/* Save the registers and return address */
-	/*STMFD sp!, {r4-r12,lr}?*/
+	STR   r4, [r1], #4!
+	STR   r5, [r1], #4!
+	STR   r6, [r1], #4!
+	STR   r7, [r1], #4!
+	STR   r8, [r1], #4!
+	STR   r9, [r1], #4!
+	STR   r10, [r1], #4!
+	STR   r11, [r1], #4!
+	STR   sp, [r1], #4!
+	STR   lr, [r1], #4!
 
-	/*Load the stack pointer of process */
-        /* Load the registers for the process */
-        /* Return */
+  /* branch to the half ctx switch to load the new process*/
+	B     ctx_switch_half
 
 
 
 /*add your code to perform a half context switch */
 FUNC(ctx_switch_half)
 	/* r0 points to target context? */
-	/*Load the stack pointer of process */
-	/* Load the registers for the process */
-	/* Return */
+	/* Load the registers from the new process */
+	LDR   r4, [r0], #4!
+	LDR   r5, [r0], #4!
+	LDR   r6, [r0], #4!
+	LDR   r7, [r0], #4!
+	LDR   r8, [r0], #4!
+	LDR   r9, [r0], #4!
+	LDR   r10, [r0], #4!
+	LDR   r11, [r0], #4!
+	/* load the stack pointer from the new process*/
+  LDR   sp, [r0], #4!
+  /* return to where the new process was*/
+  LDR   pc, [r0], #4!
