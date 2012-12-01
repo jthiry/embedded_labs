@@ -1,9 +1,0 @@
- \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/ctype.o:  \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/ctype.c \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/ctype.h \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/inline.h
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/ctype.h:
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/inline.h:

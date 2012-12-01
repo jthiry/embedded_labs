@@ -1,9 +1,0 @@
- \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/sched/ctx_switch_asm.o:  \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/sched/ctx_switch_asm.S \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/asm.h \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/psr.h
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/asm.h:
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/psr.h:
