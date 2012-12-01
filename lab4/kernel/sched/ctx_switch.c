@@ -66,6 +66,7 @@ void dispatch_save(void)
 	disable_interrupts();
 	if(debug_enabled == 1) puts("\tdispatch_save::++\n");
 	if(debug_enabled == 1) printf("\tdispatch_save::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
+	if(debug_enabled == 1) puts("\tCurrent");
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//save soon to be previous state for ctx switch
@@ -78,13 +79,13 @@ void dispatch_save(void)
 	uint8_t h_prio = highest_prio();		        //get highest priority
 	cur_tcb = runqueue_remove(h_prio);		      //retrieve task while removing it from the run_queue
 	if(debug_enabled == 1) printf("\tdispatch_save::after remove::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
+	if(debug_enabled == 1) puts("\tDestination");
+	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 	//switch tasks
 	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   			//call the context switch (target, current)
 	if(debug_enabled == 1) puts("\tdispatch_save::completed ctx_switch_full\n");
-	
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+
 
 	if(debug_enabled == 1) puts("\tdispatch_save::--\n");
 	//re-enable interrupts
@@ -144,13 +145,17 @@ void dispatch_sleep(void)
 	//get the next task to run
 	uint8_t h_prio = highest_prio();		      //get highest priority
 	cur_tcb = runqueue_remove(h_prio);		    //retrieve task while removing it from the runqueue
-	if(debug_enabled == 1) printf("\tdispatch_sleep::after remove::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+	
 
+	///debug block
+	if(debug_enabled == 1) printf("\tdispatch_sleep::after remove::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
+	if(debug_enabled == 1) puts("\tCurrent ");
+	if(debug_enabled == 1) ctx_dump(&prev_tcb->context, prev_tcb->cur_prio);
+	if(debug_enabled == 1) puts("\tDestination ");
+	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+	
 	//switch tasks
 	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   		//call the context switch
-	if(debug_enabled == 1) puts("\tdispatch_save::completed ctx_switch_full\n");
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//re-enable interrupts
 	enable_interrupts();
