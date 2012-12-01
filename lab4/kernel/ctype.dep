@@ -1,8 +1,0 @@
-/home/jabat/Documents/embedded_labs/lab4/kernel/ctype.o:  \
- /home/jabat/Documents/embedded_labs/lab4/kernel/ctype.c \
-  /home/jabat/Documents/embedded_labs/lab4/kernel/include/ctype.h \
-  /home/jabat/Documents/embedded_labs/lab4/kernel/include/inline.h
-
-/home/jabat/Documents/embedded_labs/lab4/kernel/include/ctype.h:
-
-/home/jabat/Documents/embedded_labs/lab4/kernel/include/inline.h:
