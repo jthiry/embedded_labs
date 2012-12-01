@@ -50,7 +50,7 @@ void dev_init(void)
 	for( i=0; i < NUM_DEVICES - 1; i++)
 	{
 		devices[i].sleep_queue = 0;
-		devices[i].next_match = dev_freq[i];
+		devices[i].next_match = 0;
 	}
 }
 
@@ -84,6 +84,7 @@ void dev_update(unsigned long millis )
 {
 	//check each device for an event
 	int i;	
+	int have_some = 0;
 	for( i = 0; i < NUM_DEVICES - 1; i++)
 	{
 		if( millis >= devices[i].next_match)
@@ -103,6 +104,9 @@ void dev_update(unsigned long millis )
 				next = sleepy->sleep_queue;
 				sleepy->sleep_queue = 0;
 				sleepy = next;
+
+				//set flag that there is a reason to update
+				have_some = 1;
 				
 			}
 
@@ -110,7 +114,7 @@ void dev_update(unsigned long millis )
 			devices[i].next_match += dev_freq[i];
 		}
 	}
-	//re-evaluate our priorities
-	dispatch_save();
+	//re-evaluate our priorities, if we have a reason to
+	if(have_some == 1 ) dispatch_save();
 }
 
