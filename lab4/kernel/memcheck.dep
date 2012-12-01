@@ -1,9 +1,0 @@
- \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/memcheck.o:  \
- /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/memcheck.c \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/kernel.h \
-  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/kernel.h:
-
-/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/types.h:
