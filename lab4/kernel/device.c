@@ -19,12 +19,12 @@
 
 /**
  * @brief Fake device maintainence structure.
- * Since our tasks are periodic, we can represent 
- * tasks with logical devices. 
- * These logical devices should be signalled periodically 
+ * Since our tasks are periodic, we can represent
+ * tasks with logical devices.
+ * These logical devices should be signalled periodically
  * so that you can instantiate a new job every time period.
- * Devices are signaled by calling dev_update 
- * on every timer interrupt. In dev_update check if it is 
+ * Devices are signaled by calling dev_update
+ * on every timer interrupt. In dev_update check if it is
  * time to create a tasks new job. If so, make the task runnable.
  * There is a wait queue for every device which contains the tcbs of
  * all tasks waiting on the device event to occur.
@@ -46,13 +46,16 @@ static dev_t devices[NUM_DEVICES];
  */
 void dev_init(void)
 {
-	/* the following line is to get rid of the warning and should not be needed */	
-	int i;	
+  disable_interrupts();
+	/* the following line is to get rid of the warning and should not be needed */
+	int i;
 	for( i=0; i < NUM_DEVICES - 1; i++)
 	{
 		devices[i].sleep_queue = 0;
 		devices[i].next_match = 0;
 	}
+
+	enable_interrupts();
 }
 
 
@@ -64,27 +67,32 @@ void dev_init(void)
  */
 void dev_wait(unsigned int dev )
 {
-	if(debug_enabled == 1)puts("dev_wait++\n");	
+  disable_interrupts();
+
+	if(debug_enabled == 1)puts("dev_wait++\n");
 	//add to the sleep queue
 	tcb_t* sleep_me = get_cur_tcb();
 	sleep_me->sleep_queue = devices[dev].sleep_queue;
 	devices[dev].sleep_queue = sleep_me;
 	if(debug_enabled == 1)printf("dev_wait...dev = %d:::new = (prio) %d:::old = %x\n", dev, (unsigned)devices[dev].sleep_queue->cur_prio, (unsigned)devices[dev].sleep_queue->sleep_queue);
-	
+
+  enable_interrupts();
 }
 
 
 /**
- * @brief Signals the occurrence of an event on all applicable devices. 
- * This function should be called on timer interrupts to determine that 
- * the interrupt corresponds to the event frequency of a device. If the 
- * interrupt corresponded to the interrupt frequency of a device, this 
- * function should ensure that the task is made ready to run 
+ * @brief Signals the occurrence of an event on all applicable devices.
+ * This function should be called on timer interrupts to determine that
+ * the interrupt corresponds to the event frequency of a device. If the
+ * interrupt corresponded to the interrupt frequency of a device, this
+ * function should ensure that the task is made ready to run
  */
 void dev_update(unsigned long millis )
 {
+  disable_interrupts();
+
 	//check each device for an event
-	int i;	
+	int i;
 	int have_some = 0;
 	if(debug_enabled ==1) puts("dev_update::checking \n");
 	for( i = 0; i < NUM_DEVICES - 1; i++)
@@ -102,7 +110,7 @@ void dev_update(unsigned long millis )
 			{
 				//WAKE UP SLEEPY
 				runqueue_add(sleepy, sleepy->cur_prio);
-				
+
 				if(debug_enabled == 1)printf("dev_update...dev = %d:::woke up (prio)= %d::next =  %x\n", i, (unsigned)sleepy->cur_prio, (unsigned)sleepy->sleep_queue);
 				//another sleeper?
 				next = sleepy->sleep_queue;
@@ -111,7 +119,7 @@ void dev_update(unsigned long millis )
 
 				//set flag that there is a reason to update
 				have_some = 1;
-				
+
 			}
 
 			//set next match point in millis
@@ -120,5 +128,6 @@ void dev_update(unsigned long millis )
 	}
 	//re-evaluate our priorities, if we have a reason to
 	if(have_some == 1 ) dispatch_save();
-}
 
+	enable_interrupts();
+}

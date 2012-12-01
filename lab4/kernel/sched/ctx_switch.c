@@ -63,7 +63,7 @@ void ctx_dump(sched_context_t* dmp_ctx, unsigned prio)
 void dispatch_save(void)
 {
 	//make sure this isn't interrupted
-	disable_interrupts();
+	//disable_interrupts();
 	if(debug_enabled == 1) puts("\tdispatch_save::++\n");
 	if(debug_enabled == 1) printf("\tdispatch_save::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
@@ -83,12 +83,12 @@ void dispatch_save(void)
 	//switch tasks
 	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   			//call the context switch (target, current)
 	if(debug_enabled == 1) puts("\tdispatch_save::completed ctx_switch_full\n");
-	
+
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	if(debug_enabled == 1) puts("\tdispatch_save::--\n");
 	//re-enable interrupts
-	enable_interrupts();
+	//enable_interrupts();
 }
 
 /**
@@ -101,7 +101,7 @@ void dispatch_nosave(void)
 {
 	if(debug_enabled == 1) puts("\tdispatch_nosave::++\n");
 	//disable interrupts so we don't mess up the ctx switch
-	disable_interrupts();
+	//disable_interrupts();
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//get the next task to run
@@ -119,7 +119,7 @@ void dispatch_nosave(void)
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//re-enable interrupts
-	enable_interrupts();
+	//enable_interrupts();
 	if(debug_enabled == 1) puts("\tdispatch_nosave::--\n");
 }
 
@@ -134,7 +134,7 @@ void dispatch_sleep(void)
 {
 	if(debug_enabled == 1) puts("\tdispatch_sleep::++\n");
 	//disable interrupts for the ctx switch
-	disable_interrupts();
+	//disable_interrupts();
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	if(debug_enabled == 1) printf("\tdispatch_sleep::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
@@ -153,7 +153,7 @@ void dispatch_sleep(void)
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//re-enable interrupts
-	enable_interrupts();
+	//enable_interrupts();
 	if(debug_enabled == 1) puts("\tdispatch_sleep::--\n");
 }
 
