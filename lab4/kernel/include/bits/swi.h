@@ -12,8 +12,9 @@
 #ifndef BITS_SWI_H
 #define BITS_SWI_H
 
-#define SWI_BASE 0x900000
+#define SWI_BASE 0x000000
 
+#define EXIT_SWI  (SWI_BASE + 1)
 #define READ_SWI  (SWI_BASE + 3)
 #define WRITE_SWI (SWI_BASE + 4)
 

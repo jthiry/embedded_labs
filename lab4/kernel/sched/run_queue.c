@@ -12,7 +12,7 @@
 #include <kernel.h>
 #include <sched.h>
 #include "sched_i.h"
-
+#include <debug.h>
 
 
 static tcb_t* run_list[OS_MAX_TASKS];
@@ -81,14 +81,18 @@ void runqueue_init(void)
  */
 void runqueue_add(tcb_t* tcb, uint8_t prio )
 {
+	if(debug_enabled == 1)printf("runqueue_add...++, prio = %d\n", (unsigned)prio);
 	//put tcb in run_list
 	run_list[prio] = tcb;
 	
+	//TODOTODO: Figure out what the fuck this does, exactly... 
 	//set appropriate bits to one
 	uint8_t y = (prio >> 3); 	//loc in group_bits
 	uint8_t x = (prio & 0x07); 	//loc in run_bits
-	group_run_bits = (group_run_bits ^ y);
-	run_bits[y] = (run_bits[y] ^ x);
+	group_run_bits = (group_run_bits | x);
+	run_bits[y] = (run_bits[y] | x);
+
+	if(debug_enabled == 1)printf("end runqueue...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]); 
 
 }//DONE?
 
@@ -114,6 +118,7 @@ tcb_t* runqueue_remove(uint8_t prio)
 	group_run_bits = (group_run_bits ^ y);
 	run_bits[y] = (run_bits[y] ^ x);
 
+	if(debug_enabled == 1)printf("runqueue_remove... = prio=%d\n", (unsigned)prio);
 	return ret_tcb;
 } //DONE?
 
@@ -123,8 +128,11 @@ tcb_t* runqueue_remove(uint8_t prio)
  */
 uint8_t highest_prio(void)
 {
+	uint8_t ret;
 	uint8_t x = prio_unmap_table[group_run_bits];
 	if(x == 0) return ( OS_MAX_TASKS - 1); //idle task priority
 	uint8_t y = prio_unmap_table[run_bits[x]];
-	return (y << 3) + x;
+	ret = (y << 3) + x;
+	if(debug_enabled == 1)printf("highest_prio = %d\n", (unsigned)ret);
+	return ret;
 }//DONE?
