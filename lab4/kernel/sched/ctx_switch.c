@@ -18,7 +18,7 @@
 #include <exports.h>
 #endif
 
-static __attribute__((unused)) tcb_t* cur_tcb; /* use this if needed */
+static tcb_t* cur_tcb; /* use this if needed */
 
 /**
  * @brief Initialize the current TCB and priority.
@@ -42,7 +42,13 @@ void dispatch_init(tcb_t* idle __attribute__((unused)))
  */
 void dispatch_save(void)
 {
+	//add it back to runnable
+	runqueue_add(cur_tcb, cur_tcb->cur_prio);
 	
+	uint8_t h_prio = highest_prio();
+	cur_tcb = runqueue_remove(h_prio);
+	context_switch_full( 
+
 }
 
 /**

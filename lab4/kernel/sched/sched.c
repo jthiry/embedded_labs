@@ -20,6 +20,11 @@
 
 tcb_t system_tcb[OS_MAX_TASKS]; /*allocate memory for system TCBs */
 
+
+
+/*
+* ????
+*/
 void sched_init(task_t* main_task  __attribute__((unused)))
 {
 	
@@ -48,8 +53,59 @@ static void __attribute__((unused)) idle(void)
  * @param tasks  A list of scheduled task descriptors.
  * @param size   The number of tasks is the list.
  */
-void allocate_tasks(task_t** tasks  __attribute__((unused)), size_t num_tasks  __attribute__((unused)))
+void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 {
+
+	//clear the run queue
+	runqueue_init();
+
+	//set up TCBs for all tasks
+	//put the task in runqueue
+	//set up the TCB for idle task
+	//make idle task schedulable
 	
+	int i;
+	tcb_t* cur_tcb;
+	task_t* cur_task; 	
+	//for each task
+	for( i = 0; i < num_tasks - 1; i++)
+	{
+		cur_tcb = system_tcb[i+1];
+		cur_task = tasks[i];
+		
+		//create its tcb entry
+		cur_tcb->native_prio = i + 1; 			//reserve priority_lvl 1
+		cur_tcb->cur_prio = i + 1;   			// cur prio = native prio
+		
+								//according to launch_task:
+		cur_tcb->context.r4 = cur_task.lambda;		//lamba = entry point
+		cur_tcb->context.r5 = cur_task->data;  		//data = arg
+		cur_tcb->context.r6 = cur_task->stack_pos;  	//stack_pos
+		cur_tcb->context.lr = 0xfeedbeef;	
+
+		cur_tcb->holds_lock = 0;
+		//cur_tcb->sleep_queue =
+		//cur->kstack =
+		//cur->kstack_high =
+
+		//put it in the run_queue (make it runnable)
+		runqueue_add( cur_tcb, cur_tcb->native_prio );
+	}
+	
+	//set up idle tcb
+	cur_tcb = system_tcb[OS_MAX_TASKS - 1]; //last TCB, idle task
+	//create its tcb entry
+	cur_tcb->native_prio = OS_MAX_TASKS + 1;		//reserve priority_lvl 1
+	cur_tcb->cur_prio = OS_MAX_TASKS + 1;  			// cur prio = native prio
+	//according to launch_task:
+	cur_tcb->context.r4 = &idle;				//lamba = entry point
+	cur_tcb->context.r6 = 0;  				//stack_pos... shouldnt need this
+	cur_tcb->context.lr = 0xfeedbeef;	
+	cur_tcb->holds_lock = 0;
+	//cur_tcb->sleep_queue =
+	//cur->kstack =
+	//cur->kstack_high =
+	//put it in the run_queue (make it runnable)
+	runqueue_add( cur_tcb, cur_tcb->native_prio );
 }
 
