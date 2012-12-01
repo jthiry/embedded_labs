@@ -27,39 +27,45 @@ int tasks_insertion_sort( task_t** tasks, size_t num_tasks );
 
 int task_create(task_t* tasks , size_t num_tasks )
 {
-	
+	int i;
 	//clear tcb... memset? loop?
 
 	//check for insane input
-		//num < 64
-		//lamda in bounds
+	if( num_tasks > 62 ) return EINVAL;
+	
+	//lamda in bounds
+	/*
+	for( i = 0; i < num_tasks; i++)
+	{
+		
+
+
+	}
+	*/
 
 	//verify that they are schedulable, and sort
-	if ( assign_schedule( tasks, num_task) > 0 ) ;
-	else return 1;//error. unschedulable
+	if ( assign_schedule( tasks, num_task) == 0 ) return ESCHED;//error. unschedulable
 	
-	//begin to schedule them
-	//??	
-
 	//allocate_tasks
 	allocate_tasks( tasks, num_tasks )
 
 	//context switch to highest priority
 	dispatch_nosave();	
-	
-	
 	//dont return...
-
-  return 1; /* remove this line after adding your code */
 }
 
-int event_wait(unsigned int dev  __attribute__((unused)))
+int event_wait(unsigned int dev  )
 {
-  return 1; /* remove this line after adding your code */	
+	if(dev > NUM_DEVICES || dev < 0 ) return EINVAL; 	
+	dev_wait(dev);
+	
+	//context switch to highest priority
+	dispatch_nosave();	
+	
 }
 
 /* An invalid syscall causes the kernel to exit. */
-void invalid_syscall(unsigned int call_num  __attribute__((unused)))
+void invalid_syscall(unsigned int call_num  )
 {
 	printf("Kernel panic: invalid syscall -- 0x%08x\n", call_num);
 

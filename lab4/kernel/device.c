@@ -45,8 +45,13 @@ static dev_t devices[NUM_DEVICES];
  */
 void dev_init(void)
 {
-   /* the following line is to get rid of the warning and should not be needed */	
-   devices[0]=devices[0];
+	/* the following line is to get rid of the warning and should not be needed */	
+	int i;	
+	for( int i; i < NUM_DEVICES - 1; i++)
+	{
+		devices[i].sleep_queue = 0;
+		devices[i].next_match = dev_freq[i];
+	}
 }
 
 
@@ -56,8 +61,14 @@ void dev_init(void)
  *
  * @param dev  Device number.
  */
-void dev_wait(unsigned int dev __attribute__((unused)))
+void dev_wait(unsigned int dev )
 {
+	//add to the sleep queue
+	tcb_t* sleep_me = get_cur_tcb();
+	sleep_me->sleep_queue = device[dev].sleep_queue;
+	device[dev].sleep_queue = sleep_me;
+
+	dispatch_sleep();
 	
 }
 
@@ -69,8 +80,35 @@ void dev_wait(unsigned int dev __attribute__((unused)))
  * interrupt corresponded to the interrupt frequency of a device, this 
  * function should ensure that the task is made ready to run 
  */
-void dev_update(unsigned long millis __attribute__((unused)))
+void dev_update(unsigned long millis )
 {
-	
+	//check each device for an event
+	int i;	
+	for( int i; i < NUM_DEVICES - 1; i++)
+	{
+		if( millis >= devices[i].next_match)
+		{
+			//wake up device!
+			//make tasks ready to run
+
+			//for each sleeper
+			tcb_t* sleepy = devices[i].sleep_queue;
+			tcb_t* next;
+			while( sleepy != 0)
+			{
+				//WAKE UP SLEEPY
+				runqueue_add(sleepy, sleepy->cur_prio);
+				
+				//another sleeper?
+				next = sleepy->sleep_queue;
+				sleepy->sleep_queue = 0;
+				sleepy = next;
+				
+			}
+
+			//set next match point in millis
+			devices[i].next_match += dev_freq[i];
+		}
+	}
 }
 

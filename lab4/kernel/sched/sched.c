@@ -84,7 +84,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		cur_tcb->context.lr = 0xfeedbeef;	
 
 		cur_tcb->holds_lock = 0;
-		//cur_tcb->sleep_queue =
+		cur_tcb->sleep_queue = 0;
 		//cur->kstack =
 		//cur->kstack_high =
 
@@ -93,19 +93,21 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	}
 	
 	//set up idle tcb
-	cur_tcb = system_tcb[OS_MAX_TASKS - 1]; //last TCB, idle task
+	tcb_t* idle_tcb;
+	idle_tcb = system_tcb[OS_MAX_TASKS - 1]; //last TCB, idle task
 	//create its tcb entry
-	cur_tcb->native_prio = OS_MAX_TASKS + 1;		//reserve priority_lvl 1
-	cur_tcb->cur_prio = OS_MAX_TASKS + 1;  			// cur prio = native prio
+	idle_tcb->native_prio = OS_MAX_TASKS + 1;		//reserve priority_lvl 1
+	idle_tcb->cur_prio = OS_MAX_TASKS + 1;  			// cur prio = native prio
 	//according to launch_task:
-	cur_tcb->context.r4 = &idle;				//lamba = entry point
-	cur_tcb->context.r6 = 0;  				//stack_pos... shouldnt need this
-	cur_tcb->context.lr = 0xfeedbeef;	
-	cur_tcb->holds_lock = 0;
-	//cur_tcb->sleep_queue =
-	//cur->kstack =
-	//cur->kstack_high =
+	idle_tcb->context.r4 = &idle;				//lamba = entry point
+	idle_tcb->context.r6 = 0;  				//stack_pos... shouldnt need this
+	idle_tcb->context.lr = 0xfeedbeef;	
+	idle_tcb->holds_lock = 0;
+	idle_tcb->sleep_queue = 0;
+	//idle->kstack =
+	//idle->kstack_high =
 	//put it in the run_queue (make it runnable)
-	runqueue_add( cur_tcb, cur_tcb->native_prio );
+	runqueue_add( idle_tcb, idle_tcb->native_prio );
+	dispatch_init(idle_tcb);	
 }
 

@@ -26,9 +26,9 @@ static tcb_t* cur_tcb; /* use this if needed */
  * Set the initialization thread's priority to IDLE so that anything
  * will preempt it when dispatching the first task.
  */
-void dispatch_init(tcb_t* idle __attribute__((unused)))
+void dispatch_init(tcb_t* idle )
 {
-	
+	cur_tcb = idle;
 }
 
 
@@ -42,13 +42,13 @@ void dispatch_init(tcb_t* idle __attribute__((unused)))
  */
 void dispatch_save(void)
 {
+	tcb_t* current_tcb = cur_tcb;
 	//add it back to runnable
 	runqueue_add(cur_tcb, cur_tcb->cur_prio);	
 	
 	uint8_t h_prio = highest_prio();		//get highest priority
 	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the run_queue
-	context_switch_full(cur_tcb, );			//call the context switch 		
-
+	context_switch_full(cur_tcb, current_tcb);			//call the context switch (target, current)
 }
 
 /**
@@ -63,7 +63,7 @@ void dispatch_nosave(void)
 	cur_tcb = runqueue_remove(h_prio);	//retrieve task while removing it from runqueue
 	context_switch_half(cur_tcb);		//call the half context switch
 
-}
+} //DONE?
 
 
 /**
@@ -74,28 +74,25 @@ void dispatch_nosave(void)
  */
 void dispatch_sleep(void)
 {
-	//add the current task to the sleep queue
-	sleepqueue_add(cur_tcb, cur_tcb->cur_prio);
-
+	tcb_t* current_tcb = cur_tcb;
+	
 	uint8_t h_prio = highest_prio();		//get highest priority
 	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the runqueue
-	context_switch_full(cur_tcb, );		//call the context switch
-
-	
-}
+	context_switch_full(cur_tcb, current_tcb);		//call the context switch
+} //DONE?
 
 /**
  * @brief Returns the priority value of the current task.
  */
 uint8_t get_cur_prio(void)
 {
-	return 1; //fix this; dummy return to prevent compiler warning
-}
+	return cur_tcb->cur_prio;
+} //DONE
 
 /**
  * @brief Returns the TCB of the current task.
  */
 tcb_t* get_cur_tcb(void)
 {
-	return (tcb_t *) 0; //fix this; dummy return to prevent compiler warning
-}
+	return cur_tcb; //fix this; dummy return to prevent compiler warning
+}//DONE
