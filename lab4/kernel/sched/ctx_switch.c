@@ -15,6 +15,7 @@
 #include <config.h>
 #include <kernel.h>
 #include "sched_i.h"
+#include <arm/exception.h>
 
 #ifdef DEBUG_MUTEX
 #include <exports.h>
@@ -44,13 +45,24 @@ void dispatch_init(tcb_t* idle )
  */
 void dispatch_save(void)
 {
-	tcb_t* current_tcb = cur_tcb;
+  //make sure this isn't interrupted
+  disable_interrupts();
+
+  //save soon to be previous state for ctx switch
+	tcb_t* prev_tcb = cur_tcb;
+
 	//add it back to runnable
-	runqueue_add(cur_tcb, cur_tcb->cur_prio);	
-	
-	uint8_t h_prio = highest_prio();		//get highest priority
-	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the run_queue
-	ctx_switch_full(cur_tcb, current_tcb);			//call the context switch (target, current) }
+	runqueue_add(prev_tcb, prev_tcb->cur_prio);
+
+  //get the next task to run
+	uint8_t h_prio = highest_prio();		        //get highest priority
+	cur_tcb = runqueue_remove(h_prio);		      //retrieve task while removing it from the run_queue
+
+	//switch tasks
+	ctx_switch_full(cur_tcb, prev_tcb);   			//call the context switch (target, current)
+
+	//re-enable interrupts
+	enable_interrupts();
 }
 
 /**
@@ -61,11 +73,19 @@ void dispatch_save(void)
  */
 void dispatch_nosave(void)
 {
+  //disable interrupts so we don't mess up the ctx switch
+  disable_interrupts();
+
+  //get the next task to run
 	uint8_t h_prio = highest_prio();	    //get highest priority
 	cur_tcb = runqueue_remove(h_prio);	  //retrieve task while removing it from runqueue
+
+	//run the next task
 	ctx_switch_half(cur_tcb);		          //call the half context switch
 
-} //DONE?
+  //re-enable interrupts
+  enable_interrupts();
+}
 
 
 /**
@@ -76,12 +96,22 @@ void dispatch_nosave(void)
  */
 void dispatch_sleep(void)
 {
-	tcb_t* current_tcb = cur_tcb;
-	
-	uint8_t h_prio = highest_prio();		//get highest priority
-	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the runqueue
-	ctx_switch_full(cur_tcb, current_tcb);		//call the context switch
-} //DONE?
+  //disable interrupts for the ctx switch
+  disable_interrupts();
+
+  //save the soon to be previous tcb
+	tcb_t* prev_tcb = cur_tcb;
+
+  //get the next task to run
+	uint8_t h_prio = highest_prio();		      //get highest priority
+	cur_tcb = runqueue_remove(h_prio);		    //retrieve task while removing it from the runqueue
+
+	//switch tasks
+	ctx_switch_full(cur_tcb, prev_tcb);   		//call the context switch
+
+  //re-enable interrupts
+	enable_interrupts();
+}
 
 /**
  * @brief Returns the priority value of the current task.
@@ -89,7 +119,7 @@ void dispatch_sleep(void)
 uint8_t get_cur_prio(void)
 {
 	return cur_tcb->cur_prio;
-} //DONE
+}
 
 /**
  * @brief Returns the TCB of the current task.
@@ -97,4 +127,4 @@ uint8_t get_cur_prio(void)
 tcb_t* get_cur_tcb(void)
 {
 	return cur_tcb;
-}//DONE
+}

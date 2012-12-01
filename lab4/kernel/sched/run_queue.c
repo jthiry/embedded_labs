@@ -1,5 +1,5 @@
 /** @file run_queue.c
- * 
+ *
  * @brief Run queue maintainence routines.
  *
  * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
@@ -59,7 +59,7 @@ static uint8_t prio_unmap_table[]  =
 void runqueue_init(void)
 {
 	//clear run_list TODO:
-	
+
 	//clear group_run_bits
 	group_run_bits = 0;
 
@@ -69,7 +69,7 @@ void runqueue_init(void)
 	{
 		run_bits[i] = 0;
 	}
-}//DONE?
+}
 
 /**
  * @brief Adds the thread identified by the given TCB to the runqueue at
@@ -84,17 +84,17 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
 	if(debug_enabled == 1)printf("runqueue_add...++, prio = %d\n", (unsigned)prio);
 	//put tcb in run_list
 	run_list[prio] = tcb;
-	
-	//TODOTODO: Figure out what the fuck this does, exactly... 
+
+	//TODO: Figure out what the fuck this does, exactly...
 	//set appropriate bits to one
 	uint8_t y = (prio >> 3); 	//loc in group_bits
 	uint8_t x = (prio & 0x07); 	//loc in run_bits
 	group_run_bits = (group_run_bits | x);
 	run_bits[y] = (run_bits[y] | x);
 
-	if(debug_enabled == 1)printf("end runqueue...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]); 
+	if(debug_enabled == 1)printf("end runqueue...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 
-}//DONE?
+}
 
 
 /**
@@ -107,11 +107,11 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
 tcb_t* runqueue_remove(uint8_t prio)
 {
 	tcb_t* ret_tcb;
-	
+
 	//remove tcb from run_list
 	ret_tcb = run_list[prio];
 	run_list[prio] = 0;
-	
+
 	//set appropriate bits to zero
 	uint8_t y = (prio >> 3);
 	uint8_t x = (prio & 0x07);
@@ -120,7 +120,7 @@ tcb_t* runqueue_remove(uint8_t prio)
 
 	if(debug_enabled == 1)printf("runqueue_remove... = prio=%d\n", (unsigned)prio);
 	return ret_tcb;
-} //DONE?
+}
 
 /**
  * @brief This function examines the run bits and the run queue and returns the
@@ -135,4 +135,4 @@ uint8_t highest_prio(void)
 	ret = (y << 3) + x;
 	if(debug_enabled == 1)printf("highest_prio = %d\n", (unsigned)ret);
 	return ret;
-}//DONE?
+}
