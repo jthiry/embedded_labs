@@ -85,7 +85,6 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
 	//put tcb in run_list
 	run_list[prio] = tcb;
 
-	//TODO: Figure out what the fuck this does, exactly...
 	//set appropriate bits to one
 	uint8_t y = (prio >> 3); 	//loc in group_bits
 	uint8_t x = (prio & 0x07); 	//loc in run_bits
@@ -117,8 +116,10 @@ tcb_t* runqueue_remove(uint8_t prio)
 	//set appropriate bits to zero
 	uint8_t y = (prio >> 3);
 	uint8_t x = (prio & 0x07);
-	group_run_bits = (group_run_bits & !(1 << y) );
-	run_bits[y] = (run_bits[y] & !(1 << x));
+	run_bits[y] = (run_bits[y] & ~(1 << x));
+	if(run_bits[y] == 0)
+		//only clear the whole group's flag if the whole group is empty
+		group_run_bits = (group_run_bits & ~(1 << y) );
 
 	if(debug_enabled == 1)printf("end runqueue_remove...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 	return ret_tcb;

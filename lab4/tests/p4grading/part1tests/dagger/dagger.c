@@ -28,7 +28,7 @@ void fun1(void* str)
 	}
 }
 
-void fun2(void* str)
+/*void fun2(void* str)
 {
 	while(1)
 	{
@@ -37,7 +37,7 @@ void fun2(void* str)
 			panic("Dev 1 failed");
 	}
 }
-
+*/
 int main(int argc, char** argv)
 {
 	task_t tasks[2];
@@ -46,13 +46,13 @@ int main(int argc, char** argv)
 	tasks[0].stack_pos = (void*)0xa2000000;
 	tasks[0].C = 1;
 	tasks[0].T = PERIOD_DEV0;
-	tasks[1].lambda = fun2;
+/*	tasks[1].lambda = fun2;
 	tasks[1].data = (void*)'<';
 	tasks[1].stack_pos = (void*)0xa1000000;
 	tasks[1].C = 1;
 	tasks[1].T = PERIOD_DEV1;
-	
-	task_create(tasks, 2);
+*/	
+	task_create(tasks, 1);
 	argc=argc; /* remove compiler warning */
 	argv=argv; /* remove compiler warning */
 

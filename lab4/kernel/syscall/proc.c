@@ -61,11 +61,13 @@ int task_create(task_t* tasks , size_t num_tasks )
 int event_wait(unsigned int dev  )
 {
 	//if(dev > NUM_DEVICES || dev < 0 ) return EINVAL; 	
+	if(debug_enabled == 1)puts("event wait++\n");	
 	dev_wait(dev);
 
-	if(debug_enabled == 1)puts("task_create...dispatching\n");	
+	if(debug_enabled == 1)puts("event wait...dispatching_sleep\n");	
 	//context switch to highest priority
 	dispatch_sleep();	
+	if(debug_enabled == 1)puts("event wait--\n");	
 	
 	return 1;
 }
