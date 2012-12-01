@@ -39,7 +39,7 @@ S_HANDLER:
 
 	MOV r1, sp		  /*pass the stack to the handler as an arg*/
 	LDR r0, [lr, #-4]         /*load SWI into r0*/
-	BIC r0,r0, #0xfffffff0	  /*get SWI # by bit-masking*/
+	BIC r0,r0, #0xffffff00	  /*get SWI # by bit-masking*/
 	BL c_swi_handler
 	
 	/* restore spsr */  

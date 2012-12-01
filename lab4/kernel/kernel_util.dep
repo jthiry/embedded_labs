@@ -1,0 +1,9 @@
+ \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/kernel_util.o:  \
+ /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/kernel_util.S \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/constants.h \
+  /home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/physmem.h
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/constants.h:
+
+/home/jthiry/Documents/cmu/emebedded_sys/embedded_labs/lab4/kernel/include/arm/physmem.h:
