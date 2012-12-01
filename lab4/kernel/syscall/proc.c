@@ -34,12 +34,12 @@ int task_create(task_t* tasks , size_t num_tasks )
 
 	//check for insane input
 	if( num_tasks > 62 ) return EINVAL;
-	
+
 	//lamda in bounds
 	/*
 	for( i = 0; i < num_tasks; i++)
 	{
-		
+
 
 
 	}
@@ -47,25 +47,25 @@ int task_create(task_t* tasks , size_t num_tasks )
 
 	//verify that they are schedulable, and sort
 	//if ( assign_schedule( tasks, num_tasks) == 0 ) return ESCHED;//error. unschedulable
-	
+
 	//allocate_tasks
 	allocate_tasks( &tasks, num_tasks );
 
 	//context switch to highest priority
 	if(debug_enabled == 1)puts("task_create...dispatching\n");
-	dispatch_nosave();	
+	dispatch_nosave();
 	//dont return...
 	return 1;
 }
 
 int event_wait(unsigned int dev  )
 {
-	//if(dev > NUM_DEVICES || dev < 0 ) return EINVAL; 	
+	if(dev > (unsigned int) NUM_DEVICES ) return -EINVAL;
 	dev_wait(dev);
-	
+
 	//context switch to highest priority
-	dispatch_nosave();	
-	
+	dispatch_nosave();
+
 	return 1;
 }
 
