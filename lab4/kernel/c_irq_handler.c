@@ -23,7 +23,7 @@ unsigned volatile sleeping = 0;
 void c_irq_handler(){
 	//Which MR?
 	unsigned intSrc = reg_read(OSTMR_OSSR_ADDR);
-//	if(debug_enabled == 1) puts("c_irq_handler.c::\n");
+	if(debug_enabled == 1) puts("c_irq_handler.c::\n");
 
 	//MR1 is just a timer update
 	if(intSrc & 0x2)

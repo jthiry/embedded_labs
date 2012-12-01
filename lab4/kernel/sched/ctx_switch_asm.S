@@ -45,40 +45,19 @@ FUNC(launch_task)
 FUNC(ctx_switch_full)
 	/* Save the args */
 	/* Save the registers and return address */
-	STR   r4, [r1], #4
-	STR   r5, [r1], #4
-	STR   r6, [r1], #4
-	STR   r7, [r1], #4
-	STR   r8, [r1], #4
-	STR   r9, [r1], #4
-	STR   r10, [r1], #4
-	STR   r11, [r1], #4
-	STR   sp, [r1], #4
-	STR   lr, [r1], #4
+	stmfd sp!, {r0-r3}
+	stmia r1!, {r4-r11,sp,lr}
 
 	/* check if this task has been run*/
 	LDR   r4, [r0, #40]
 	LDR   r5, =0xfeedbeef
 	CMP   r4, r5
-	BEq   ctx_switch_half
+	BEQ   ctx_switch_half
 
-  /* branch to the half ctx switch to load the new process*/
+	/* branch to the half ctx switch to load the new process*/
 	/* Load the registers from the new process */
-	LDR   r4, [r0], #4
-	LDR   r5, [r0], #4
-	LDR   r6, [r0], #4
-	LDR   r7, [r0], #4
-	LDR   r8, [r0], #4
-	LDR   r9, [r0], #4
-	LDR   r10, [r0], #4
-	LDR   r11, [r0], #4
-	/* load the stack pointer from the new process*/
-  LDR   sp, [r0], #4
-  /* return to where the new process was*/
-  LDR   lr, [r0], #4
-  MOV   pc, lr
-
-
+	ldmfd sp!, {r0-r3}
+	ldmdb r0!, {r4-r11,sp,pc}
 
 /*add your code to perform a half context switch */
 FUNC(ctx_switch_half)
