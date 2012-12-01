@@ -11,13 +11,13 @@
 #include "exit.h"
 #include <bits/swi.h>
 #include <exports.h>
-#include "bits/fileno.h"
-#include "bits/errno.h"
-#include "include/arm/interrupt.h"
+#include <bits/fileno.h>
+#include <bits/errno.h>
+#include <arm/interrupt.h>
 #include <arm/interrupt.h>
 #include <arm/timer.h>
 #include <arm/reg.h>
-#include "include/arm/timer.h"
+#include <arm/timer.h>
 #include <debug.h>
 #include <syscall.h>
 #include <lock.h>
@@ -50,7 +50,7 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 		case SLEEP_SWI:
 			sleep_syscall(regs[0]);
 			break;
-		
+
 		case CREATE_SWI:
 			return task_create((task_t*)regs[0], regs[1]);
 
