@@ -10,6 +10,7 @@
 
 #include "constants.h"
 #include <exports.h>
+#include <device.h>
 #include "include/arm/interrupt.h"
 #include "include/arm/exception.h"
 #include "include/arm/timer.h"
@@ -32,6 +33,7 @@ void c_irq_handler(){
 
 		/****increment kernel time****/
 		kernel_time += TIMER_COUNT_INC;
+		dev_update(kernel_time);
 	}
 
 }

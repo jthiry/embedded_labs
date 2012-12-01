@@ -63,8 +63,8 @@ int mutex_create(void)
 	//initialize mutex block
 	gtMutex[mutexID].bAvailable = TRUE;
 	gtMutex[mutexID].bLock = FALSE;
-	gtMutex[mutexID].pHolding_Tcb = (tcb_t*)-1;
-	gtMutex[mutexID].pSleep_queue = (tcb_t*)-1;
+	gtMutex[mutexID].pHolding_Tcb = (tcb_t*)0;
+	gtMutex[mutexID].pSleep_queue = (tcb_t*)0;
 
 	//enable interrupts
 	enable_interrupts();
@@ -105,7 +105,7 @@ int mutex_lock(int mutex)
     }
 
     //add to sleep queue
-    if(gtMutex[mutex].pSleep_queue < (tcb_t *)0) {
+    if(gtMutex[mutex].pSleep_queue == (tcb_t *)0) {
       //no sleep queue yet so make this the first
       gtMutex[mutex].pSleep_queue = get_cur_tcb();
     } else {
@@ -175,7 +175,7 @@ int mutex_unlock(int mutex)
    * if there isn't a process waiting then clear the holding tcb,
    * set the flag to available, and remove the lock
    */
-  if(gtMutex[mutex].pSleep_queue < (tcb_t *) 0) {
+  if(gtMutex[mutex].pSleep_queue == (tcb_t *) 0) {
     //nothing waiting on mutex so just free it
     gtMutex[mutex].bAvailable = TRUE;
 	  gtMutex[mutex].bLock = FALSE;

@@ -56,14 +56,13 @@ FUNC(ctx_switch_full)
 	STR   sp, [r1], #4
 	STR   lr, [r1], #4
 
+	/* check if this task has been run*/
+	LDR   r4, [r0, #40]
+	LDR   r5, =0xfeedbeef
+	CMP   r4, r5
+	BEq   ctx_switch_half
+
   /* branch to the half ctx switch to load the new process*/
-	B     ctx_switch_half
-
-
-
-/*add your code to perform a half context switch */
-FUNC(ctx_switch_half)
-	/* r0 points to target context? */
 	/* Load the registers from the new process */
 	LDR   r4, [r0], #4
 	LDR   r5, [r0], #4
@@ -78,3 +77,14 @@ FUNC(ctx_switch_half)
   /* return to where the new process was*/
   LDR   lr, [r0], #4
   MOV   pc, lr
+
+
+
+/*add your code to perform a half context switch */
+FUNC(ctx_switch_half)
+	/* r0 points to target context? */
+	LDR   r4, [r0], #4
+	LDR   r5, [r0], #4
+	LDR   r6, [r0], #4
+
+	B     launch_task
