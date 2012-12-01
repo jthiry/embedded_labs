@@ -76,4 +76,5 @@ FUNC(ctx_switch_half)
 	/* load the stack pointer from the new process*/
   LDR   sp, [r0], #4
   /* return to where the new process was*/
-  LDR   pc, [r0], #4
+  LDR   lr, [r0], #4
+  MOV   pc, lr
