@@ -60,7 +60,7 @@ FUNC(ctx_switch_full)
 	LDR   r4, [r0, #40]
 	LDR   r5, =0xfeedbeef
 	CMP   r4, r5
-	BEq    launch_task
+	BEq   ctx_switch_half
 
   /* branch to the half ctx switch to load the new process*/
 	/* Load the registers from the new process */
