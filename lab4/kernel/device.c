@@ -47,7 +47,7 @@ void dev_init(void)
 {
 	/* the following line is to get rid of the warning and should not be needed */	
 	int i;	
-	for( int i; i < NUM_DEVICES - 1; i++)
+	for( i=0; i < NUM_DEVICES - 1; i++)
 	{
 		devices[i].sleep_queue = 0;
 		devices[i].next_match = dev_freq[i];
@@ -65,8 +65,8 @@ void dev_wait(unsigned int dev )
 {
 	//add to the sleep queue
 	tcb_t* sleep_me = get_cur_tcb();
-	sleep_me->sleep_queue = device[dev].sleep_queue;
-	device[dev].sleep_queue = sleep_me;
+	sleep_me->sleep_queue = devices[dev].sleep_queue;
+	devices[dev].sleep_queue = sleep_me;
 
 	dispatch_sleep();
 	
@@ -84,7 +84,7 @@ void dev_update(unsigned long millis )
 {
 	//check each device for an event
 	int i;	
-	for( int i; i < NUM_DEVICES - 1; i++)
+	for( i = 0; i < NUM_DEVICES - 1; i++)
 	{
 		if( millis >= devices[i].next_match)
 		{

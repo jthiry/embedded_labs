@@ -1,0 +1,8 @@
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/swi/mutex_unlock.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/tasks/libc/swi/mutex_unlock.S \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/asm.h \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/swi.h
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/asm.h:
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/swi.h:

@@ -27,7 +27,7 @@ int tasks_insertion_sort( task_t** tasks, size_t num_tasks );
 
 int task_create(task_t* tasks , size_t num_tasks )
 {
-	int i;
+	//int i;
 	//clear tcb... memset? loop?
 
 	//check for insane input
@@ -44,7 +44,7 @@ int task_create(task_t* tasks , size_t num_tasks )
 	*/
 
 	//verify that they are schedulable, and sort
-	if ( assign_schedule( tasks, num_task) == 0 ) return ESCHED;//error. unschedulable
+	//if ( assign_schedule( tasks, num_tasks) == 0 ) return ESCHED;//error. unschedulable
 	
 	//allocate_tasks
 	allocate_tasks( &tasks, num_tasks );
@@ -52,16 +52,18 @@ int task_create(task_t* tasks , size_t num_tasks )
 	//context switch to highest priority
 	dispatch_nosave();	
 	//dont return...
+	return 1;
 }
 
 int event_wait(unsigned int dev  )
 {
-	if(dev > NUM_DEVICES || dev < 0 ) return EINVAL; 	
+	//if(dev > NUM_DEVICES || dev < 0 ) return EINVAL; 	
 	dev_wait(dev);
 	
 	//context switch to highest priority
 	dispatch_nosave();	
 	
+	return 1;
 }
 
 /* An invalid syscall causes the kernel to exit. */

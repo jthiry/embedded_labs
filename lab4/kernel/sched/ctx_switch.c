@@ -50,7 +50,7 @@ void dispatch_save(void)
 	
 	uint8_t h_prio = highest_prio();		//get highest priority
 	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the run_queue
-	context_switch_full(cur_tcb, current_tcb);			//call the context switch (target, current)
+	ctx_switch_full(cur_tcb, current_tcb);			//call the context switch (target, current) }
 }
 
 /**
@@ -80,7 +80,7 @@ void dispatch_sleep(void)
 	
 	uint8_t h_prio = highest_prio();		//get highest priority
 	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the runqueue
-	context_switch_full(cur_tcb, current_tcb);		//call the context switch
+	ctx_switch_full(cur_tcb, current_tcb);		//call the context switch
 } //DONE?
 
 /**

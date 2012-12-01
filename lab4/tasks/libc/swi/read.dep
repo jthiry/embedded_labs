@@ -1,0 +1,11 @@
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/swi/read.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/tasks/libc/swi/read.S \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/swi.h \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/fileno.h \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/asm.h
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/swi.h:
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/fileno.h:
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/asm.h:
