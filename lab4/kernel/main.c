@@ -21,7 +21,7 @@
 #include <arm/exception.h>
 #include <arm/interrupt.h>
 #include "swi_handler.h"
-#include "arm/irq_handler.h"
+#include <arm/irq_handler.h>
 #include "constants.h"
 #include "kernel_util.h"
 #include "c_kernel_util.h"
@@ -113,6 +113,7 @@ int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused))
 	if(debug_enabled==1)
 		puts("Exiting kernel.\n");
 
+  //REMOVE THIS BEFORE SUBMITTING
   return status;
 
 	assert(0);        /* should never get here */
