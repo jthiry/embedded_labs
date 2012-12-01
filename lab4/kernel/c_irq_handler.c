@@ -11,11 +11,11 @@
 #include "constants.h"
 #include <exports.h>
 #include <device.h>
-#include "include/arm/interrupt.h"
-#include "include/arm/exception.h"
-#include "include/arm/timer.h"
-#include "include/arm/psr.h"
-#include "include/arm/reg.h"
+#include <arm/interrupt.h>
+#include <arm/exception.h>
+#include <arm/timer.h>
+#include <arm/psr.h>
+#include <arm/reg.h>
 #include <debug.h>
 
 unsigned volatile sleeping = 0;
