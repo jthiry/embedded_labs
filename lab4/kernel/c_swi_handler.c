@@ -11,16 +11,10 @@
 #include "exit.h"
 #include <bits/swi.h>
 #include <exports.h>
-#include <bits/fileno.h>
-#include <bits/errno.h>
-#include <arm/interrupt.h>
-#include <arm/interrupt.h>
-#include <arm/timer.h>
-#include <arm/reg.h>
-#include <arm/timer.h>
 #include <debug.h>
 #include <syscall.h>
 #include <lock.h>
+#include <sched.h>
 
 
 //exits the kernel with a given status
@@ -30,6 +24,10 @@ void c_exit(int status) { _exit(status);}
 
 //call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
+  //save the context
+  sched_context_t ctx = get_cur_tcb()->context;
+
+  int ret = 0;
 
 	if(debug_enabled ==1) printf ("c_swi_handler:: swi_num = %d\n", swi_num ) ;
 	switch(swi_num){
@@ -39,36 +37,48 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 			break;
 
 		case READ_SWI:
-			return read_syscall(regs[0], (void *) regs[1], regs[2]);
+			ret = read_syscall(regs[0], (void *) regs[1], regs[2]);
+			break;
 
 		case WRITE_SWI:
-			return write_syscall(regs[0], (void *) regs[1], regs[2]);
+			ret = write_syscall(regs[0], (void *) regs[1], regs[2]);
+			break;
 
 		case TIME_SWI:
-			return time_syscall();
+			ret = time_syscall();
+			break;
 
 		case SLEEP_SWI:
 			sleep_syscall(regs[0]);
 			break;
 
 		case CREATE_SWI:
-			return task_create((task_t*)regs[0], regs[1]);
+			ret = task_create((task_t*)regs[0], regs[1]);
+			break;
 
 		case MUTEX_CREATE:
-			return mutex_create();
+			ret = mutex_create();
+			break;
 
 		case MUTEX_LOCK:
-			return mutex_lock(regs[0]);
+			ret = mutex_lock(regs[0]);
+			break;
 
 		case MUTEX_UNLOCK:
-			return mutex_unlock(regs[0]);
+			ret = mutex_unlock(regs[0]);
+			break;
 
 		case EVENT_WAIT:
-			return event_wait(regs[0]);
+			ret = event_wait(regs[0]);
+			break;
 
 		default:
 			invalid_syscall(0x0badc0de);
 			break;
 	}
-	return 0;
+
+	//restore context
+	get_cur_tcb()->context = ctx;
+
+	return ret;
 }
