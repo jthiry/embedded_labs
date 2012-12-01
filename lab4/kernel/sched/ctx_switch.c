@@ -47,9 +47,9 @@ void dispatch_save(void)
 	//add it back to runnable
 	runqueue_add(cur_tcb, cur_tcb->cur_prio);
 
-	uint8_t h_prio = highest_prio();
-	cur_tcb = runqueue_remove(h_prio);
-	context_switch_full();
+	uint8_t h_prio = highest_prio();		//get highest priority
+	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the run_queue
+	context_switch_full(cur_tcb, );			//call the context switch
 
 }
 
@@ -61,6 +61,9 @@ void dispatch_save(void)
  */
 void dispatch_nosave(void)
 {
+	uint8_t h_prio = highest_prio();	//get highest priority
+	cur_tcb = runqueue_remove(h_prio);	//retrieve task while removing it from runqueue
+	context_switch_half(cur_tcb);		//call the half context switch
 
 }
 
@@ -73,6 +76,12 @@ void dispatch_nosave(void)
  */
 void dispatch_sleep(void)
 {
+	//add the current task to the sleep queue
+	sleepqueue_add(cur_tcb, cur_tcb->cur_prio);
+
+	uint8_t h_prio = highest_prio();		//get highest priority
+	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the runqueue
+	context_switch_full(cur_tcb, );		//call the context switch
 
 }
 

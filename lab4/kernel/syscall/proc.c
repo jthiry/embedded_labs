@@ -1,4 +1,4 @@
-** @file proc.c
+/* @file proc.c
  * 
  * @brief Implementation of `process' syscalls
  *
