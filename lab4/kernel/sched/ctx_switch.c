@@ -66,8 +66,6 @@ void dispatch_save(void)
 	disable_interrupts();
 	if(debug_enabled == 1) puts("\tdispatch_save::++\n");
 	if(debug_enabled == 1) printf("\tdispatch_save::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
-	if(debug_enabled == 1) puts("\tCurrent");
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//save soon to be previous state for ctx switch
 	tcb_t* prev_tcb = cur_tcb;
@@ -80,12 +78,14 @@ void dispatch_save(void)
 	cur_tcb = runqueue_remove(h_prio);		      //retrieve task while removing it from the run_queue
 	if(debug_enabled == 1) printf("\tdispatch_save::after remove::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
 
-	if(debug_enabled == 1) puts("\tDestination");
+	//debug dump context
+	if(debug_enabled == 1) puts("Current ");
+	if(debug_enabled == 1) ctx_dump(&prev_tcb->context, prev_tcb->cur_prio);
+	if(debug_enabled == 1) puts("Destination ");
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+
 	//switch tasks
 	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   			//call the context switch (target, current)
-	if(debug_enabled == 1) puts("\tdispatch_save::completed ctx_switch_full\n");
-
 
 	if(debug_enabled == 1) puts("\tdispatch_save::--\n");
 	//re-enable interrupts
@@ -115,6 +115,7 @@ void dispatch_nosave(void)
 	ctx_switch_half(&cur_tcb->context);		          //call the half context switch
 
 	//we should never return here
+	puts("WE SHOULD NOT BE HERE ****\n");
 
 	if(debug_enabled == 1) puts("\tdispatch_nosave::completed ctx_switch_half\n");
 	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);

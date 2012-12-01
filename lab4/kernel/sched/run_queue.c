@@ -109,6 +109,8 @@ tcb_t* runqueue_remove(uint8_t prio)
 	//put tcb in run_list
 	tcb_t* ret_tcb;
 
+	if( prio >= OS_MAX_TASKS - 1 ) return run_list[OS_MAX_TASKS -1];
+
 	//remove tcb from run_list
 	ret_tcb = run_list[prio];
 	run_list[prio] = 0;
