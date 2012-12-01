@@ -1,0 +1,90 @@
+
+kernel/sched/sched.o:     file format elf32-littlearm
+
+Disassembly of section .text:
+
+00000000 <sched_init>:
+   0:	e12fff1e 	bx	lr
+
+00000004 <idle>:
+   4:	e10f3000 	mrs	r3, CPSR
+   8:	e3c330c0 	bic	r3, r3, #192	; 0xc0
+   c:	e121f003 	msr	CPSR_c, r3
+  10:	eafffffe 	b	10 <idle+0xc>
+
+00000014 <allocate_tasks>:
+  14:	e92d45f0 	stmdb	sp!, {r4, r5, r6, r7, r8, sl, lr}
+  18:	e1a0a000 	mov	sl, r0
+  1c:	e1a08001 	mov	r8, r1
+  20:	ebfffffe 	bl	0 <runqueue_init>
+  24:	e59f60d4 	ldr	r6, [pc, #212]	; 100 <.text+0x100>
+  28:	e3a05000 	mov	r5, #0	; 0x0
+  2c:	e1a07005 	mov	r7, r5
+  30:	ea000011 	b	7c <allocate_tasks+0x68>
+  34:	e1a00004 	mov	r0, r4
+  38:	ebfffffe 	bl	0 <memcpy>
+  3c:	e797200a 	ldr	r2, [r7, sl]
+  40:	e20530ff 	and	r3, r5, #255	; 0xff
+  44:	e5c43000 	strb	r3, [r4]
+  48:	e5c43001 	strb	r3, [r4, #1]
+  4c:	e5923000 	ldr	r3, [r2]
+  50:	e5920008 	ldr	r0, [r2, #8]
+  54:	e5921004 	ldr	r1, [r2, #4]
+  58:	e5843004 	str	r3, [r4, #4]
+  5c:	e59f30a0 	ldr	r3, [pc, #160]	; 104 <.text+0x104>
+  60:	e3a02000 	mov	r2, #0	; 0x0
+  64:	e5841008 	str	r1, [r4, #8]
+  68:	e2877004 	add	r7, r7, #4	; 0x4
+  6c:	e584000c 	str	r0, [r4, #12]
+  70:	e5843028 	str	r3, [r4, #40]
+  74:	e584202c 	str	r2, [r4, #44]
+  78:	e5842030 	str	r2, [r4, #48]
+  7c:	e2866a01 	add	r6, r6, #4096	; 0x1000
+  80:	e2483001 	sub	r3, r8, #1	; 0x1
+  84:	e2866038 	add	r6, r6, #56	; 0x38
+  88:	e1550003 	cmp	r5, r3
+  8c:	e1a01006 	mov	r1, r6
+  90:	e59f2070 	ldr	r2, [pc, #112]	; 108 <.text+0x108>
+  94:	e2855001 	add	r5, r5, #1	; 0x1
+  98:	e59f4060 	ldr	r4, [pc, #96]	; 100 <.text+0x100>
+  9c:	1affffe4 	bne	34 <allocate_tasks+0x20>
+  a0:	e59f0064 	ldr	r0, [pc, #100]	; 10c <.text+0x10c>
+  a4:	e59f3064 	ldr	r3, [pc, #100]	; 110 <.text+0x110>
+  a8:	e3a02041 	mov	r2, #65	; 0x41
+  ac:	e7c42000 	strb	r2, [r4, r0]
+  b0:	e7c42003 	strb	r2, [r4, r3]
+  b4:	e59f2058 	ldr	r2, [pc, #88]	; 114 <.text+0x114>
+  b8:	e2833003 	add	r3, r3, #3	; 0x3
+  bc:	e3a01000 	mov	r1, #0	; 0x0
+  c0:	e7842003 	str	r2, [r4, r3]
+  c4:	e59f2038 	ldr	r2, [pc, #56]	; 104 <.text+0x104>
+  c8:	e2833008 	add	r3, r3, #8	; 0x8
+  cc:	e7841003 	str	r1, [r4, r3]
+  d0:	e283301c 	add	r3, r3, #28	; 0x1c
+  d4:	e7842003 	str	r2, [r4, r3]
+  d8:	e2833004 	add	r3, r3, #4	; 0x4
+  dc:	e7841003 	str	r1, [r4, r3]
+  e0:	e2833004 	add	r3, r3, #4	; 0x4
+  e4:	e7841003 	str	r1, [r4, r3]
+  e8:	e7d41000 	ldrb	r1, [r4, r0]
+  ec:	e59f0024 	ldr	r0, [pc, #36]	; 118 <.text+0x118>
+  f0:	ebfffffe 	bl	0 <runqueue_add>
+  f4:	e59f001c 	ldr	r0, [pc, #28]	; 118 <.text+0x118>
+  f8:	e8bd45f0 	ldmia	sp!, {r4, r5, r6, r7, r8, sl, lr}
+  fc:	eafffffe 	b	0 <dispatch_init>
+ 100:	00000000 	andeq	r0, r0, r0
+ 104:	feedbeef 	cdp2	14, 14, cr11, cr13, cr15, {7}
+ 108:	00001038 	andeq	r1, r0, r8, lsr r0
+ 10c:	0003fdc8 	andeq	pc, r3, r8, asr #27
+ 110:	0003fdc9 	andeq	pc, r3, r9, asr #27
+ 114:	00000000 	andeq	r0, r0, r0
+ 118:	0003fdc8 	andeq	pc, r3, r8, asr #27
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	43434700 	movtmi	r4, #14080	; 0x3700
+   4:	4728203a 	undefined
+   8:	2029554e 	eorcs	r5, r9, lr, asr #10
+   c:	2e312e34 	mrccs	14, 1, r2, cr1, cr4, {1}
+  10:	Address 0x00000010 is out of bounds.
+
