@@ -1,5 +1,5 @@
 /* @file proc.c
- * 
+ *
  * @brief Implementation of `process' syscalls
  *
  * @author Mike Kasick <mkasick@andrew.cmu.edu>
@@ -47,7 +47,7 @@ int task_create(task_t* tasks , size_t num_tasks )
 	if ( assign_schedule( tasks, num_task) == 0 ) return ESCHED;//error. unschedulable
 	
 	//allocate_tasks
-	allocate_tasks( tasks, num_tasks )
+	allocate_tasks( &tasks, num_tasks );
 
 	//context switch to highest priority
 	dispatch_nosave();	
@@ -72,4 +72,3 @@ void invalid_syscall(unsigned int call_num  )
 	disable_interrupts();
 	while(1);
 }
-

@@ -1,14 +1,20 @@
-/** @file time.S
+/** @file mutex_create.S
  *
- * @brief time sycall wrapper
+ * @brief mutex create sycall wrapper
  *
- * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
- * @date 2008-10-31
+ * @author Joe Battaglia <JABAT295.gmail.com>
+ * @author Hans Reichenbach <HansReich.gmail.com>
+ * @author Josh Thiry <josh.thiry@gmail.com>
+ *
+ * @date   11/29/12
  */
 
 #include <asm.h>
+#include <bits/swi.h>
 
 	.file "mutex_create.S"
 
 FUNC(mutex_create)
-	@ Add code here.  Put your name at the top.
+  stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
+	swi MUTEX_CREATE              @ call the mutex create syscall. (note: uses OABI)
+	ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack

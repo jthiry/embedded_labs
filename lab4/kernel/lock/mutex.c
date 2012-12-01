@@ -3,10 +3,12 @@
  *
  * @brief Implements mutices.
  *
- * @author Harry Q Bovik < PUT YOUR NAMES HERE
+ * @author Joe Battaglia <JABAT295.gmail.com>
+ *          Hans Reichenbach <HansReich.gmail.com>
+ *          Josh Thiry <josh.thiry@gmail.com>
  *
- * 
- * @date  
+ * @date    11/29/12
+ *
  */
 
 //#define DEBUG_MUTEX
@@ -22,25 +24,187 @@
 #endif
 
 mutex_t gtMutex[OS_NUM_MUTEX];
+int mutexID;
 
 void mutex_init()
 {
-	
+  //disable interrupts
+  disable_interrupts();
+
+	//set up mutex id variable
+	mutexID = 0;
+
+	//initialize values for mutex array?
+
+	//enable interrupts
+	enable_interrupts();
 }
+
+
+
+
 
 int mutex_create(void)
 {
-	
-	return 1; // fix this to return the correct value
+  //disable interrupts
+  disable_interrupts();
+
+	//see if a mutex id is available
+	if(mutexID >= OS_NUM_MUTEX) {
+	  //no mutex IDs available
+
+	  enable_interrupts();
+	  return -ENOMEM;
+	}
+
+	//increment ID count
+	mutexID++;
+
+	//initialize mutex block
+	gtMutex[mutexID].bAvailable = TRUE;
+	gtMutex[mutexID].bLock = FALSE;
+	gtMutex[mutexID].pHolding_Tcb = (tcb_t*)-1;
+	gtMutex[mutexID].pSleep_queue = (tcb_t*)-1;
+
+	//enable interrupts
+	enable_interrupts();
+
+	return mutexID;
+
 }
 
-int mutex_lock(int mutex  __attribute__((unused)))
+
+
+
+
+
+int mutex_lock(int mutex)
 {
-	return 1; // fix this to return the correct value
+  //disable interrupts
+  disable_interrupts();
+
+  //check validity of the mutex id (return EINVAL if not valid)
+  if(mutex < 0 || mutex > mutexID) {
+    enable_interrupts();
+    return -EINVAL;
+  }
+
+  /* check if the mutex is available
+   *
+   * if it isn't then add this task to the queue for it
+   * and put the task to sleep
+   *
+   * also check if this process is the one already holding the
+   * mutex and return EDEADLOCK if it is
+   */
+  if(!(gtMutex[mutex].bAvailable)) {
+    //mutex isn't available so check for deadlock
+    if(gtMutex[mutex].pHolding_Tcb == get_cur_tcb()) {
+      enable_interrupts();
+      return -EDEADLOCK;
+    }
+
+    //add to sleep queue
+    if(gtMutex[mutex].pSleep_queue < (tcb_t *)0) {
+      //no sleep queue yet so make this the first
+      gtMutex[mutex].pSleep_queue = get_cur_tcb();
+    } else {
+      //a sleep queue already exists so find the end
+      tcb_t* t = gtMutex[mutex].pSleep_queue;
+      while((*t).sleep_queue > (tcb_t *)-1) {
+        t = (*t).sleep_queue;
+      }
+
+      //add the current task to the end of the sleep chain
+      (*t).sleep_queue = get_cur_tcb();
+    }
+
+    //enable interrupts and put task to sleep
+    enable_interrupts();
+    dispatch_sleep();
+    return 0;
+  }
+
+  //lock the mutex
+  gtMutex[mutex].bLock = TRUE;
+  gtMutex[mutex].bAvailable = FALSE;
+  gtMutex[mutex].pHolding_Tcb = get_cur_tcb();
+
+  //do tcb stuff
+  (*get_cur_tcb()).holds_lock += 1;
+
+  //enable interrupts
+  enable_interrupts();
+
+  //return success
+	return 0;
 }
 
-int mutex_unlock(int mutex  __attribute__((unused)))
+
+
+
+
+
+
+int mutex_unlock(int mutex)
 {
-	return 1; // fix this to return the correct value
-}
+  //disable interrupts
+  disable_interrupts();
 
+  //check validity of mutex id
+  if(mutex < 0 || mutex > mutexID) {
+    enable_interrupts();
+    return -EINVAL;
+  }
+
+  //check if the current task holds the rights to the lock
+  if(gtMutex[mutex].pHolding_Tcb != get_cur_tcb()) {
+    enable_interrupts();
+    return -EPERM;
+  }
+
+  /* check if the mutex has waiting processes
+   *
+   * if there is a process waiting then remove it from the queue,
+   * set it to be the active tcb for the mutex, and let it know
+   * it can run now
+   *
+   * make sure not to clobber the sleep queue, reset it to the
+   * next one in line
+   *
+   * if there isn't a process waiting then clear the holding tcb,
+   * set the flag to available, and remove the lock
+   */
+  if(gtMutex[mutex].pSleep_queue < (tcb_t *) 0) {
+    //nothing waiting on mutex so just free it
+    gtMutex[mutex].bAvailable = TRUE;
+	  gtMutex[mutex].bLock = FALSE;
+	  gtMutex[mutex].pHolding_Tcb = (tcb_t*)-1;
+  } else {
+    /*
+     * something waiting so shift the queue and tell the waiting
+     * task that the mutex is available after passing the mutex
+     * to the waiting task
+     */
+
+    //shift the sleep queue
+    tcb_t* t = gtMutex[mutex].pSleep_queue;
+    gtMutex[mutex].pSleep_queue = (*t).sleep_queue;
+    (*t).sleep_queue = (tcb_t *) -1;
+
+    //pass the mutex to the next tcb in the queue
+    gtMutex[mutex].pHolding_Tcb = t;
+    (*t).holds_lock += 1;
+
+    //activate the sleeping task
+    runqueue_add(t, (*t).cur_prio);
+  }
+
+  //decrement tcb hold counter
+  (*get_cur_tcb()).holds_lock -= 1;
+
+  //enable interrupts
+  enable_interrupts();
+
+	return 0;
+}

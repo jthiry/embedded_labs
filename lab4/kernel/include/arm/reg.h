@@ -23,6 +23,9 @@ INLINE uint32_t reg_read(size_t addr)
 INLINE void reg_write(size_t addr, uint32_t data)
 {
 	*((volatile uint32_t*)(PERIPHERAL_BASE + addr)) = data;
+
+	//loop to make sure the write takes
+	while(*((volatile uint32_t*)(PERIPHERAL_BASE + addr)) != data) {}
 }
 
 INLINE void reg_set(size_t addr, uint32_t flags)

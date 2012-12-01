@@ -1,11 +1,13 @@
 /** @file ctx_switch.c
- * 
+ *
  * @brief C wrappers around assembly context switch routines.
  *
- * @author Kartik Subramanian <ksubrama@andrew.cmu.edu>
- * @date 2008-11-21
+ *  @author  Joe Battaglia <JABAT295.gmail.com>
+ *          Hans Reichenbach <HansReich.gmail.com>
+ *          Josh Thiry <josh.thiry@gmail.com>
+ * @date 2012-11-29
  */
- 
+
 
 #include <types.h>
 #include <assert.h>
@@ -33,7 +35,7 @@ void dispatch_init(tcb_t* idle )
 
 
 /**
- * @brief Context switch to the highest priority task while saving off the 
+ * @brief Context switch to the highest priority task while saving off the
  * current task state.
  *
  * This function needs to be externally synchronized.
@@ -52,22 +54,22 @@ void dispatch_save(void)
 }
 
 /**
- * @brief Context switch to the highest priority task that is not this task -- 
+ * @brief Context switch to the highest priority task that is not this task --
  * don't save the current task state.
  *
  * There is always an idle task to switch to.
  */
 void dispatch_nosave(void)
 {
-	uint8_t h_prio = highest_prio();	//get highest priority
-	cur_tcb = runqueue_remove(h_prio);	//retrieve task while removing it from runqueue
-	context_switch_half(cur_tcb);		//call the half context switch
+	uint8_t h_prio = highest_prio();	    //get highest priority
+	cur_tcb = runqueue_remove(h_prio);	  //retrieve task while removing it from runqueue
+	ctx_switch_half(cur_tcb);		          //call the half context switch
 
 } //DONE?
 
 
 /**
- * @brief Context switch to the highest priority task that is not this task -- 
+ * @brief Context switch to the highest priority task that is not this task --
  * and save the current task but don't mark is runnable.
  *
  * There is always an idle task to switch to.
@@ -94,5 +96,5 @@ uint8_t get_cur_prio(void)
  */
 tcb_t* get_cur_tcb(void)
 {
-	return cur_tcb; //fix this; dummy return to prevent compiler warning
+	return cur_tcb;
 }//DONE
