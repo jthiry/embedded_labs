@@ -49,8 +49,8 @@ unsigned long get_millis(void);
 
 #endif /* ASSEMBLER */
 
-#define TIMER_COUNT_INC       500                     /* number of milliseconds we count by */
-#define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .5)   /* how many oscillations between timer counts*/
+#define TIMER_COUNT_INC       5                     /* number of milliseconds we count by */
+#define TIMER_COUNT_PERIOD    (OSTMR_FREQ * .005)   /* how many oscillations between timer counts*/
 #define AVG_DRIFT             0                     /* avg drift in oscillations per timer count period*/
 #define CLOCKS_PER_MILLI      OSTMR_FREQ/1000       /* oscillations per millisecond */
 #define CLEAR_ALL_FLAGS       0xFFFFFFFF            /* value to mask all interrupts */

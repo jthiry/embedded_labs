@@ -89,10 +89,10 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
 	//set appropriate bits to one
 	uint8_t y = (prio >> 3); 	//loc in group_bits
 	uint8_t x = (prio & 0x07); 	//loc in run_bits
-	group_run_bits = (group_run_bits | x);
-	run_bits[y] = (run_bits[y] | x);
+	group_run_bits = (group_run_bits | (1 << y) );
+	run_bits[y] = (run_bits[y] | (1 << x));
 
-	if(debug_enabled == 1)printf("end runqueue...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
+	if(debug_enabled == 1)printf("end runqueue_add...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 
 }
 
@@ -106,6 +106,8 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
  */
 tcb_t* runqueue_remove(uint8_t prio)
 {
+//	if(debug_enabled == 1)printf("runqueue_remove...++, prio = %d\n", (unsigned)prio);
+	//put tcb in run_list
 	tcb_t* ret_tcb;
 
 	//remove tcb from run_list
@@ -115,10 +117,10 @@ tcb_t* runqueue_remove(uint8_t prio)
 	//set appropriate bits to zero
 	uint8_t y = (prio >> 3);
 	uint8_t x = (prio & 0x07);
-	group_run_bits = (group_run_bits ^ y);
-	run_bits[y] = (run_bits[y] ^ x);
+	group_run_bits = (group_run_bits & !(1 << y) );
+	run_bits[y] = (run_bits[y] & !(1 << x));
 
-	if(debug_enabled == 1)printf("runqueue_remove... = prio=%d\n", (unsigned)prio);
+	if(debug_enabled == 1)printf("end runqueue_remove...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 	return ret_tcb;
 }
 
@@ -129,10 +131,10 @@ tcb_t* runqueue_remove(uint8_t prio)
 uint8_t highest_prio(void)
 {
 	uint8_t ret;
-	uint8_t x = prio_unmap_table[group_run_bits];
-	if(x == 0) return ( OS_MAX_TASKS - 1); //idle task priority
-	uint8_t y = prio_unmap_table[run_bits[x]];
+	if(group_run_bits == 0) return ( OS_MAX_TASKS - 1); //idle task priority
+	uint8_t y = prio_unmap_table[group_run_bits];
+	uint8_t x = prio_unmap_table[run_bits[y]];
 	ret = (y << 3) + x;
-	if(debug_enabled == 1)printf("highest_prio = %d\n", (unsigned)ret);
+//	if(debug_enabled == 1)printf("highest_prio = %d\n", (unsigned)ret);
 	return ret;
 }

@@ -87,13 +87,16 @@ int kmain(int argc __attribute__((unused)), char** argv  __attribute__((unused))
 		puts("Initializing timers...\n");
 
 	initialize_timer();
-
-
 	if(debug_enabled==1)
 		puts("Setting up stack...\n");
 
 	//Set up the stack
 	unsigned* stack_ptr = setup_stack( START_KERNEL, argc, argv);
+
+
+	//devices initialization
+	dev_init();
+
 	//Start the user program
 	if(debug_enabled==1)
 		puts("Starting user prog...\n");
