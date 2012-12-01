@@ -44,6 +44,12 @@ void dispatch_init(tcb_t* idle)
  */
 void dispatch_save(void)
 {
+	//add it back to runnable
+	runqueue_add(cur_tcb, cur_tcb->cur_prio);
+
+	uint8_t h_prio = highest_prio();
+	cur_tcb = runqueue_remove(h_prio);
+	context_switch_full();
 
 }
 

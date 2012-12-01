@@ -1,4 +1,4 @@
-/** @file proc.c
+** @file proc.c
  * 
  * @brief Implementation of `process' syscalls
  *
@@ -22,8 +22,34 @@
 #include <arm/physmem.h>
 #include <device.h>
 
-int task_create(task_t* tasks  __attribute__((unused)), size_t num_tasks  __attribute__((unused)))
+//prototype
+int tasks_insertion_sort( task_t** tasks, size_t num_tasks );
+
+int task_create(task_t* tasks , size_t num_tasks )
 {
+	
+	//clear tcb... memset? loop?
+
+	//check for insane input
+		//num < 64
+		//lamda in bounds
+
+	//verify that they are schedulable, and sort
+	if ( assign_schedule( tasks, num_task) > 0 ) ;
+	else return 1;//error. unschedulable
+	
+	//begin to schedule them
+	//??	
+
+	//allocate_tasks
+	allocate_tasks( tasks, num_tasks )
+
+	//context switch to highest priority
+	dispatch_nosave();	
+	
+	
+	//dont return...
+
   return 1; /* remove this line after adding your code */
 }
 
@@ -40,3 +66,4 @@ void invalid_syscall(unsigned int call_num  __attribute__((unused)))
 	disable_interrupts();
 	while(1);
 }
+

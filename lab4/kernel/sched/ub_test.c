@@ -17,7 +17,7 @@
 /**
  * @brief Perform UB Test and reorder the task list.
  *
- * The task list at the end of this method will be sorted in order is priority
+ * The task list at the end of this method will be sorted in order of priority
  * -- from highest priority (lowest priority number) to lowest priority
  * (highest priority number).
  *
