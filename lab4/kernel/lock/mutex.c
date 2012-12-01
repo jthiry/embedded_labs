@@ -21,6 +21,7 @@
 #include <arm/exception.h>
 #ifdef DEBUG_MUTEX
 #include <exports.h> // temp
+#include <debug.h>
 #endif
 
 mutex_t gtMutex[OS_NUM_MUTEX];
@@ -28,13 +29,14 @@ int mutexID;
 
 void mutex_init()
 {
+  if(debug_enabled == 1) printf("mutex::mutex_init start\n");
   //disable interrupts
   disable_interrupts();
 
 	//set up mutex id variable
 	mutexID = 0;
 
-	//initialize values for mutex array?
+	if(debug_enabled == 1) printf("mutex::mutex_init::mutexID = %d\n", mutexID);
 
 	//enable interrupts
 	enable_interrupts();
