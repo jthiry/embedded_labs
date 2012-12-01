@@ -62,9 +62,10 @@ int event_wait(unsigned int dev  )
 {
 	//if(dev > NUM_DEVICES || dev < 0 ) return EINVAL; 	
 	dev_wait(dev);
-	
+
+	if(debug_enabled == 1)puts("task_create...dispatching\n");	
 	//context switch to highest priority
-	dispatch_nosave();	
+	dispatch_sleep();	
 	
 	return 1;
 }

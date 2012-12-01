@@ -67,8 +67,6 @@ void dev_wait(unsigned int dev )
 	tcb_t* sleep_me = get_cur_tcb();
 	sleep_me->sleep_queue = devices[dev].sleep_queue;
 	devices[dev].sleep_queue = sleep_me;
-
-	dispatch_sleep();
 	
 }
 
