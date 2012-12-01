@@ -59,7 +59,7 @@ void dispatch_save(void)
 	cur_tcb = runqueue_remove(h_prio);		      //retrieve task while removing it from the run_queue
 
 	//switch tasks
-	ctx_switch_full(cur_tcb.context, prev_tcb.context);   			//call the context switch (target, current)
+	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   			//call the context switch (target, current)
 
 	//re-enable interrupts
 	enable_interrupts();
@@ -81,7 +81,7 @@ void dispatch_nosave(void)
 	cur_tcb = runqueue_remove(h_prio);	  //retrieve task while removing it from runqueue
 
 	//run the next task
-	ctx_switch_half(cur_tcb.context);		          //call the half context switch
+	ctx_switch_half(&cur_tcb->context);		          //call the half context switch
 
   //re-enable interrupts
   enable_interrupts();
@@ -107,7 +107,7 @@ void dispatch_sleep(void)
 	cur_tcb = runqueue_remove(h_prio);		    //retrieve task while removing it from the runqueue
 
 	//switch tasks
-	ctx_switch_full(cur_tcb.context, prev_tcb.context);   		//call the context switch
+	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   		//call the context switch
 
   //re-enable interrupts
 	enable_interrupts();
