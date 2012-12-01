@@ -1,5 +1,5 @@
 /* @file proc.c
- * 
+ *
  * @brief Implementation of `process' syscalls
  *
  * @author Mike Kasick <mkasick@andrew.cmu.edu>
@@ -27,7 +27,7 @@ int tasks_insertion_sort( task_t** tasks, size_t num_tasks );
 
 int task_create(task_t* tasks , size_t num_tasks )
 {
-	
+
 	//clear tcb... memset? loop?
 
 	//check for insane input
@@ -35,19 +35,19 @@ int task_create(task_t* tasks , size_t num_tasks )
 		//lamda in bounds
 
 	//verify that they are schedulable, and sort
-	if ( assign_schedule( tasks, num_task) > 0 ) ;
+	if ( assign_schedule( &tasks, num_tasks) > 0 );
 	else return 1;//error. unschedulable
-	
+
 	//begin to schedule them
-	//??	
+	//??
 
 	//allocate_tasks
-	allocate_tasks( tasks, num_tasks )
+	allocate_tasks( &tasks, num_tasks );
 
 	//context switch to highest priority
-	dispatch_nosave();	
-	
-	
+	dispatch_nosave();
+
+
 	//dont return...
 
   return 1; /* remove this line after adding your code */
@@ -55,7 +55,7 @@ int task_create(task_t* tasks , size_t num_tasks )
 
 int event_wait(unsigned int dev  __attribute__((unused)))
 {
-  return 1; /* remove this line after adding your code */	
+  return 1; /* remove this line after adding your code */
 }
 
 /* An invalid syscall causes the kernel to exit. */
@@ -66,4 +66,3 @@ void invalid_syscall(unsigned int call_num  __attribute__((unused)))
 	disable_interrupts();
 	while(1);
 }
-

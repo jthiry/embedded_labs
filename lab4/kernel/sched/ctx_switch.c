@@ -28,7 +28,7 @@ static tcb_t* cur_tcb; /* use this if needed */
  * Set the initialization thread's priority to IDLE so that anything
  * will preempt it when dispatching the first task.
  */
-void dispatch_init(tcb_t* idle)
+void dispatch_init(tcb_t* idle __attribute__((unused)))
 {
 
 }
@@ -47,9 +47,10 @@ void dispatch_save(void)
 	//add it back to runnable
 	runqueue_add(cur_tcb, cur_tcb->cur_prio);
 
-	uint8_t h_prio = highest_prio();		//get highest priority
-	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the run_queue
-	context_switch_full(cur_tcb, );			//call the context switch
+	uint8_t h_prio = highest_prio();		    //get highest priority
+	tcb_t* temp_tcb = cur_tcb;
+	cur_tcb = runqueue_remove(h_prio);		  //retrieve task while removing it from the run_queue
+	ctx_switch_full(cur_tcb, temp_tcb);			//call the context switch
 
 }
 
@@ -61,9 +62,9 @@ void dispatch_save(void)
  */
 void dispatch_nosave(void)
 {
-	uint8_t h_prio = highest_prio();	//get highest priority
-	cur_tcb = runqueue_remove(h_prio);	//retrieve task while removing it from runqueue
-	context_switch_half(cur_tcb);		//call the half context switch
+	uint8_t h_prio = highest_prio();	    //get highest priority
+	cur_tcb = runqueue_remove(h_prio);	  //retrieve task while removing it from runqueue
+	ctx_switch_half(cur_tcb);		          //call the half context switch
 
 }
 
@@ -77,13 +78,14 @@ void dispatch_nosave(void)
 void dispatch_sleep(void)
 {
 	//add the current task to the sleep queue
-	sleepqueue_add(cur_tcb, cur_tcb->cur_prio);
+	//sleepqueue_add(cur_tcb, cur_tcb->cur_prio);
 
-	uint8_t h_prio = highest_prio();		//get highest priority
+	uint8_t h_prio = highest_prio();		  //get highest priority
+	tcb_t* temp_tcb = cur_tcb;            //save the current tcb to switch
 	cur_tcb = runqueue_remove(h_prio);		//retrieve task while removing it from the runqueue
-	context_switch_full(cur_tcb, );		//call the context switch
+	ctx_switch_full(cur_tcb, temp_tcb);		//call the context switch
 
-}
+} //BROKEN AS SHEEIT
 
 /**
  * @brief Returns the priority value of the current task.
