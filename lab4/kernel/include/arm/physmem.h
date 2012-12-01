@@ -1,5 +1,5 @@
 /**
- * @file physmem.h
+  @file physmem.h
  *
  * @brief Definitions for Intel PXA-255 physical memory layout.
  *

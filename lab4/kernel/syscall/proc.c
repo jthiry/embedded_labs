@@ -21,13 +21,15 @@
 #include <arm/exception.h>
 #include <arm/physmem.h>
 #include <device.h>
+#include <debug.h>
 
 //prototype
 int tasks_insertion_sort( task_t** tasks, size_t num_tasks );
 
 int task_create(task_t* tasks , size_t num_tasks )
 {
-	//int i;
+	if(debug_enabled == 1)puts("task_create++\n");
+	//int i
 	//clear tcb... memset? loop?
 
 	//check for insane input
@@ -50,6 +52,7 @@ int task_create(task_t* tasks , size_t num_tasks )
 	allocate_tasks( &tasks, num_tasks );
 
 	//context switch to highest priority
+	if(debug_enabled == 1)puts("task_create...dispatching\n");
 	dispatch_nosave();	
 	//dont return...
 	return 1;

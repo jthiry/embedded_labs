@@ -8,6 +8,7 @@
 
 #include <types.h>
 #include <assert.h>
+#include <debug.h>
 
 #include <kernel.h>
 #include <config.h>
@@ -37,7 +38,7 @@ void sched_init(task_t* main_task  __attribute__((unused)))
 static void idle(void)
 {
 	 enable_interrupts();
-	 while(1);
+	 while(1)puts(".");
 }
 
 /**
@@ -55,6 +56,7 @@ static void idle(void)
  */
 void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 {
+	if(debug_enabled == 1)puts("allocate_tasks...++\n");
 
 	//clear the run queue
 	runqueue_init();
@@ -68,8 +70,10 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	tcb_t* cur_tcb; 
 	task_t* cur_task;;
 	//for each task
-	for( i = 0; i < num_tasks - 1; i++)
+	if(debug_enabled == 1)puts("allocate_tasks...entering loop\n");
+	for( i = 0; i < num_tasks; i++)
 	{
+		if(debug_enabled == 1)printf("allocate_tasks...allocating task %d\n", (unsigned)i);
 		cur_tcb = &system_tcb[i+1];
 		cur_task = tasks[i];
 
@@ -89,15 +93,16 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		//cur->kstack_high =
 
 		//put it in the run_queue (make it runnable)
-		//runqueue_add( cur_tcb, cur_tcb->native_prio );
+		runqueue_add( cur_tcb, cur_tcb->native_prio );
 	}
 
+	if(debug_enabled == 1)puts("allocate_tasks...loop complete, doing idle\n");
 	//set up idle tcb
 	tcb_t* idle_tcb;
 	idle_tcb = &system_tcb[OS_MAX_TASKS - 1];     //last TCB, idle task
 	//create its tcb entry
-	idle_tcb->native_prio = OS_MAX_TASKS + 1;     //reserve priority_lvl 1
-	idle_tcb->cur_prio = OS_MAX_TASKS + 1;  			// cur prio = native prio
+	idle_tcb->native_prio = OS_MAX_TASKS - 1;     //reserve priority_lvl 1
+	idle_tcb->cur_prio = OS_MAX_TASKS - 1;  			// cur prio = native prio
 	//according to launch_task:
 	idle_tcb->context.r4 = (uint32_t)&idle;				//lamba = entry point
 	idle_tcb->context.r6 = (uint32_t)0;  				  //stack_pos... shouldnt need this
@@ -108,5 +113,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	//idle->kstack_high =
 	//put it in the run_queue (make it runnable)
 	runqueue_add( idle_tcb, idle_tcb->native_prio );
+	if(debug_enabled == 1)puts("allocate_tasks...idle complete\n");
 	dispatch_init(idle_tcb);
+	if(debug_enabled == 1)puts("allocate_tasks...--\n");
 }
