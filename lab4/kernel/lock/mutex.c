@@ -151,8 +151,9 @@ int mutex_lock(int mutex)
     if(debug_enabled == 1) printf("mutex::mutex_lock about to put current tcb to sleep\n");
 
     //enable interrupts and put task to sleep
-    enable_interrupts();
     dispatch_sleep();
+    enable_interrupts();
+
     return 0;
   }
 
