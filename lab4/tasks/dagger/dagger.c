@@ -20,6 +20,7 @@ void panic(const char* str)
 
 void fun1(void* str)
 {
+	puts("**LAUNCHING fun1");
 	while(1)
 	{
 		putchar((int)str);
@@ -30,6 +31,8 @@ void fun1(void* str)
 
 void fun2(void* str)
 {
+	puts("**LAUNCHING fun2");
+	panic("fun2 begin...PANIC\n");
 	while(1)
 	{
 		putchar((int)str);
@@ -51,7 +54,6 @@ int main(int argc, char** argv)
 	tasks[1].stack_pos = (void*)0xa1000000;
 	tasks[1].C = 1;
 	tasks[1].T = PERIOD_DEV1;
-	
 
 	task_create(tasks, 2);
 	argc=argc; /* remove compiler warning */

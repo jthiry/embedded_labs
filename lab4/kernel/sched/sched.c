@@ -38,7 +38,7 @@ void sched_init(task_t* main_task  __attribute__((unused)))
 static void idle(void)
 {
 	 enable_interrupts();
-	 while(1)puts(".");
+	 while(1);
 }
 
 /**
@@ -85,7 +85,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		cur_tcb->context.r4 = (uint32_t) cur_task->lambda;		    //lamba = entry point
 		cur_tcb->context.r5 = (uint32_t) cur_task->data;  		    //data = arg
 		cur_tcb->context.r6 = (uint32_t) cur_task->stack_pos;     //stack_pos
-		cur_tcb->context.lr = (void*) 0xfeedbeef;
+		cur_tcb->context.r11 = (uint32_t) 0xfeedbeef;
 
 		cur_tcb->holds_lock = 0;
 		cur_tcb->sleep_queue = 0;
@@ -106,7 +106,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	//according to launch_task:
 	idle_tcb->context.r4 = (uint32_t)&idle;				//lamba = entry point
 	idle_tcb->context.r6 = (uint32_t)0;  				  //stack_pos... shouldnt need this
-	idle_tcb->context.lr = (void*)0xfeedbeef;
+	idle_tcb->context.r11 = (uint32_t)0xfeedbeef;
 	idle_tcb->holds_lock = 0;
 	idle_tcb->sleep_queue = 0;
 	//idle->kstack =

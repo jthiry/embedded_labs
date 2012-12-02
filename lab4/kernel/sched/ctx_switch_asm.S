@@ -38,22 +38,22 @@ FUNC(launch_task)
 	mov     sp, r6
 	mov     r6, #0
 	ldr     lr, =0xdeadbeef   /* Causes a crash instead of calling the reset vector */
+	
 	mov     pc, r4
+
 
 /* r0 points to the target context, r1 to the current context. */
 /* add your code to perform a full context switch */
 FUNC(ctx_switch_full)
 	/* Save the args */
 	/* Save the registers and return address */
-	stmia r1!, {r4-r11,sp,lr}
-	b abort_handler
+	stmia r1, {r4-r11,sp,lr}
 
-	
-	ldmdb r0, {r4-r11, sp, lr}
+	ldr r1, [r0, #28]	
 
 	/* check if this task has been run*/
 	LDR   r5, =0xfeedbeef
-	CMP   lr, r5
+	CMP   r1, r5
 	BEQ   ctx_switch_half
 	
 
@@ -67,6 +67,7 @@ FUNC(ctx_switch_half)
 	LDR   r4, [r0], #4
 	LDR   r5, [r0], #4
 	LDR   r6, [r0], #4
-	ldr lr, =0xfedbef00
+	LDR r11, =0xfedbef00
 
 	B     launch_task
+

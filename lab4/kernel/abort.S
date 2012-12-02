@@ -39,4 +39,7 @@ FUNC(abort_handler)
 	/*
 	 * Branch to register dump function with context as param
 	 */
+	/* Set up r8 correctly with u-boot dispatch table. */
+	ldr      ip, =global_data
+	ldr      r8, [ip]
 	b register_dump
