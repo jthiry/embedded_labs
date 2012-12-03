@@ -67,15 +67,16 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	//make idle task schedulable
 
 	size_t i;
-	tcb_t* cur_tcb; 
-	task_t* cur_task;;
+	tcb_t* cur_tcb;
+	task_t* cur_task;
+	
 	//for each task
 	if(debug_enabled == 1)puts("allocate_tasks...entering loop\n");
 	for( i = 0; i < num_tasks; i++)
 	{
 		if(debug_enabled == 1)printf("allocate_tasks...allocating task %d\n", (unsigned)i);
 		cur_tcb = &system_tcb[i+1];
-		cur_task = tasks[i];
+		cur_task = &(*tasks)[i];
 
 		//create its tcb entry
 		cur_tcb->native_prio = i + 1; 			//reserve priority_lvl 1
@@ -85,12 +86,14 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		cur_tcb->context.r4 = (uint32_t) cur_task->lambda;		    //lamba = entry point
 		cur_tcb->context.r5 = (uint32_t) cur_task->data;  		    //data = arg
 		cur_tcb->context.r6 = (uint32_t) cur_task->stack_pos;     //stack_pos
+		cur_tcb->context.r7 = (uint32_t) cur_tcb->kstack_high;     //stack_pos
 		cur_tcb->context.r11 = (uint32_t) 0xfeedbeef;
 
 		cur_tcb->holds_lock = 0;
 		cur_tcb->sleep_queue = 0;
 		//cur->kstack =
 		//cur->kstack_high =
+		//ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 		//put it in the run_queue (make it runnable)
 		runqueue_add( cur_tcb, cur_tcb->native_prio );
@@ -106,6 +109,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	//according to launch_task:
 	idle_tcb->context.r4 = (uint32_t)&idle;				//lamba = entry point
 	idle_tcb->context.r6 = (uint32_t)0;  				  //stack_pos... shouldnt need this
+	idle_tcb->context.r7 = (uint32_t) idle_tcb->kstack_high;     //stack_pos
 	idle_tcb->context.r11 = (uint32_t)0xfeedbeef;
 	idle_tcb->holds_lock = 0;
 	idle_tcb->sleep_queue = 0;

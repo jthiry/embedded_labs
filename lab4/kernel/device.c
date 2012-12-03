@@ -94,7 +94,7 @@ void dev_update(unsigned long millis )
 	//check each device for an event
 	int i;
 	int have_some = 0;
-	if(debug_enabled ==1) puts("dev_update::checking \n");
+	//if(debug_enabled ==1) puts("dev_update::checking \n");
 	for( i = 0; i < NUM_DEVICES - 1; i++)
 	{
 		if( millis >= devices[i].next_match)

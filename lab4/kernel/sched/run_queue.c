@@ -81,7 +81,7 @@ void runqueue_init(void)
  */
 void runqueue_add(tcb_t* tcb, uint8_t prio )
 {
-	if(debug_enabled == 1)printf("runqueue_add...++, prio = %d\n", (unsigned)prio);
+	if(debug_enabled == 1)printf("runqueue_add...++, task %d\n", (unsigned)prio);
 	//put tcb in run_list
 	run_list[prio] = tcb;
 
@@ -91,7 +91,7 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
 	group_run_bits = (group_run_bits | (1 << y) );
 	run_bits[y] = (run_bits[y] | (1 << x));
 
-	if(debug_enabled == 1)printf("end runqueue_add...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
+	//if(debug_enabled == 1)printf("end runqueue_add...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 
 }
 
@@ -105,6 +105,7 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
  */
 tcb_t* runqueue_remove(uint8_t prio)
 {
+	if(debug_enabled == 1)printf("runqueue_remove...++, task %d\n", (unsigned)prio);
 //	if(debug_enabled == 1)printf("runqueue_remove...++, prio = %d\n", (unsigned)prio);
 	//put tcb in run_list
 	tcb_t* ret_tcb;
@@ -123,7 +124,7 @@ tcb_t* runqueue_remove(uint8_t prio)
 		//only clear the whole group's flag if the whole group is empty
 		group_run_bits = (group_run_bits & ~(1 << y) );
 
-	if(debug_enabled == 1)printf("end runqueue_remove...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
+	//if(debug_enabled == 1)printf("end runqueue_remove...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 	return ret_tcb;
 }
 

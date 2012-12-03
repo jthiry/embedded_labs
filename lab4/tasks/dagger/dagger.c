@@ -20,7 +20,7 @@ void panic(const char* str)
 
 void fun1(void* str)
 {
-	puts("**LAUNCHING fun1");
+//	puts("**LAUNCHING fun1");
 	while(1)
 	{
 		putchar((int)str);
@@ -31,8 +31,7 @@ void fun1(void* str)
 
 void fun2(void* str)
 {
-	puts("**LAUNCHING fun2");
-	panic("fun2 begin...PANIC\n");
+//	puts("**LAUNCHING fun2");
 	while(1)
 	{
 		putchar((int)str);

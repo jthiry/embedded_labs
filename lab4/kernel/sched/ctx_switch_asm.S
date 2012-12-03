@@ -47,7 +47,10 @@ FUNC(launch_task)
 FUNC(ctx_switch_full)
 	/* Save the args */
 	/* Save the registers and return address */
+	stmfd sp!, {r0-r12, lr}
+	
 	stmia r1, {r4-r11,sp,lr}
+
 
 	ldr r1, [r0, #28]	
 
@@ -59,7 +62,9 @@ FUNC(ctx_switch_full)
 
 	/* branch to the half ctx switch to load the new process*/
 	/* Load the registers from the new process */
-	ldmdb r0!, {r4-r11, sp, pc}
+	ldmia r0!, {r4-r11, sp, lr}
+	ldmfd sp!, {r0-r12, lr}
+	mov pc, lr
 
 /*add your code to perform a half context switch */
 FUNC(ctx_switch_half)
@@ -67,6 +72,7 @@ FUNC(ctx_switch_half)
 	LDR   r4, [r0], #4
 	LDR   r5, [r0], #4
 	LDR   r6, [r0], #4
+	LDR   sp, [r0], #4
 	LDR r11, =0xfedbef00
 
 	B     launch_task

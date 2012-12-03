@@ -18,5 +18,5 @@
 FUNC(event_wait)
 	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
         swi EVENT_WAIT                  @ call the time syscall. (note: uses OABI
-        ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack
-
+        @ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack
+	mov pc, lr

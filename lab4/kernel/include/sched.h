@@ -29,6 +29,7 @@ int assign_schedule(task_t** tasks, size_t num_tasks);
 /* Current task state */
 uint8_t get_cur_prio(void);
 tcb_t* get_cur_tcb(void);
+sched_context_t* get_cur_ctx(void);
 
 /* Run-queue/priority management */
 void runqueue_add(tcb_t* tcb, uint8_t prio);

@@ -15,6 +15,7 @@
 #include <syscall.h>
 #include <lock.h>
 #include <sched.h>
+#include <arm/exception.h>
 
 
 //exits the kernel with a given status
@@ -24,10 +25,12 @@ void c_exit(int status) { _exit(status);}
 
 //call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
-  //save the context
-  sched_context_t ctx = get_cur_tcb()->context;
+	
+	//save the context
+	sched_context_t ctx = get_cur_tcb()->context;
+	enable_interrupts();
 
-  int ret = 0;
+	int ret = 0;
 
 	if(debug_enabled ==1) printf ("c_swi_handler:: swi_num = %d\n", swi_num ) ;
 	switch(swi_num){
@@ -77,6 +80,8 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 			break;
 	}
 
+	disable_interrupts();
+	
 	//restore context
 	get_cur_tcb()->context = ctx;
 
