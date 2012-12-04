@@ -39,7 +39,6 @@ FUNC(S_HANDLER)
 	bic     r0, r0, ip
 	/* r1 has already been correctly loaded above */
 	bl      c_swi_handler
-
 	/* Disable all interrupts. */
 	msr     cpsr_c, #(PSR_MODE_SVC | PSR_IRQ)
 

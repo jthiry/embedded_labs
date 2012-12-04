@@ -25,7 +25,7 @@ FUNC(write)
 	ldr r5, =errno                  @ get the address of the global variable "errno"
 	str r4, [r5]                    @ set errno to positive of syscall return
 
-no_error:
+no_error: 
 	ldmfd sp!, {r4-r12, lr}        @ restore registers from the stack
 	mov pc, lr
 

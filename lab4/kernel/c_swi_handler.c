@@ -26,8 +26,6 @@ void c_exit(int status) { _exit(status);}
 //call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 	
-	//save the context
-	sched_context_t ctx = get_cur_tcb()->context;
 	enable_interrupts();
 
 	int ret = 0;
@@ -82,8 +80,5 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 
 	disable_interrupts();
 	
-	//restore context
-	get_cur_tcb()->context = ctx;
-
 	return ret;
 }
