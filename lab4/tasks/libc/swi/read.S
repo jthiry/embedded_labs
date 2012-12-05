@@ -12,8 +12,6 @@
 	.file	"read.S"
 
 FUNC(read)
-	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
-
 	swi READ_SWI                  @ call the read syscall. (note: uses OABI
 	cmp r0, #0                    @ return 0 if no error
 	bpl no_error                  @ skip code if no error
@@ -26,5 +24,4 @@ FUNC(read)
 	str r4, [r5]                  @ set errno to positive of syscall return
 
 no_error:
-	ldmfd sp!, {r4-r12, lr}      @ restore registers from the stack
 	mov pc, lr			      @ return to the calling function

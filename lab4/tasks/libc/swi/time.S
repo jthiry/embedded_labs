@@ -16,6 +16,17 @@
 	.file "time.S"
 
 FUNC(time)
-	stmfd sp!, {r4-r12, lr}       @ store r4 on the stack so we don't crush someone
-	swi TIME_SWI                  @ call the time syscall. (note: uses OABI
-	ldmfd sp!, {r4-r12, pc}^      @ restore registers from the stack
+	swi TIME_SWI                   @ call the write syscall. (note: uses OABI
+        cmp r0, #0                      @ return 0 if no error
+        bpl no_error                    @ skip code if no error
+
+  @ handle error
+        mov r4, r0                      @ store error num returned to our variable.
+        mov r0, #-1                     @ set return to -1
+        EOR r4, r4, #0x80000000         @ flip sign of error num from syscall to positive
+        ldr r5, =errno                  @ get the address of the global variable "errno"
+        str r4, [r5]                    @ set errno to positive of syscall return
+
+no_error:
+        mov pc, lr
+

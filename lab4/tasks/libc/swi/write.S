@@ -12,8 +12,6 @@
 	.file	"write.S"
 
 FUNC(write)
-	stmfd sp!, {r4-r12, lr}         @ store the variable register
-	                                @ so we don't clobber calling program
 	swi WRITE_SWI                   @ call the write syscall. (note: uses OABI
 	cmp r0, #0                      @ return 0 if no error
 	bpl no_error                    @ skip code if no error
@@ -26,7 +24,6 @@ FUNC(write)
 	str r4, [r5]                    @ set errno to positive of syscall return
 
 no_error: 
-	ldmfd sp!, {r4-r12, lr}        @ restore registers from the stack
 	mov pc, lr
 
 					@return to calling function

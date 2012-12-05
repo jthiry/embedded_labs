@@ -95,6 +95,7 @@ void fun3(void* str)
 }
 int main(int argc, char** argv)
 {
+	once = 0;
 	task_t tasks[3];
 	tasks[0].lambda = fun1;
 	tasks[0].data = (void*)'s';
