@@ -28,7 +28,7 @@
  * @return 1  Test succeeded.  The tasks are now in order.
  */
 
-int debug_enabled2 = 1;
+int debug_enabled2 = 0;
 
 int assign_schedule(task_t* tasks, size_t num_tasks)
 {
