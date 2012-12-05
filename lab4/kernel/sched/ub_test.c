@@ -161,6 +161,11 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 		//reset cur and prev
 		cur, prev = 0;
 
+		//see if we can use ub test for this round
+		int ub = ub_test(tasks, num_tasks);
+		if(ub == 1) continue;
+		else if(ub == 0) return 0;
+
 		//calculate a0
 		size_t j;
 		for(j = 0; j < i; j++) {
