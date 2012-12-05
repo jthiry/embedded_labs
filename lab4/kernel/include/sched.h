@@ -37,7 +37,7 @@ tcb_t* runqueue_remove(uint8_t prio);
 uint8_t highest_prio(void);
 
 void sort_per(task_t* tasks, size_t num_tasks);
-int rt_test(task_t** tasks, size_t num_tasks);
+int rt_test(task_t* tasks, size_t num_tasks);
 float kroot2(size_t k);
 
 #endif /* SCHED_H */
