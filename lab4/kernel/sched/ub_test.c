@@ -167,8 +167,9 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 		else if(ub == 0) return 0;
 
 		//calculate a0
+		cur = tasks[i].B + tasks[i].C;
 		size_t j;
-		for(j = 0; j < i; j++) {
+		for(j = 0; j < i-1; j++) {
 			cur += tasks[j].C;
 		}
 
@@ -178,9 +179,9 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 			prev = cur;
 
 			/* calculate an
-			 * Ci + sum<k=1 to i-1> ( ceil(prev/Tk) * Ck )
+			 * Bi + Ci + sum<k=1 to i-1> ( ceil(prev/Tk) * Ck )
 			 */
-			cur = tasks[i].C;
+			cur = tasks[i].C + tasks[i].B;
 			size_t k;
 			for(k = 0; k < i - 1; k++) {
 				cur += ((prev / tasks[k].T) + 1) * tasks[k].C;
