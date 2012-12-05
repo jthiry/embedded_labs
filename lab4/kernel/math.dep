@@ -1,8 +1,0 @@
-/home/jabat/Documents/embedded_labs/lab4/kernel/math.o:  \
- /home/jabat/Documents/embedded_labs/lab4/kernel/math.c \
-  /home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h \
-  /home/jabat/Documents/embedded_labs/lab4/kernel/include/math.h
-
-/home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h:
-
-/home/jabat/Documents/embedded_labs/lab4/kernel/include/math.h:
