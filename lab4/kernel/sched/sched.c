@@ -66,15 +66,15 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	//set up the TCB for idle task
 	//make idle task schedulable
 
-	size_t i;
+	uint8_t i;
 	tcb_t* cur_tcb;
 	task_t* cur_task;
 
 	//for each task
 	if(debug_enabled == 1)puts("allocate_tasks...entering loop\n");
-	for( i = 0; i < num_tasks; i++)
+	for( i = 0; i < (uint8_t)num_tasks; i++)
 	{
-		if(debug_enabled == 1)printf("allocate_tasks...allocating task %d\n", (unsigned)i);
+		//if(debug_enabled == 1)printf("allocate_tasks...allocating task %d\n", (unsigned)i);
 		cur_tcb = &system_tcb[i+1];
 		cur_task = &(*tasks)[i];
 
@@ -94,6 +94,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		//cur->kstack =
 		//cur->kstack_high =
 		//ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+		printf("\ttask %d, cur_prio %d, data %d\n", i, cur_tcb->cur_prio, (unsigned)cur_task->data);
 
 		//put it in the run_queue (make it runnable)
 		runqueue_add( cur_tcb, cur_tcb->native_prio );

@@ -163,11 +163,11 @@ int main(int argc, char** argv)
     task_t tasks[4];
 	
 	//highest priority task
-        tasks[3].lambda = fun1;
-        tasks[3].data = (void*)'1';
-        tasks[3].stack_pos = (void*)0xa2500000;
-        tasks[3].C = 1;
-        tasks[3].T = PERIOD_DEV3;
+        tasks[0].lambda = fun1;
+        tasks[0].data = (void*)'1';
+        tasks[0].stack_pos = (void*)0xa2500000;
+        tasks[0].C = 1;
+        tasks[0].T = PERIOD_DEV3;
 
 	tasks[1].lambda = fun2;
 	tasks[1].data = (void*)'2';

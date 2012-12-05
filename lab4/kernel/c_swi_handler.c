@@ -75,6 +75,7 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 			invalid_syscall(0x0badc0de);
 			break;
 	}
+
 	
 	return ret;
 }
