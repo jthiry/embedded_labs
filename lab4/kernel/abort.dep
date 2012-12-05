@@ -1,0 +1,5 @@
+/home/jabat/Documents/embedded_labs/lab4/kernel/abort.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/kernel/abort.S \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h:

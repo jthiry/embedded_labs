@@ -1,0 +1,8 @@
+/home/jabat/Documents/embedded_labs/lab4/kernel/swi_handler.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/kernel/swi_handler.S \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/arm/psr.h
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/arm/psr.h:

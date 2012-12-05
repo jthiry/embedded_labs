@@ -1,0 +1,14 @@
+/home/jabat/Documents/embedded_labs/lab4/kernel/sched/ub_test.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/kernel/sched/ub_test.c \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/sched.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/task.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/config.h
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/sched.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/task.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/config.h:

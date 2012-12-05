@@ -1,0 +1,5 @@
+/home/jabat/Documents/embedded_labs/lab4/kernel/start.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/kernel/start.S \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h:

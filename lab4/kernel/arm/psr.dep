@@ -1,0 +1,11 @@
+/home/jabat/Documents/embedded_labs/lab4/kernel/arm/psr.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/kernel/arm/psr.c \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/arm/psr.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/inline.h
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/arm/psr.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/inline.h:

@@ -1,0 +1,8 @@
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/crt0.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/tasks/libc/crt0.S \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/asm.h \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/swi.h
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/asm.h:
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/bits/swi.h:

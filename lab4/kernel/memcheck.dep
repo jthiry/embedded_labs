@@ -1,0 +1,8 @@
+/home/jabat/Documents/embedded_labs/lab4/kernel/memcheck.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/kernel/memcheck.c \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/kernel.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/kernel.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/types.h:

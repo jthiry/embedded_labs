@@ -1,0 +1,8 @@
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/stdlib/ctype.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/tasks/libc/stdlib/ctype.c \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/ctype.h \
+  /home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/inline.h
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/ctype.h:
+
+/home/jabat/Documents/embedded_labs/lab4/tasks/libc/include/inline.h:

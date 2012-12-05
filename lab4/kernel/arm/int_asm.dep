@@ -1,0 +1,8 @@
+/home/jabat/Documents/embedded_labs/lab4/kernel/arm/int_asm.o:  \
+ /home/jabat/Documents/embedded_labs/lab4/kernel/arm/int_asm.S \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h \
+  /home/jabat/Documents/embedded_labs/lab4/kernel/include/arm/psr.h
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/asm.h:
+
+/home/jabat/Documents/embedded_labs/lab4/kernel/include/arm/psr.h:
