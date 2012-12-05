@@ -43,11 +43,13 @@ FUNC(S_HANDLER)
 	/* Disable all interrupts. */
 	msr     cpsr_c, #(PSR_MODE_SVC | PSR_IRQ)
 
+	/* save the return value from getting clobbered*/
+	mov		r1, r0
+
 	/* Restore user registers. */
 	ldmfd   sp, {r0, sp, lr}^
 	add     sp, sp, #12
 	msr     spsr, r0
-
-	str 	r1, [sp]
+	str		r1, [sp]
 	/* Return to user mode. */
 	ldmfd   sp!, {r0-r12, pc}^

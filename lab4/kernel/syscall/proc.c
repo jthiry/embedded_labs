@@ -35,8 +35,9 @@ int task_create(task_t* tasks , size_t num_tasks )
 	//clear tcb... memset? loop?
 
 	//check for insane input
-	if( num_tasks > 62 ) return EINVAL;
-
+	if( num_tasks > (size_t)62 ){
+		return -EINVAL;
+	}
 	//lamda in bounds
 	/*
 	for( i = 0; i < num_tasks; i++)
