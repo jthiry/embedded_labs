@@ -26,7 +26,7 @@ struct task
 	void*         stack_pos;   /**< The starting position of the task's sp */
 	unsigned long C;           /**< The worst-case computation time */
 	unsigned long T;           /**< The task's period */
-//	unsigned long B;           /**< The worst case block time from lower priority tasks*/
+	unsigned long B;           /**< The worst case block time from lower priority tasks*/
 };
 typedef struct task task_t;
 
@@ -70,6 +70,11 @@ typedef volatile struct tcb tcb_t;
 /* prototypes*/
 void sort_per(task_t* tasks, size_t num_tasks);
 int main(int argc, char** argv);
+int ub_test(task_t* tasks, size_t num_tasks);
+int rt_test(task_t* tasks, size_t num_tasks);
+float kroot2(size_t k);
+
+#define TASK_NO		3
 
 
 #endif /* TASK_H */

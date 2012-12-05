@@ -36,8 +36,10 @@ void runqueue_add(tcb_t* tcb, uint8_t prio);
 tcb_t* runqueue_remove(uint8_t prio);
 uint8_t highest_prio(void);
 
+/* scheduling methods*/
 void sort_per(task_t* tasks, size_t num_tasks);
 int rt_test(task_t* tasks, size_t num_tasks);
 float kroot2(size_t k);
+int ub_test(task_t* tasks, size_t num_tasks);
 
 #endif /* SCHED_H */
