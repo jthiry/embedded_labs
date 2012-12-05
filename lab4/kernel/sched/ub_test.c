@@ -129,7 +129,7 @@ void sort_per(task_t* tasks, size_t num_tasks) {
  *
  * returns 1 if scheduling would succeed, 0 if fail
  */
-int rt_test(task_t** tasks, size_t num_tasks) {
+int rt_test(task_t* tasks, size_t num_tasks) {
 	size_t cur, prev;
 	cur = 1;
 	prev = 0;
@@ -140,7 +140,7 @@ int rt_test(task_t** tasks, size_t num_tasks) {
 		//calculate a0
 		size_t j;
 		for(j = 0; j < i; j++) {
-			cur += tasks[j]->C;
+			cur += tasks[j].C;
 		}
 
 		//keep calculating until values converge
@@ -151,15 +151,15 @@ int rt_test(task_t** tasks, size_t num_tasks) {
 			/* calculate an
 			 * Ci + sum<k=1 to i-1> ( ceil(prev/Tk) * Ck )
 			 */
-			cur = tasks[i]->C;
+			cur = tasks[i].C;
 			size_t k;
 			for(k = 0; k < i - 1; k++) {
-				cur += ((prev / tasks[k]->T) + 1) * tasks[k]->C;
+				cur += ((prev / tasks[k].T) + 1) * tasks[k].C;
 			}
 		}
 
 		//if result > T then return fail
-		if(cur > tasks[i]->T) return 0;
+		if(cur > tasks[i].T) return 0;
 	}
 
 	//if makes it out of hte loop then should be schedulable
