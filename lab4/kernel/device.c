@@ -87,8 +87,7 @@ void dev_wait(unsigned int dev )
  */
 void dev_update(unsigned long millis )
 {
-  disable_interrupts();
-
+	disable_interrupts();
 	//check each device for an event
 	int i;
 	int have_some = 0;
@@ -126,6 +125,5 @@ void dev_update(unsigned long millis )
 	}
 	//re-evaluate our priorities, if we have a reason to
 	if(have_some == 1 ) dispatch_save();
-
 	enable_interrupts();
 }

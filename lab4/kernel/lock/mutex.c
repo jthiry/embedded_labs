@@ -28,15 +28,13 @@ int mutexID;
 int debug_enabled1 = 0;
 int init_flag = 0;
 mutex_t gtMutex[OS_NUM_MUTEX];
+tcb_t* NULL_TCB = (tcb_t*)0;
 
 void mutex_init()
 {
-
-	//set up mutex id variable
 	mutexID = 0;
-
 	if(debug_enabled1 == 1) printf("\tmutex::mutex_init::mutexID = %d\n", mutexID);
-
+	init_flag = 1;
 }
 
 
@@ -45,25 +43,9 @@ void mutex_init()
 
 int mutex_create(void)
 {
-	//disable interrupts
 	disable_interrupts();
-	if(init_flag == 0 )
-	{
-		mutex_init();
-		init_flag = 1;
-
-	}
-
-	//if(debug_enabled1 == 1) printf("\tmutex::mutex_create start\n");
-
-	//see if a mutex id is available
-	if(mutexID >= OS_NUM_MUTEX ) {
-		//no mutex IDs available
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_create no mutexIDs available\n");
-
-		enable_interrupts();
-		return -ENOMEM;
-	}
+	if(init_flag == 0 ) mutex_init();
+	if(mutexID >= OS_NUM_MUTEX ) return -ENOMEM;
 
 	//increment ID count
 	mutexID++;
@@ -71,196 +53,106 @@ int mutex_create(void)
 	if(debug_enabled1 == 1) printf("\tmutex::mutex_create new id = %d\n", mutexID);
 
 	//initialize mutex block
-	gtMutex[mutexID-1].bAvailable = TRUE;
-	gtMutex[mutexID-1].bLock = FALSE;
-	gtMutex[mutexID-1].pHolding_Tcb = (tcb_t*)0;
-	gtMutex[mutexID-1].pSleep_queue = (tcb_t*)0;
+	gtMutex[mutexID-1].bAvailable = 	TRUE;
+	gtMutex[mutexID-1].bLock = 		FALSE;
+	gtMutex[mutexID-1].pHolding_Tcb = 	NULL_TCB;
+	gtMutex[mutexID-1].pSleep_queue = 	NULL_TCB;
 
-	//if(debug_enabled1 == 1) printf("\tmutex::mutex_create after initialize mutex\n");
-
-	//enable interrupts
 	enable_interrupts();
 
 	return mutexID;
 
 }
 
-
-
-
-
-
-int mutex_lock(int mutex)
+int mutex_lock(int mutex_num)
 {
-	//disable interrupts
+	if(debug_enabled1 == 1) printf("\tmutex::mutex_lock:: lock(%d) by tcb %d\n", mutex_num, get_cur_tcb()->cur_prio);
+	
 	disable_interrupts();
+	
+	//check for valid mutex number
+	if(mutex_num < 0 || mutex_num > mutexID) return -EINVAL;
+	
+	//mutex is valid
+	mutex_t* mutex = &gtMutex[mutex_num-1]; //mutex we are referencing
 
-	if(debug_enabled1 == 1) printf("\tmutex::mutex_lock:: id= %d tcb = %d\n", mutex, get_cur_tcb()->cur_prio);
-
-	//check validity of the mutex id (return EINVAL if not valid)
-	if(mutex < 0 || mutex > mutexID) {
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_lock invalid mutex = %d and mutexID=%d\n", mutex, mutexID );
-
+	//mutex is available
+	if(mutex->bAvailable == TRUE) {
+		//acquire  mutex
+		mutex->bLock = 		TRUE;
+		mutex->bAvailable = 	FALSE;
+		mutex->pHolding_Tcb = 	get_cur_tcb();
+		get_cur_tcb()->holds_lock++;
 		enable_interrupts();
-		return -EINVAL;
+		return 0; //success
 	}
-
-	/* check if the mutex is available
-	 *
-	 * if it isn't then add this task to the queue for it
-	 * and put the task to sleep
-	 *
-	 * also check if this process is the one already holding the
-	 * mutex and return EDEADLOCK if it is
-	 */
-	if(!(gtMutex[mutex-1].bAvailable)) {
-		//mutex isn't available so check for deadlock
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_lock mutex not available\n");
-
-		//calling task already owns the mutex
-		if(gtMutex[mutex-1].pHolding_Tcb == get_cur_tcb()) {
-			if(debug_enabled1 == 1) printf("\tmutex::mutex_lock deadlock\n");
-
-			enable_interrupts();
-			return -EDEADLOCK;
-		}
-
-		//add to sleep queue
-		if(gtMutex[mutex-1].pSleep_queue == (tcb_t *)0) {
-			//no sleep queue yet so make this the first
-
-			if(debug_enabled1 == 1) printf("\tmutex::mutex_lock first sleep queue\n");
-
-			gtMutex[mutex-1].pSleep_queue = get_cur_tcb();
-		} else {
-			//a sleep queue already exists so find the end
-
-			if(debug_enabled1 == 1) printf("\tmutex::mutex_lock add to end of existing sleep queue\n");
-
-			tcb_t* t = gtMutex[mutex-1].pSleep_queue;
-			while(t->sleep_queue > (tcb_t *)-1) {
-				t = t->sleep_queue;
-			}
-
-			if(debug_enabled1 == 1) printf("\tmutex::mutex_lock end of sleep queue = %x\n", (unsigned int) t);
-
-			//add the current task to the end of the sleep chain
+	//mutex is not available
+	else
+	{
+		//if current task is already holding it
+		if(mutex->pHolding_Tcb == get_cur_tcb()) return -EDEADLOCK;
+		
+		//if the sleep queue is empty
+		if( mutex->pSleep_queue == NULL_TCB ) mutex->pSleep_queue = get_cur_tcb();
+		//else sleep queue is not empty
+		else
+		{
+			//add to the end of the queue
+			tcb_t* t = mutex->pSleep_queue;
+			while(t->sleep_queue != NULL_TCB) t = t->sleep_queue;
 			t->sleep_queue = get_cur_tcb();
 		}
-
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_lock about to put current tcb to sleep\n");
-
-		//enable interrupts and put task to sleep
-		dispatch_sleep();
-		enable_interrupts();
-
-		return 0;
 	}
 
-	//if(debug_enabled1 == 1) printf("\tmutex::mutex_lock lock the mutex\n");
-
-	//lock the mutex
-	gtMutex[mutex-1].bLock = TRUE;
-	gtMutex[mutex-1].bAvailable = FALSE;
-	gtMutex[mutex-1].pHolding_Tcb = get_cur_tcb();
-
-	//do tcb stuff
-	get_cur_tcb()->holds_lock += 1;
-
-	//if(debug_enabled1 == 1) printf("\tmutex::mutex_lock new mutex holding tcb = %x\n", (unsigned int) gtMutex[mutex-1].pHolding_Tcb);
-	//if(debug_enabled1 == 1) printf("\tmutex::mutex_lock cur_tcb holds_lock = %d\n", get_cur_tcb()->holds_lock);
-
-	//enable interrupts
+	//sleep and wait..`
+	dispatch_sleep();
 	enable_interrupts();
-
-	//return success
-	return 0;
+	return 0; //success
 }
 
-
-
-
-
-
-
-int mutex_unlock(int mutex)
+int mutex_unlock(int mutex_num)
 {
-	//disable interrupts
+	if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock:: id= %d tcb = %d\n", mutex_num, get_cur_tcb()->cur_prio);
+	
 	disable_interrupts();
+	
+	//check for valid mutex number
+	if(mutex_num < 0 || mutex_num > mutexID) return -EINVAL;
+	
+	//mutex is valid
+	mutex_t* mutex = &gtMutex[mutex_num-1]; //mutex we are referencing
+	
+	//check if we own this mutex
+	if(mutex->pHolding_Tcb != get_cur_tcb()) return -EPERM;
 
-	if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock:: id= %d tcb = %d\n", mutex, get_cur_tcb()->cur_prio);
-
-	//check validity of mutex id
-	if(mutex < 0 || mutex > mutexID) {
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock invalid mutex\n");
-
-		enable_interrupts();
-		return -EINVAL;
+	
+	get_cur_tcb()->holds_lock--;
+	
+	//if the sleep queue is empty
+	if(mutex->pSleep_queue == NULL_TCB)
+	{
+		mutex->bAvailable =	TRUE;
+		mutex->bLock = 		FALSE;
+		mutex->pHolding_Tcb = 	NULL_TCB;
+	}
+	//queue not empty
+	else
+	{
+		//next is up
+		tcb_t* next = mutex->pSleep_queue;
+		
+		//mutex held by next
+		mutex->pSleep_queue = next->sleep_queue;
+		mutex->pHolding_Tcb = next;
+		
+		//next holds mutex
+		next->sleep_queue = NULL_TCB;
+		next->holds_lock++;
+		
+		//next is ready to run
+		runqueue_add(next, next->cur_prio);
 	}
 
-	//check if the current task holds the rights to the lock
-	if(gtMutex[mutex-1].pHolding_Tcb != get_cur_tcb()) {
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock tcb doesn't have rights to mutex\n");
-
-		enable_interrupts();
-		return -EPERM;
-	}
-
-	/* check if the mutex has waiting processes
-	 *
-	 * if there is a process waiting then remove it from the queue,
-	 * set it to be the active tcb for the mutex, and let it know
-	 * it can run now
-	 *
-	 * make sure not to clobber the sleep queue, reset it to the
-	 * next one in line
-	 *
-	 * if there isn't a process waiting then clear the holding tcb,
-	 * set the flag to available, and remove the lock
-	 */
-	if(gtMutex[mutex-1].pSleep_queue == (tcb_t *) 0) {
-		//nothing waiting on mutex so just free it
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock no process waiting on mutex so free it\n");
-
-		gtMutex[mutex-1].bAvailable = TRUE;
-		gtMutex[mutex-1].bLock = FALSE;
-		gtMutex[mutex-1].pHolding_Tcb = (tcb_t*)0;
-	} else {
-		/*
-		 * something waiting so shift the queue and tell the waiting
-		 * task that the mutex is available after passing the mutex
-		 * to the waiting task
-		 */
-
-		//if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock something waiting for mutex\n");
-
-		//shift the sleep queue
-		tcb_t* t = gtMutex[mutex-1].pSleep_queue;
-		gtMutex[mutex-1].pSleep_queue = t->sleep_queue;
-		t->sleep_queue = (tcb_t *) 0;
-
-		//if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock waiting tcb = %x\n", (unsigned int) t);
-
-		//pass the mutex to the next tcb in the queue
-		gtMutex[mutex-1].pHolding_Tcb = t;
-		t->holds_lock += 1;
-
-		if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock queued tcb holds_lock = %d\n", t->holds_lock);
-		//if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock add queued tcb to runqueue\n");
-
-		//activate the sleeping task
-		runqueue_add(t, t->cur_prio);
-	}
-
-	//if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock mutex handled\n");
-
-	//decrement tcb hold counter
-	get_cur_tcb()->holds_lock -= 1;
-
-	if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock cur_tcb holds_lock = %d\n", get_cur_tcb()->holds_lock);
-
-	//enable interrupts
 	enable_interrupts();
-
-	return 0;
+	return 0; //success
 }
