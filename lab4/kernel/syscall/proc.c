@@ -36,7 +36,6 @@ int task_create(task_t* tasks , size_t num_tasks )
 
 	//check for insane input
 	if( num_tasks > (size_t)62 ){
-		printf("EINVAL = %d", EINVAL); 
 		return -EINVAL;
 	}
 	//lamda in bounds
