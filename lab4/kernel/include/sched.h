@@ -24,7 +24,7 @@ void launch_task(void); /* takes lambda and argument in r4, r5 */
 
 /* Task initialization */
 void allocate_tasks(task_t** tasks, size_t num_tasks);
-int assign_schedule(task_t** tasks, size_t num_tasks);
+int assign_schedule(task_t* tasks, size_t num_tasks);
 
 /* Current task state */
 uint8_t get_cur_prio(void);
@@ -36,7 +36,7 @@ void runqueue_add(tcb_t* tcb, uint8_t prio);
 tcb_t* runqueue_remove(uint8_t prio);
 uint8_t highest_prio(void);
 
-void sort_per(task_t** tasks, size_t num_tasks);
+void sort_per(task_t* tasks, size_t num_tasks);
 int rt_test(task_t** tasks, size_t num_tasks);
 float kroot2(size_t k);
 

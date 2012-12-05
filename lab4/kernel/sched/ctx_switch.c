@@ -64,8 +64,8 @@ void dispatch_save(void)
 {
 	//make sure this isn't interrupted
 	//disable_interrupts();
-	if(debug_enabled == 1) puts("\tdispatch_save::++\n");
-	if(debug_enabled == 1) printf("\tdispatch_save::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
+	//if(debug_enabled == 1) puts("\tdispatch_save::++\n");
+	//if(debug_enabled == 1) printf("\tdispatch_save::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
 
 	//save soon to be previous state for ctx switch
 	tcb_t* prev_tcb = cur_tcb;
@@ -76,7 +76,7 @@ void dispatch_save(void)
 	//get the next task to run
 	uint8_t h_prio = highest_prio();		        //get highest priority
 	cur_tcb = runqueue_remove(h_prio);		      //retrieve task while removing it from the run_queue
-	if(debug_enabled == 1) printf("\tdispatch_save::switching to task %d\n", cur_tcb->cur_prio);
+	if(debug_enabled == 1) printf("\tdispatch_save::switching %d >>> %d \n", prev_tcb->cur_prio, cur_tcb->cur_prio);
 
 	//debug dump context
 	/*
@@ -84,8 +84,8 @@ void dispatch_save(void)
 	if(debug_enabled == 1) ctx_dump(&prev_tcb->context, prev_tcb->cur_prio);
 	*/
 	//switch tasks
-	if(debug_enabled == 1) puts("\tTarget Context:");
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+	//if(debug_enabled == 1) puts("\tTarget Context:");
+	//if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   			//call the context switch (target, current)
 	//if(debug_enabled == 1) puts("\tSaved Context:");
 	//if(debug_enabled == 1) ctx_dump(&prev_tcb->context, prev_tcb->cur_prio);
@@ -103,15 +103,15 @@ void dispatch_save(void)
  */
 void dispatch_nosave(void)
 {
-	if(debug_enabled == 1) puts("\tdispatch_nosave::++\n");
+	//if(debug_enabled == 1) puts("\tdispatch_nosave::++\n");
 	//disable interrupts so we don't mess up the ctx switch
 	//disable_interrupts();
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+	//if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//get the next task to run
 	uint8_t h_prio = highest_prio();	    //get highest priority
 	cur_tcb = runqueue_remove(h_prio);	  //retrieve task while removing it from runqueue
-	if(debug_enabled == 1) printf("\tdispatch_nosave::switching to task %d\n", cur_tcb->cur_prio);
+	if(debug_enabled == 1) printf("\tdispatch_nosave::starting task %d\n", cur_tcb->cur_prio);
 	//if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 	//run the next task
@@ -131,12 +131,12 @@ void dispatch_nosave(void)
  */
 void dispatch_sleep(void)
 {
-	if(debug_enabled == 1) puts("\tdispatch_sleep::++\n");
+	//if(debug_enabled == 1) puts("\tdispatch_sleep::++\n");
 	//disable interrupts for the ctx switch
 	//disable_interrupts();
 	//if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
-	if(debug_enabled == 1) printf("\tdispatch_sleep::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
+	//if(debug_enabled == 1) printf("\tdispatch_sleep::cur_tcb->prio = %d\n", cur_tcb->cur_prio);
 	//save the soon to be previous tcb
 	tcb_t* prev_tcb = cur_tcb;
 
@@ -144,10 +144,11 @@ void dispatch_sleep(void)
 	uint8_t h_prio = highest_prio();		      //get highest priority
 	cur_tcb = runqueue_remove(h_prio);		    //retrieve task while removing it from the runqueue
 
+	if(debug_enabled == 1) printf("\tdispatch_sleep::switching %d >>> %d \n", prev_tcb->cur_prio, cur_tcb->cur_prio);
 
 	///debug block
-	if(debug_enabled == 1) puts("\tTarget Context:");
-	if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+	//if(debug_enabled == 1) puts("\tTarget Context:");
+	//if(debug_enabled == 1) ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 	//switch tasks
 	ctx_switch_full(&cur_tcb->context, &prev_tcb->context);   		//call the context switch
 	//if(debug_enabled == 1) puts("\tSaved Context:");

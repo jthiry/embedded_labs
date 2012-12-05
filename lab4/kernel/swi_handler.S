@@ -39,6 +39,7 @@ FUNC(S_HANDLER)
 	bic     r0, r0, ip
 	/* r1 has already been correctly loaded above */
 	bl      c_swi_handler
+	mov 	r1, r0
 	/* Disable all interrupts. */
 	msr     cpsr_c, #(PSR_MODE_SVC | PSR_IRQ)
 
@@ -46,5 +47,7 @@ FUNC(S_HANDLER)
 	ldmfd   sp, {r0, sp, lr}^
 	add     sp, sp, #12
 	msr     spsr, r0
+
+	str 	r1, [sp]
 	/* Return to user mode. */
 	ldmfd   sp!, {r0-r12, pc}^

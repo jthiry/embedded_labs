@@ -93,7 +93,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		cur_tcb->sleep_queue = 0;
 		//cur->kstack =
 		//cur->kstack_high =
-		//ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+		ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 		//put it in the run_queue (make it runnable)
 		runqueue_add( cur_tcb, cur_tcb->native_prio );

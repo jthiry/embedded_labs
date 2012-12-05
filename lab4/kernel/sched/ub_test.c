@@ -29,12 +29,12 @@
  */
 
 
-int assign_schedule(task_t** tasks, size_t num_tasks)
+int assign_schedule(task_t* tasks, size_t num_tasks)
 {
-	return 1;
-	/*//sort by period
+	//sort by period
 	sort_per(tasks, num_tasks);
 
+/*
 	//calculate U(n) = n(2^(1/n) - 1)
 	float kroot = kroot2(num_tasks);
 	if(kroot < 0) return 0;		// check for root not found error
@@ -61,8 +61,9 @@ int assign_schedule(task_t** tasks, size_t num_tasks)
 	} else {
 		ret = 0;
 	}
-
-	return ret;*/
+	return ret;
+*/
+	return 1;
 }
 
 
@@ -75,8 +76,9 @@ int assign_schedule(task_t** tasks, size_t num_tasks)
 /* sorts a task list by period
  * just a basic bubble sort for simplicity
  */
-void sort_per(task_t** tasks, size_t num_tasks) {
+void sort_per(task_t* tasks, size_t num_tasks) {
 	int swap = 1;
+	task_t tmp_tasks[2];
 
 	//until there was no swap
 	while(swap == 1) {
@@ -86,13 +88,34 @@ void sort_per(task_t** tasks, size_t num_tasks) {
 		//bubble through the array
 		size_t i;
 		for(i = 0; i < num_tasks - 1; i++) {
-			task_t* a = tasks[i];
-			task_t* b = tasks[i+1];
+			task_t a = tmp_tasks[0];
+			a.lambda = tasks[i].lambda;
+			a.data = tasks[i].data;
+			a.stack_pos = tasks[i].stack_pos;
+			a.C = tasks[i].C;
+			a.T = tasks[i].T;
+
+			task_t b = tmp_tasks[1];
+			b.lambda = tasks[i+1].lambda;
+			b.data = tasks[i+1].data;
+			b.stack_pos = tasks[i+1].stack_pos;
+			b.C = tasks[i+1].C;
+			b.T = tasks[i+1].T;
 
 			//if b has higher period than a swap them
-			if(b->T > a->T) {
-				tasks[i] = b;
-				tasks[i+1] = a;
+			if(b.T > a.T) {
+				//tasks[i] = b;
+				tasks[i].lambda = b.lambda;
+				tasks[i].data = b.data;
+				tasks[i].stack_pos = b.stack_pos;
+				tasks[i].C = b.C;
+				tasks[i].T = b.T;
+				//tasks[i+1] = a;
+				tasks[i+1].lambda = a.lambda;
+				tasks[i+1].data = a.data;
+				tasks[i+1].stack_pos = a.stack_pos;
+				tasks[i+1].C = a.C;
+				tasks[i+1].T = a.T;
 
 				swap = 1;
 			}

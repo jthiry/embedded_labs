@@ -36,7 +36,7 @@ static int result_val=0;
 
 int mutex_val[MUTEX_NUM];
 
-void panic(const char* str)
+void panic_bro(const char* str)
 {
 	puts(str);
 	while(1);
@@ -50,7 +50,7 @@ void fun1(void* str)
         putchar((int)str);
         printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
-            panic("Failed to acquire mutex");
+            panic_bro("Failed to acquire mutex");
 	    mutex_val[cur_mutex]=mutex_val[cur_mutex]+fun1_opval;	
 		if(mutex_unlock(cur_mutex))
         {
@@ -58,15 +58,15 @@ void fun1(void* str)
                 puts("EINVAL");
             if(errno==EPERM)
                 puts("EPERM");
-            panic("Failed to release mutex");
+            panic_bro("Failed to release mutex");
         }
         cur_mutex++;
         if (event_wait(3) < 0)
-            panic("Dev 3 failed");
+            panic_bro("Dev 3 failed");
 	}
     while(1)
         if (event_wait(3) < 0)
-            panic("Dev 3 failed");
+            panic_bro("Dev 3 failed");
 }
 //dev0
 void fun2(void* str)
@@ -78,17 +78,17 @@ void fun2(void* str)
         putchar((int)str);
         printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
-            panic("Failed to acquire mutex");
+            panic_bro("Failed to acquire mutex");
 	    mutex_val[cur_mutex]=mutex_val[cur_mutex]*fun2_opval;	
 		if(mutex_unlock(cur_mutex))
-            panic("Failed to release mutex");
+            panic_bro("Failed to release mutex");
         cur_mutex++;
         if (event_wait(0) < 0)
-            panic("Dev 0 failed");
+            panic_bro("Dev 0 failed");
 	}
     while(1)
         if (event_wait(0) < 0)
-            panic("Dev 0 failed");
+            panic_bro("Dev 0 failed");
 }
 //dev1
 void fun3(void* str)
@@ -100,17 +100,17 @@ void fun3(void* str)
         putchar((int)str);
         printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
-            panic("Failed to acquire mutex");
+            panic_bro("Failed to acquire mutex");
 	    mutex_val[cur_mutex]=mutex_val[cur_mutex]-fun3_opval;	
 		if(mutex_unlock(cur_mutex))
-            panic("Failed to release mutex");
+            panic_bro("Failed to release mutex");
         cur_mutex++;
         if (event_wait(1) < 0)
-            panic("Dev 1 failed");
+            panic_bro("Dev 1 failed");
 	}
     while(1)
         if (event_wait(1) < 0)
-            panic("Dev 1 failed");
+            panic_bro("Dev 1 failed");
 }
 //dev2
 void fun4(void* str)
@@ -122,13 +122,13 @@ void fun4(void* str)
         putchar((int)str);
         printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
-            panic("Failed to acquire mutex");
+            panic_bro("Failed to acquire mutex");
 	    mutex_val[cur_mutex]=mutex_val[cur_mutex]*fun4_opval;	
 		if(mutex_unlock(cur_mutex))
-            panic("Failed to release mutex");
+            panic_bro("Failed to release mutex");
         cur_mutex++;
         if (event_wait(2) < 0)
-            panic("Dev 2 failed");
+            panic_bro("Dev 2 failed");
 	}
     for(;i<MUTEX_NUM;i++)
     {
@@ -142,7 +142,7 @@ void fun4(void* str)
     puts(TEST_DONE);
     while(1)
         if (event_wait(2) < 0)
-            panic("Dev 2 failed");
+            panic_bro("Dev 2 failed");
 }
 int main(int argc, char** argv)
 {

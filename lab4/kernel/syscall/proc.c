@@ -48,7 +48,7 @@ int task_create(task_t* tasks , size_t num_tasks )
 	*/
 
 	//verify that they are schedulable, and sort
-	//if ( assign_schedule( tasks, num_tasks) == 0 ) return ESCHED;//error. unschedulable
+	if ( assign_schedule( tasks, num_tasks) == 0 ) return -ESCHED;//error. unschedulable
 
 	//allocate_tasks
 	allocate_tasks( &tasks, num_tasks );
