@@ -25,7 +25,7 @@
 #endif
 
 int mutexID;
-int debug_enabled1 = 1;
+int debug_enabled1 = 0;
 int init_flag = 0;
 mutex_t gtMutex[OS_NUM_MUTEX];
 

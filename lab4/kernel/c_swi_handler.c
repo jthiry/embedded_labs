@@ -26,8 +26,6 @@ void c_exit(int status) { _exit(status);}
 //call the appropriate method based on the swi
 int c_swi_handler(unsigned swi_num, unsigned * regs){
 	
-	enable_interrupts();
-
 	int ret = 0;
 
 	//if(debug_enabled ==1) printf ("c_swi_handler:: swi_num = %d\n", swi_num ) ;
@@ -77,8 +75,6 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 			invalid_syscall(0x0badc0de);
 			break;
 	}
-
-	disable_interrupts();
 	
 	return ret;
 }

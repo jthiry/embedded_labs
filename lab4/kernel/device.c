@@ -67,7 +67,6 @@ void dev_init(void)
  */
 void dev_wait(unsigned int dev )
 {
-  disable_interrupts();
 
 	if(debug_enabled == 1)puts("dev_wait++\n");
 	//add to the sleep queue
@@ -76,7 +75,6 @@ void dev_wait(unsigned int dev )
 	devices[dev].sleep_queue = sleep_me;
 	if(debug_enabled == 1)printf("dev_wait...dev = %d:::new = (prio) %d:::old = %x\n", dev, (unsigned)devices[dev].sleep_queue->cur_prio, (unsigned)devices[dev].sleep_queue->sleep_queue);
 
-  enable_interrupts();
 }
 
 
