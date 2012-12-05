@@ -80,7 +80,7 @@ int task_create(task_t* tasks , size_t num_tasks )
 int event_wait(unsigned int dev  )
 {
 	disable_interrupts();
-	//if(dev > (unsigned int) NUM_DEVICES ) return -EINVAL;
+	if(dev > (unsigned int) NUM_DEVICES ) return -EINVAL;
 	if(debug_enabled == 1)puts("event wait++\n");
 	dev_wait(dev);
 
