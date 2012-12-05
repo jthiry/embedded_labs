@@ -70,11 +70,13 @@ void dispatch_save(void)
 	//save soon to be previous state for ctx switch
 	tcb_t* prev_tcb = cur_tcb;
 
-	//add it back to runnable
-	runqueue_add(prev_tcb, prev_tcb->cur_prio);
 
 	//get the next task to run
 	uint8_t h_prio = highest_prio();		        //get highest priority
+	
+	//add it back to runnable
+	runqueue_add(prev_tcb, prev_tcb->cur_prio);
+	
 	cur_tcb = runqueue_remove(h_prio);		      //retrieve task while removing it from the run_queue
 	if(debug_enabled == 1) printf("\tdispatch_save::switching %d >>> %d \n", prev_tcb->cur_prio, cur_tcb->cur_prio);
 

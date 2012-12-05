@@ -29,7 +29,7 @@ int not_usable_memory(unsigned loc, unsigned count)
 {
 	unsigned mem_start = loc;
 	unsigned mem_end = loc + count;
-	printf("usable memory: %x < %x..%x < %x \n", USR_START_ADDR, mem_start, mem_end, USR_END_ADDR );
+//	printf("usable memory: %x < %x..%x < %x \n", USR_START_ADDR, mem_start, mem_end, USR_END_ADDR );
 	if( mem_start < USR_START_ADDR || mem_start >= USR_END_ADDR ) 
 		return 1;
 	if( mem_end < USR_START_ADDR || mem_end >= USR_END_ADDR ) 

@@ -67,16 +67,14 @@ void dev_init(void)
  */
 void dev_wait(unsigned int dev )
 {
-  disable_interrupts();
-
+	disable_interrupts();
 	if(debug_enabled == 1)puts("dev_wait++\n");
 	//add to the sleep queue
 	tcb_t* sleep_me = get_cur_tcb();
 	sleep_me->sleep_queue = devices[dev].sleep_queue;
 	devices[dev].sleep_queue = sleep_me;
 	if(debug_enabled == 1)printf("dev_wait...dev = %d:::new = (prio) %d:::old = %x\n", dev, (unsigned)devices[dev].sleep_queue->cur_prio, (unsigned)devices[dev].sleep_queue->sleep_queue);
-
-  enable_interrupts();
+	enable_interrupts();
 }
 
 
@@ -89,8 +87,7 @@ void dev_wait(unsigned int dev )
  */
 void dev_update(unsigned long millis )
 {
-  disable_interrupts();
-
+	disable_interrupts();
 	//check each device for an event
 	int i;
 	int have_some = 0;
@@ -128,6 +125,5 @@ void dev_update(unsigned long millis )
 	}
 	//re-evaluate our priorities, if we have a reason to
 	if(have_some == 1 ) dispatch_save();
-
 	enable_interrupts();
 }
