@@ -12,10 +12,10 @@ int debug_enabled2 = 1;
 
 
 
-void fun1(void* str) {printf("%s\n",(char*)str);}
-void fun2(void* str) {printf("%s\n",(char*)str);}
-void fun3(void* str) {printf("%s\n",(char*)str);}
-void fun4(void* str) {printf("%s\n",(char*)str);}
+void fun1(void* str) {if(debug_enabled2) printf("%s\n",(char*)str);}
+void fun2(void* str) {if(debug_enabled2) printf("%s\n",(char*)str);}
+void fun3(void* str) {if(debug_enabled2) printf("%s\n",(char*)str);}
+void fun4(void* str) {if(debug_enabled2) printf("%s\n",(char*)str);}
 
 int main(int argc, char** argv)
 {
@@ -27,18 +27,21 @@ int main(int argc, char** argv)
 	tasks[0].stack_pos = (void*)0xa2000000;
 	tasks[0].C = 40;
 	tasks[0].T = 100;
+	tasks[0].B = 0;
 
 	tasks[1].lambda = fun3;
 	tasks[1].data = (void*)'3';
 	tasks[1].stack_pos = (void*)0xa1000000;
 	tasks[1].C = 40;
 	tasks[1].T = 150;
+	tasks[1].B = 40;
 
     tasks[2].lambda = fun4;
 	tasks[2].data = (void*)'4';
 	tasks[2].stack_pos = (void*)0xa1500000;
 	tasks[2].C = 100;
 	tasks[2].T = 350;
+	tasks[2].B = 0;
 
 	sort_per(tasks, TASK_NO);
 
@@ -51,11 +54,13 @@ int main(int argc, char** argv)
 	if(ret < 0) {
 		ret = rt_test(tasks, TASK_NO);
 
-		printf("rt test result = %d\n", ret);
+		if(debug_enabled2) printf("rt test result = %d\n", ret);
 	}
 
+	printf("schulability test result = %d\n", ret);
 
-	return 1;
+
+	return ret;
 }
 
 
@@ -104,10 +109,10 @@ void sort_per(task_t* tasks, size_t num_tasks) {
  * returns 1 if succeed, 0 if fail, and -1 if unsure
  */
 int ub_test(task_t* tasks, size_t num_tasks) {
-	printf("~~~~~~~~~~start ub_test\n");
+	if(debug_enabled2) printf("~~~~~~~~~~start ub_test\n");
 
 	if(num_tasks < 2) {
-		printf("~~~~~~~~~~returning from ub_test with ret = %d\n", ret);
+		if(debug_enabled2) printf("~~~~~~~~~~returning from ub_test with ret = %d\n", 1);
 		return 1;
 	}
 
@@ -116,7 +121,7 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 	if(kroot < 0) return 0;		// check for root not found error
 	double un = num_tasks * (kroot - 1);
 
-	printf("un = %.5f\n", un);
+	if(debug_enabled2) printf("un = %.5f\n", un);
 
 	//calculate U = (sum from 1-(n-1) over (Ci/Ti))? + (Cn + Bn)/Tn
 	double u = 0.0;
@@ -124,9 +129,10 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 	for(i = 0; i < num_tasks - 1; i++) {
 		u = u + ((float)tasks[i].C / (float)tasks[i].T);
 	}
-	u += ((float) (tasks[num_tasks-1].C /*+ tasks[num_tasks-1].B*/)) / ((float)tasks[num_tasks-1].T);
 
-	printf("u = %.5f\n", u);
+	u += ( ((float)tasks[num_tasks-1].C) + tasks[num_tasks-1].B ) / ( (float)tasks[num_tasks-1].T );
+
+	if(debug_enabled2) printf("u = %.5f\n", u);
 
 	//figure out if schedulable
 	//0 < U <= U(n)		success
@@ -141,7 +147,7 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 		ret = 0;
 	}
 
-	printf("~~~~~~~~~~returning from ub_test with ret = %d\n", ret);
+	if(debug_enabled2) printf("~~~~~~~~~~returning from ub_test with ret = %d\n", ret);
 
 	return ret;
 }
@@ -158,14 +164,14 @@ int ub_test(task_t* tasks, size_t num_tasks) {
  * returns 1 if scheduling would succeed, 0 if fail
  */
 int rt_test(task_t* tasks, size_t num_tasks) {
-	printf("..........starting rt_test\n");
+	if(debug_enabled2) printf("..........starting rt_test\n");
 
 	size_t cur, prev;
 
 	//calculate for each task
 	size_t i;
 	for(i = 0; i < num_tasks; i++) {
-		printf("starting loop # %lu\n", i);
+		if(debug_enabled2) printf("starting loop # %lu\n", i);
 
 		//reset cur and prev
 		cur = 0;
@@ -177,45 +183,53 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 		if(ub == 1) continue;
 		else if(ub == 0) return 0;
 
-		printf("==========actually using rt test for this round\n");
+		if(debug_enabled2) printf("==========actually using rt test for this round\n");
 
 		//calculate a0
 		size_t j;
-		for(j = 0; j < i; j++) {
+		cur = tasks[i].B;
+		for(j = 0; j <= i; j++) {
 			cur += tasks[j].C;
 		}
+
+		if(debug_enabled2) printf("a0 = %lu\n", cur);
 
 		//keep calculating until values converge
 		while(cur != prev) {
 			//save previous to check for convergence
 			prev = cur;
 
-			printf("inside convergence loop::prev = %lu\n", prev);
+			if(debug_enabled2) printf("...\ninside convergence loop::prev = %lu\n", prev);
 
 			/* calculate an
-			 * Ci + sum<k=1 to i-1> ( ceil(prev/Tk) * Ck )
+			 * Bi + Ci + sum<k=1 to i-1> ( ceil(prev/Tk) * Ck )
 			 */
-			cur = tasks[i].C;
+			cur = tasks[i].B + tasks[i].C;
 			size_t k;
-			for(k = 0; k < i - 1; k++) {
-				cur += ((prev / tasks[k].T) + 1) * tasks[k].C;
+			for(k = 0; k < i; k++) {
+				int ceil = prev / tasks[k].T;
+				double a = (float)prev / (float)tasks[k].T;
+
+				if(a > (double)ceil) ceil += 1;
+
+				cur += ceil * tasks[k].C;
 			}
 
-			printf("inside convergence loop::cur = %lu\n", cur);
+			if(debug_enabled2) printf("inside convergence loop::cur = %lu\n...\n", cur);
 		}
 
-		printf("converged result = %lu\n", cur);
-		printf("T = %lu\n", tasks[i].T);
-		printf("==========ending rt test loop\n");
+		if(debug_enabled2) printf("converged result = %lu\n", cur);
+		if(debug_enabled2) printf("T = %lu\n", tasks[i].T);
+		if(debug_enabled2) printf("==========ending rt test loop\n");
 
 		//if result > T then return fail
 		if(cur > tasks[i].T) {
-			printf("..........returning from rt test with failure\n");
+			if(debug_enabled2) printf("..........returning from rt test with failure\n");
 			return 0;
 		}
 	}
 
-	printf("..........returning from rt test with success\n");
+	if(debug_enabled2) printf("..........returning from rt test with success\n");
 
 	//if makes it out of hte loop then should be schedulable
 	return 1;
