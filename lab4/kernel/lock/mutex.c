@@ -26,7 +26,7 @@
 
 mutex_t gtMutex[OS_NUM_MUTEX];
 int mutexID;
-int debug_enabled1 = 1;
+int debug_enabled1 = 0;
 void mutex_init()
 {
   //disable interrupts
