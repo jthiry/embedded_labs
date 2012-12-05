@@ -69,7 +69,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	size_t i;
 	tcb_t* cur_tcb;
 	task_t* cur_task;
-	
+
 	//for each task
 	if(debug_enabled == 1)puts("allocate_tasks...entering loop\n");
 	for( i = 0; i < num_tasks; i++)
