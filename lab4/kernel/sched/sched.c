@@ -69,7 +69,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	size_t i;
 	tcb_t* cur_tcb;
 	task_t* cur_task;
-	
+
 	//for each task
 	if(debug_enabled == 1)puts("allocate_tasks...entering loop\n");
 	for( i = 0; i < num_tasks; i++)
@@ -93,7 +93,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		cur_tcb->sleep_queue = 0;
 		//cur->kstack =
 		//cur->kstack_high =
-		ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
+		//ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
 
 		//put it in the run_queue (make it runnable)
 		runqueue_add( cur_tcb, cur_tcb->native_prio );

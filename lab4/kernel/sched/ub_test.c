@@ -6,7 +6,7 @@
  * @date 2008-11-20
  */
 
-//#define DEBUG 0
+#define DEBUG 0
 
 #include <sched.h>
 #ifdef DEBUG
@@ -28,6 +28,7 @@
  * @return 1  Test succeeded.  The tasks are now in order.
  */
 
+int debug_enabled2 = 1;
 
 int assign_schedule(task_t* tasks, size_t num_tasks)
 {
@@ -78,7 +79,9 @@ int assign_schedule(task_t* tasks, size_t num_tasks)
  */
 void sort_per(task_t* tasks, size_t num_tasks) {
 	int swap = 1;
-	task_t tmp_tasks[2];
+
+	if(debug_enabled2 == 1) printf("ub_test::sort start\n");
+	if(debug_enabled2 == 1) printf("ub_test::sort num_tasks = %lu\n", num_tasks);
 
 	//until there was no swap
 	while(swap == 1) {
@@ -87,37 +90,28 @@ void sort_per(task_t* tasks, size_t num_tasks) {
 
 		//bubble through the array
 		size_t i;
-		for(i = 0; i < num_tasks - 1; i++) {
-			task_t a = tmp_tasks[0];
-			a.lambda = tasks[i].lambda;
-			a.data = tasks[i].data;
-			a.stack_pos = tasks[i].stack_pos;
-			a.C = tasks[i].C;
-			a.T = tasks[i].T;
+		for(i = 0; i < (num_tasks - 1); i++) {
+			if(debug_enabled2 == 1) printf("ub_test::sort loop %lu\n", i);
 
-			task_t b = tmp_tasks[1];
-			b.lambda = tasks[i+1].lambda;
-			b.data = tasks[i+1].data;
-			b.stack_pos = tasks[i+1].stack_pos;
-			b.C = tasks[i+1].C;
-			b.T = tasks[i+1].T;
+			task_t a = tasks[i];
+			task_t b = tasks[i+1];
 
-			//if b has higher period than a swap them
-			if(b.T > a.T) {
-				//tasks[i] = b;
-				tasks[i].lambda = b.lambda;
-				tasks[i].data = b.data;
-				tasks[i].stack_pos = b.stack_pos;
-				tasks[i].C = b.C;
-				tasks[i].T = b.T;
-				//tasks[i+1] = a;
-				tasks[i+1].lambda = a.lambda;
-				tasks[i+1].data = a.data;
-				tasks[i+1].stack_pos = a.stack_pos;
-				tasks[i+1].C = a.C;
-				tasks[i+1].T = a.T;
+			if(debug_enabled2 == 1) printf("ub_test::sort a.T = %lu\n", a.T);
+			if(debug_enabled2 == 1) printf("ub_test::sort b.T = %lu\n", b.T);
+
+			//if a has higher period than b, swap them
+			if(a.T > b.T) {
+				if(debug_enabled2 == 1) printf("ub_test::sort swap elements~~~~~~~~~\n");
+
+				tasks[i] = b;
+				tasks[i+1] = a;
+
+				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i].T = %lu\n", tasks[i].T);
+				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i+1].T = %lu\n", tasks[i+1].T);
 
 				swap = 1;
+
+				if(debug_enabled2 == 1) printf("ub_test::sort done swapping~~~~~~~~~\n");
 			}
 		}
 	}

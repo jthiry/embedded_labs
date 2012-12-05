@@ -47,10 +47,13 @@ int main(int argc, char** argv)
 	tasks[3].C = 1;
 	tasks[3].T = 5;
 
-	sort_per((task_t**)tasks, 4);
+	sort_per(tasks, 4);
 
 	//print out the sorted list
-
+	int i;
+	for(i = 0; i < 4; i++) {
+		printf("tasks[%d] = %lu\n", i, tasks[i].T);
+	}
 
 
 	return 1;
@@ -63,7 +66,7 @@ int main(int argc, char** argv)
 
 
 //sort the tasks
-void sort_per(task_t** tasks, size_t num_tasks) {
+void sort_per(task_t* tasks, size_t num_tasks) {
 	int swap = 1;
 
 	if(debug_enabled2 == 1) printf("ub_test::sort start\n");
@@ -79,46 +82,21 @@ void sort_per(task_t** tasks, size_t num_tasks) {
 		for(i = 0; i < (num_tasks - 1); i++) {
 			if(debug_enabled2 == 1) printf("ub_test::sort loop %lu\n", i);
 
-			task_t* a = &(*tasks)[i];
-			task_t* b = &(*tasks)[i+1];
+			task_t a = tasks[i];
+			task_t b = tasks[i+1];
 
-			if(debug_enabled2 == 1) printf("ub_test::sort &(*tasks)[i]->T = %lu\n", (&(*tasks)[i])->T);
-			if(debug_enabled2 == 1) printf("ub_test::sort &(*tasks)[i+1]->T = %lu\n", (&(*tasks)[i+1])->T);
-			if(debug_enabled2 == 1) printf("ub_test::sort a->T = %lu\n", a->T);
-			if(debug_enabled2 == 1) printf("ub_test::sort b->T = %lu\n", b->T);
+			if(debug_enabled2 == 1) printf("ub_test::sort a.T = %lu\n", a.T);
+			if(debug_enabled2 == 1) printf("ub_test::sort b.T = %lu\n", b.T);
 
-			//if b has higher period than a swap them
-			if(b->T > a->T) {
+			//if a has higher period than b, swap them
+			if(a.T > b.T) {
 				if(debug_enabled2 == 1) printf("ub_test::sort swap elements~~~~~~~~~\n");
 
-				task_t* c = {0};
+				tasks[i] = b;
+				tasks[i+1] = a;
 
-				//put a into c
-				c->lambda = a->lambda;
-				c->data = a->data;
-				c->stack_pos = a->stack_pos;
-				c->C = a->C;
-				c->T = a->T;
-				//c->B = a->B;
-
-				//put b into a
-				a->lambda = b->lambda;
-				a->data = b->data;
-				a->stack_pos = b->stack_pos;
-				a->C = b->C;
-				a->T = b->T;
-				//a->B = b->B;
-
-				//put c into b
-				b->lambda = c->lambda;
-				b->data = c->data;
-				b->stack_pos = c->stack_pos;
-				b->C = c->C;
-				b->T = c->T;
-				//b->B = c->B;
-
-				if(debug_enabled2 == 1) printf("ub_test::sort &(*tasks)[i]->T = %lu\n", (&(*tasks)[i])->T);
-				if(debug_enabled2 == 1) printf("ub_test::sort &(*tasks)[i+1]->T = %lu\n", (&(*tasks)[i+1])->T);
+				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i].T = %lu\n", tasks[i].T);
+				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i+1].T = %lu\n", tasks[i+1].T);
 
 				swap = 1;
 
