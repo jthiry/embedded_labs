@@ -32,36 +32,19 @@ int debug_enabled2 = 1;
 
 int assign_schedule(task_t* tasks, size_t num_tasks)
 {
+	int ret;
+
 	//sort by period
 	sort_per(tasks, num_tasks);
 
 /*
-	//calculate U(n) = n(2^(1/n) - 1)
-	float kroot = kroot2(num_tasks);
-	if(kroot < 0) return 0;		// check for root not found error
-	float un = num_tasks * (kroot - 1);
+	ret = ub_test(tasks, num_tasks);
 
-	//calculate U = (sum from 1-(n-1) over (Ci/Ti))? + (Cn + Bn)/Tn
-	float u = 0;
-	size_t i;
-	for(i = 0; i < num_tasks - 1; i++) {
-		u += tasks[i]->C / tasks[i]->T;
-	}
-	u += (tasks[num_tasks-1]->C + tasks[num_tasks-1]->B) / tasks[num_tasks-1]->T;
-
-	//figure out if schedulable
-	//0 < U <= U(n)		success
-	//U(n) < U <= 1.00	not sure
-	// 1 < U			fail
-	int ret;
-	if(u > 0 && u <= un) {
-		ret = 1;
-	} else if(un < u && u <= 1.0) {
-		//gray area, run RT test to clarify
+	//check for unsure result
+	if(ret < 0) {
 		ret = rt_test(tasks, num_tasks);
-	} else {
-		ret = 0;
 	}
+
 	return ret;
 */
 	return 1;
@@ -122,6 +105,46 @@ void sort_per(task_t* tasks, size_t num_tasks) {
 
 
 
+/**
+ * runs the ub test on a task array of given length
+ *
+ * assumes the array is already sorted by period
+ *
+ * returns 1 if succeed, 0 if fail, and -1 if unsure
+ */
+int ub_test(task_t* tasks, size_t num_tasks) {
+	//calculate U(n) = n(2^(1/n) - 1)
+	float kroot = kroot2(num_tasks);
+	if(kroot < 0) return 0;		// check for root not found error
+	float un = num_tasks * (kroot - 1);
+
+	//calculate U = (sum from 1-(n-1) over (Ci/Ti))? + (Cn + Bn)/Tn
+	float u = 0;
+	size_t i;
+	for(i = 0; i < num_tasks - 1; i++) {
+		u += tasks[i]->C / tasks[i]->T;
+	}
+	u += (tasks[num_tasks-1]->C + tasks[num_tasks-1]->B) / tasks[num_tasks-1]->T;
+
+	//figure out if schedulable
+	//0 < U <= U(n)		success
+	//U(n) < U <= 1.00	not sure
+	// 1 < U			fail
+	int ret;
+	if(u > 0 && u <= un) {
+		ret = 1;
+	} else if(un < u && u <= 1.0) {
+		ret = -1;
+	} else {
+		ret = 0;
+	}
+	return ret;
+}
+
+
+
+
+
 
 
 /*
@@ -131,12 +154,13 @@ void sort_per(task_t* tasks, size_t num_tasks) {
  */
 int rt_test(task_t* tasks, size_t num_tasks) {
 	size_t cur, prev;
-	cur = 1;
-	prev = 0;
 
 	//calculate for each task
 	size_t i;
 	for(i = 0; i < num_tasks; i++) {
+		//reset cur and prev
+		cur, prev = 0;
+
 		//calculate a0
 		size_t j;
 		for(j = 0; j < i; j++) {
