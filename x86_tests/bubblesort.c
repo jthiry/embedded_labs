@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	tasks[0].lambda = fun2;
 	tasks[0].data = (void*)'2';
 	tasks[0].stack_pos = (void*)0xa2000000;
-	tasks[0].C = 20;
+	tasks[0].C = 40;
 	tasks[0].T = 100;
 
 	tasks[1].lambda = fun3;
@@ -47,13 +47,11 @@ int main(int argc, char** argv)
 	//run ub test
 	ret = ub_test(tasks, TASK_NO);
 
-	printf("ub test result = %d\n", ret);
-
 	//check for unsure result
 	if(ret < 0) {
 		ret = rt_test(tasks, TASK_NO);
 
-		printf("rt test result = %d\n");
+		printf("rt test result = %d\n", ret);
 	}
 
 
@@ -70,9 +68,6 @@ int main(int argc, char** argv)
 void sort_per(task_t* tasks, size_t num_tasks) {
 	int swap = 1;
 
-	if(debug_enabled2 == 1) printf("ub_test::sort start\n");
-	if(debug_enabled2 == 1) printf("ub_test::sort num_tasks = %lu\n", num_tasks);
-
 	//until there was no swap
 	while(swap == 1) {
 		//reset swap
@@ -81,27 +76,15 @@ void sort_per(task_t* tasks, size_t num_tasks) {
 		//bubble through the array
 		size_t i;
 		for(i = 0; i < (num_tasks - 1); i++) {
-			if(debug_enabled2 == 1) printf("ub_test::sort loop %lu\n", i);
-
 			task_t a = tasks[i];
 			task_t b = tasks[i+1];
 
-			if(debug_enabled2 == 1) printf("ub_test::sort a.T = %lu\n", a.T);
-			if(debug_enabled2 == 1) printf("ub_test::sort b.T = %lu\n", b.T);
-
 			//if a has higher period than b, swap them
 			if(a.T > b.T) {
-				if(debug_enabled2 == 1) printf("ub_test::sort swap elements~~~~~~~~~\n");
-
 				tasks[i] = b;
 				tasks[i+1] = a;
 
-				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i].T = %lu\n", tasks[i].T);
-				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i+1].T = %lu\n", tasks[i+1].T);
-
 				swap = 1;
-
-				if(debug_enabled2 == 1) printf("ub_test::sort done swapping~~~~~~~~~\n");
 			}
 		}
 	}
@@ -116,26 +99,32 @@ void sort_per(task_t* tasks, size_t num_tasks) {
  * runs the ub test on a task array of given length
  *
  * assumes the array is already sorted by period
+ * returns 1 if number of tasks is less than needed for algorithm
  *
  * returns 1 if succeed, 0 if fail, and -1 if unsure
  */
 int ub_test(task_t* tasks, size_t num_tasks) {
-	printf("start ub_test~~~~~~~~~\n");
+	printf("~~~~~~~~~~start ub_test\n");
+
+	if(num_tasks < 2) {
+		printf("~~~~~~~~~~returning from ub_test with ret = %d\n", ret);
+		return 1;
+	}
 
 	//calculate U(n) = n(2^(1/n) - 1)
 	float kroot = kroot2(num_tasks);
 	if(kroot < 0) return 0;		// check for root not found error
-	float un = num_tasks * (kroot - 1);
+	double un = num_tasks * (kroot - 1);
 
 	printf("un = %.5f\n", un);
 
 	//calculate U = (sum from 1-(n-1) over (Ci/Ti))? + (Cn + Bn)/Tn
-	float u = 0;
+	double u = 0.0;
 	size_t i;
 	for(i = 0; i < num_tasks - 1; i++) {
-		u += tasks[i].C / tasks[i].T;
+		u = u + ((float)tasks[i].C / (float)tasks[i].T);
 	}
-	u += (tasks[num_tasks-1].C /*+ tasks[num_tasks-1].B*/) / tasks[num_tasks-1].T;
+	u += ((float) (tasks[num_tasks-1].C /*+ tasks[num_tasks-1].B*/)) / ((float)tasks[num_tasks-1].T);
 
 	printf("u = %.5f\n", u);
 
@@ -151,6 +140,9 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 	} else {
 		ret = 0;
 	}
+
+	printf("~~~~~~~~~~returning from ub_test with ret = %d\n", ret);
+
 	return ret;
 }
 
@@ -166,7 +158,7 @@ int ub_test(task_t* tasks, size_t num_tasks) {
  * returns 1 if scheduling would succeed, 0 if fail
  */
 int rt_test(task_t* tasks, size_t num_tasks) {
-	printf("starting rt_test........\n");
+	printf("..........starting rt_test\n");
 
 	size_t cur, prev;
 
@@ -176,17 +168,16 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 		printf("starting loop # %lu\n", i);
 
 		//reset cur and prev
-		cur, prev = 0;
+		cur = 0;
+		prev = 0;
 
 		//see if we can use ub test for this round
-		int ub = ub_test(tasks, num_tasks);
-
-		printf("ub test return = %d\n", ub);
+		int ub = ub_test(tasks, i+1);
 
 		if(ub == 1) continue;
 		else if(ub == 0) return 0;
 
-		printf("actually using rt test for this round==========\n");
+		printf("==========actually using rt test for this round\n");
 
 		//calculate a0
 		size_t j;
@@ -215,10 +206,16 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 
 		printf("converged result = %lu\n", cur);
 		printf("T = %lu\n", tasks[i].T);
+		printf("==========ending rt test loop\n");
 
 		//if result > T then return fail
-		if(cur > tasks[i].T) return 0;
+		if(cur > tasks[i].T) {
+			printf("..........returning from rt test with failure\n");
+			return 0;
+		}
 	}
+
+	printf("..........returning from rt test with success\n");
 
 	//if makes it out of hte loop then should be schedulable
 	return 1;

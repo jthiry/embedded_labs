@@ -70,6 +70,9 @@ typedef volatile struct tcb tcb_t;
 /* prototypes*/
 void sort_per(task_t* tasks, size_t num_tasks);
 int main(int argc, char** argv);
+int ub_test(task_t* tasks, size_t num_tasks);
+int rt_test(task_t* tasks, size_t num_tasks);
+float kroot2(size_t k);
 
 #define TASK_NO		3
 

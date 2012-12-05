@@ -159,7 +159,8 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 	size_t i;
 	for(i = 0; i < num_tasks; i++) {
 		//reset cur and prev
-		cur, prev = 0;
+		cur = 0;
+		prev = 0;
 
 		//see if we can use ub test for this round
 		int ub = ub_test(tasks, num_tasks);
