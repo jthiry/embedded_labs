@@ -8,7 +8,8 @@
  */
 
 
-#include "exit.h"
+
+//#include "exit.h"
 #include <bits/swi.h>
 #include <exports.h>
 #include <debug.h>
@@ -19,7 +20,7 @@
 
 
 //exits the kernel with a given status
-void c_exit(int status) { _exit(status);}
+//void c_exit(int status) { _exit(status);}
 
 
 
@@ -30,9 +31,9 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 
 	switch(swi_num){
 
-		case EXIT_SWI:
-			c_exit(regs[0]);
-			break;
+		//case EXIT_SWI:
+		//	c_exit(regs[0]);
+		//	break;
 
 		case READ_SWI:
 			ret = read_syscall(regs[0], (void *) regs[1], regs[2]);
