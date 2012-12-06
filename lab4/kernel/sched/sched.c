@@ -94,7 +94,7 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		//cur->kstack =
 		//cur->kstack_high =
 		//ctx_dump(&cur_tcb->context, cur_tcb->cur_prio);
-		printf("\ttask %d, cur_prio %d, data %d\n", i, cur_tcb->cur_prio, (unsigned)cur_task->data);
+		//printf("\ttask %d, cur_prio %d, data %d\n", i, cur_tcb->cur_prio, (unsigned)cur_task->data);
 
 		//put it in the run_queue (make it runnable)
 		runqueue_add( cur_tcb, cur_tcb->native_prio );
