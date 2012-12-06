@@ -13,7 +13,7 @@
 #ifndef _DEVICE_H_
 #define _DEVICE_H_
 
-#define NUM_DEVICES 60
+#define NUM_DEVICES 4
 
 extern const unsigned long dev_freq[NUM_DEVICES];
 
@@ -22,4 +22,3 @@ void dev_wait(unsigned int dev);
 void dev_update(unsigned long num_millis);
 
 #endif /* _DEVICE_H_ */
-

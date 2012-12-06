@@ -1,9 +1,9 @@
 /** @file mutex_chaser.c
  *
  * @brief A test to aggresively acquire/release the maximum number of mutexes.
- * Each mutex has a corresponding number and each task performs a certain operation on a mutex's 
- * number after it acquires a lock on it. After each task has acquire/release a mutex, simple 
- * check if the number is consistent with the correct value.  
+ * Each mutex has a corresponding number and each task performs a certain operation on a mutex's
+ * number after it acquires a lock on it. After each task has acquire/release a mutex, simple
+ * check if the number is consistent with the correct value.
  * The mutex they are implementing is more like a conditional variable that has a FIFO sleep queue.
  *
  * Purpose of the test:
@@ -13,7 +13,7 @@
  *
  * @author Kevin Chang(kevincha)
  * @data 2010-12-01
- **/ 
+ **/
 #include <stdio.h>
 #include <unistd.h>
 #include <task.h>
@@ -45,13 +45,13 @@ void panic_bro(const char* str)
 void fun1(void* str)
 {
 	int cur_mutex=1;
-	str = str;   
+	str = str;
 	while(cur_mutex<MUTEX_NUM){
 		putchar((int)str);
 		printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
 			panic_bro("Failed to acquire mutex");
-		mutex_val[cur_mutex]=mutex_val[cur_mutex]+fun1_opval;	
+		mutex_val[cur_mutex]=mutex_val[cur_mutex]+fun1_opval;
 		if(mutex_unlock(cur_mutex))
 		{
 			if(errno==EINVAL)
@@ -73,13 +73,13 @@ void fun2(void* str)
 {
 	int cur_mutex=1;
 
-	str = str;   
+	str = str;
 	while(cur_mutex<MUTEX_NUM){
 		putchar((int)str);
 		printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
 			panic_bro("Failed to acquire mutex");
-		mutex_val[cur_mutex]=mutex_val[cur_mutex]*fun2_opval;	
+		mutex_val[cur_mutex]=mutex_val[cur_mutex]*fun2_opval;
 		if(mutex_unlock(cur_mutex))
 			panic_bro("Failed to release mutex");
 		cur_mutex++;
@@ -95,13 +95,13 @@ void fun3(void* str)
 {
 	int cur_mutex=1;
 
-	str = str;   
+	str = str;
 	while(cur_mutex<MUTEX_NUM){
 		putchar((int)str);
 		printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
 			panic_bro("Failed to acquire mutex");
-		mutex_val[cur_mutex]=mutex_val[cur_mutex]-fun3_opval;	
+		mutex_val[cur_mutex]=mutex_val[cur_mutex]-fun3_opval;
 		if(mutex_unlock(cur_mutex))
 			panic_bro("Failed to release mutex");
 		cur_mutex++;
@@ -117,13 +117,13 @@ void fun4(void* str)
 {
 	int cur_mutex=1,i=0,m_val;
 
-	str = str;   
+	str = str;
 	while(cur_mutex<MUTEX_NUM){
 		putchar((int)str);
 		printf(">>mutex %d\n",cur_mutex);
 		if(mutex_lock(cur_mutex))
 			panic_bro("Failed to acquire mutex");
-		mutex_val[cur_mutex]=mutex_val[cur_mutex]*fun4_opval;	
+		mutex_val[cur_mutex]=mutex_val[cur_mutex]*fun4_opval;
 		if(mutex_unlock(cur_mutex))
 			panic_bro("Failed to release mutex");
 		cur_mutex++;
@@ -155,7 +155,7 @@ int main(int argc, char** argv)
 		mutex = mutex_create();
 		if(errno == ENOMEM)
 			puts("failed to create a mutex!!");
-		mutex_val[i]=init_val;            
+		mutex_val[i]=init_val;
 	}
 	puts("Successfully created all the mutexes!!");
 	puts(YES_STR);
@@ -167,24 +167,28 @@ int main(int argc, char** argv)
 	tasks[0].stack_pos = (void*)0xa2500000;
 	tasks[0].C = 1;
 	tasks[0].T = PERIOD_DEV3;
+	tasks[0].B = 0;
 
 	tasks[1].lambda = fun2;
 	tasks[1].data = (void*)'2';
 	tasks[1].stack_pos = (void*)0xa2000000;
 	tasks[1].C = 1;
 	tasks[1].T = PERIOD_DEV0;
+	tasks[1].B = 0;
 
 	tasks[2].lambda = fun3;
 	tasks[2].data = (void*)'3';
 	tasks[2].stack_pos = (void*)0xa1000000;
 	tasks[2].C = 1;
 	tasks[2].T = PERIOD_DEV1;
+	tasks[2].B = 0;
 
 	tasks[3].lambda = fun4;
 	tasks[3].data = (void*)'4';
 	tasks[3].stack_pos = (void*)0xa1500000;
 	tasks[3].C = 1;
 	tasks[3].T = PERIOD_DEV2;
+	tasks[3].B = 0;
 
 	task_create(tasks, 4);
 	argc = argc ;
