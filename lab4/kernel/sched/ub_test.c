@@ -132,7 +132,7 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 		u = u + ((float)tasks[i].C / (float)tasks[i].T);
 	}
 
-	u += ( ((float)tasks[num_tasks-1].C) /*+ tasks[num_tasks-1].B*/ ) / ( (float)tasks[num_tasks-1].T );
+	u += ( ((float)tasks[num_tasks-1].C) + tasks[num_tasks-1].B ) / ( (float)tasks[num_tasks-1].T );
 
 	if(debug_enabled2) printf("u = %.5f\n", u);
 
@@ -189,7 +189,7 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 
 		//calculate a0
 		size_t j;
-		/*cur = tasks[i].B;*/
+		cur = tasks[i].B;
 		for(j = 0; j <= i; j++) {
 			cur += tasks[j].C;
 		}
@@ -206,7 +206,7 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 			/* calculate an
 			 * Bi + Ci + sum<k=1 to i-1> ( ceil(prev/Tk) * Ck )
 			 */
-			cur = /*tasks[i].B +*/ tasks[i].C;
+			cur = tasks[i].B + tasks[i].C;
 			size_t k;
 			for(k = 0; k < i; k++) {
 				int ceil = prev / tasks[k].T;
