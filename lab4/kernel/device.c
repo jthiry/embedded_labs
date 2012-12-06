@@ -68,12 +68,10 @@ void dev_init(void)
 void dev_wait(unsigned int dev )
 {
 
-	if(debug_enabled == 1)puts("dev_wait++\n");
 	//add to the sleep queue
 	tcb_t* sleep_me = get_cur_tcb();
 	sleep_me->sleep_queue = devices[dev].sleep_queue;
 	devices[dev].sleep_queue = sleep_me;
-	if(debug_enabled == 1)printf("dev_wait...dev = %d:::new = (prio) %d:::old = %x\n", dev, (unsigned)devices[dev].sleep_queue->cur_prio, (unsigned)devices[dev].sleep_queue->sleep_queue);
 
 }
 
@@ -91,12 +89,10 @@ void dev_update(unsigned long millis )
 	//check each device for an event
 	int i;
 	int have_some = 0;
-	//if(debug_enabled ==1) puts("dev_update::checking \n");
 	for( i = 0; i < NUM_DEVICES; i++)
 	{
 		if( millis >= devices[i].next_match)
 		{
-			if(debug_enabled ==1) printf("dev_update::waking up %d\n",i);
 			//wake up device!
 			//make tasks ready to run
 
@@ -108,7 +104,6 @@ void dev_update(unsigned long millis )
 				//WAKE UP SLEEPY
 				runqueue_add(sleepy, sleepy->cur_prio);
 
-				if(debug_enabled == 1)printf("dev_update...dev = %d:::woke up (prio)= %d::next =  %x\n", i, (unsigned)sleepy->cur_prio, (unsigned)sleepy->sleep_queue);
 				//another sleeper?
 				next = sleepy->sleep_queue;
 				sleepy->sleep_queue = 0;

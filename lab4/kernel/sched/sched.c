@@ -56,7 +56,6 @@ static void idle(void)
  */
 void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 {
-	if(debug_enabled == 1)puts("allocate_tasks...++\n");
 
 	//clear the run queue
 	runqueue_init();
@@ -71,10 +70,8 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	task_t* cur_task;
 
 	//for each task
-	if(debug_enabled == 1)puts("allocate_tasks...entering loop\n");
 	for( i = 0; i < (uint8_t)num_tasks; i++)
 	{
-		//if(debug_enabled == 1)printf("allocate_tasks...allocating task %d\n", (unsigned)i);
 		cur_tcb = &system_tcb[i+1];
 		cur_task = &(*tasks)[i];
 
@@ -100,7 +97,6 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 		runqueue_add( cur_tcb, cur_tcb->native_prio );
 	}
 
-	if(debug_enabled == 1)puts("allocate_tasks...loop complete, doing idle\n");
 	//set up idle tcb
 	tcb_t* idle_tcb;
 	idle_tcb = &system_tcb[OS_MAX_TASKS - 1];     //last TCB, idle task
@@ -118,7 +114,5 @@ void allocate_tasks(task_t** tasks  , size_t num_tasks  )
 	//idle->kstack_high =
 	//put it in the run_queue (make it runnable)
 	runqueue_add( idle_tcb, idle_tcb->native_prio );
-	if(debug_enabled == 1)puts("allocate_tasks...idle complete\n");
 	dispatch_init(idle_tcb);
-	if(debug_enabled == 1)puts("allocate_tasks...--\n");
 }

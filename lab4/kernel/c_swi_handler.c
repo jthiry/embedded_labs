@@ -28,7 +28,6 @@ int c_swi_handler(unsigned swi_num, unsigned * regs){
 	
 	int ret = 0;
 
-	//if(debug_enabled ==1) printf ("c_swi_handler:: swi_num = %d\n", swi_num ) ;
 	switch(swi_num){
 
 		case EXIT_SWI:

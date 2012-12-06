@@ -60,8 +60,6 @@ int assign_schedule(task_t* tasks, size_t num_tasks)
 void sort_per(task_t* tasks, size_t num_tasks) {
 	int swap = 1;
 
-	if(debug_enabled2 == 1) printf("ub_test::sort start\n");
-	if(debug_enabled2 == 1) printf("ub_test::sort num_tasks = %lu\n", num_tasks);
 
 	//until there was no swap
 	while(swap == 1) {
@@ -71,27 +69,20 @@ void sort_per(task_t* tasks, size_t num_tasks) {
 		//bubble through the array
 		size_t i;
 		for(i = 0; i < (num_tasks - 1); i++) {
-			if(debug_enabled2 == 1) printf("ub_test::sort loop %lu\n", i);
 
 			task_t a = tasks[i];
 			task_t b = tasks[i+1];
 
-			if(debug_enabled2 == 1) printf("ub_test::sort a.T = %lu\n", a.T);
-			if(debug_enabled2 == 1) printf("ub_test::sort b.T = %lu\n", b.T);
 
 			//if a has higher period than b, swap them
 			if(a.T > b.T) {
-				if(debug_enabled2 == 1) printf("ub_test::sort swap elements~~~~~~~~~\n");
 
 				tasks[i] = b;
 				tasks[i+1] = a;
 
-				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i].T = %lu\n", tasks[i].T);
-				if(debug_enabled2 == 1) printf("ub_test::sort tasks[i+1].T = %lu\n", tasks[i+1].T);
 
 				swap = 1;
 
-				if(debug_enabled2 == 1) printf("ub_test::sort done swapping~~~~~~~~~\n");
 			}
 		}
 	}
@@ -111,10 +102,8 @@ void sort_per(task_t* tasks, size_t num_tasks) {
  * returns 1 if succeed, 0 if fail, and -1 if unsure
  */
 int ub_test(task_t* tasks, size_t num_tasks) {
-	if(debug_enabled2) printf("~~~~~~~~~~start ub_test\n");
 
 	if(num_tasks < 2) {
-		if(debug_enabled2) printf("~~~~~~~~~~returning from ub_test with ret = %d\n", 1);
 		return 1;
 	}
 
@@ -123,7 +112,6 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 	if(kroot < 0) return 0;		// check for root not found error
 	double un = num_tasks * (kroot - 1);
 
-	if(debug_enabled2) printf("un = %.5f\n", un);
 
 	//calculate U = (sum from 1-(n-1) over (Ci/Ti))? + (Cn + Bn)/Tn
 	double u = 0.0;
@@ -134,7 +122,6 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 
 	u += ( ((float)tasks[num_tasks-1].C) + tasks[num_tasks-1].B ) / ( (float)tasks[num_tasks-1].T );
 
-	if(debug_enabled2) printf("u = %.5f\n", u);
 
 	//figure out if schedulable
 	//0 < U <= U(n)		success
@@ -149,7 +136,6 @@ int ub_test(task_t* tasks, size_t num_tasks) {
 		ret = 0;
 	}
 
-	if(debug_enabled2) printf("~~~~~~~~~~returning from ub_test with ret = %d\n", ret);
 
 	return ret;
 }
@@ -166,14 +152,12 @@ int ub_test(task_t* tasks, size_t num_tasks) {
  * returns 1 if scheduling would succeed, 0 if fail
  */
 int rt_test(task_t* tasks, size_t num_tasks) {
-	if(debug_enabled2) printf("..........starting rt_test\n");
 
 	size_t cur, prev;
 
 	//calculate for each task
 	size_t i;
 	for(i = 0; i < num_tasks; i++) {
-		if(debug_enabled2) printf("starting loop # %lu\n", i);
 
 		//reset cur and prev
 		cur = 0;
@@ -185,7 +169,6 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 		if(ub == 1) continue;
 		else if(ub == 0) return 0;
 
-		if(debug_enabled2) printf("==========actually using rt test for this round\n");
 
 		//calculate a0
 		size_t j;
@@ -194,14 +177,12 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 			cur += tasks[j].C;
 		}
 
-		if(debug_enabled2) printf("a0 = %lu\n", cur);
 
 		//keep calculating until values converge
 		while(cur != prev) {
 			//save previous to check for convergence
 			prev = cur;
 
-			if(debug_enabled2) printf("...\ninside convergence loop::prev = %lu\n", prev);
 
 			/* calculate an
 			 * Bi + Ci + sum<k=1 to i-1> ( ceil(prev/Tk) * Ck )
@@ -217,21 +198,15 @@ int rt_test(task_t* tasks, size_t num_tasks) {
 				cur += ceil * tasks[k].C;
 			}
 
-			if(debug_enabled2) printf("inside convergence loop::cur = %lu\n...\n", cur);
 		}
 
-		if(debug_enabled2) printf("converged result = %lu\n", cur);
-		if(debug_enabled2) printf("T = %lu\n", tasks[i].T);
-		if(debug_enabled2) printf("==========ending rt test loop\n");
 
 		//if result > T then return fail
 		if(cur > tasks[i].T) {
-			if(debug_enabled2) printf("..........returning from rt test with failure\n");
 			return 0;
 		}
 	}
 
-	if(debug_enabled2) printf("..........returning from rt test with success\n");
 
 	//if makes it out of hte loop then should be schedulable
 	return 1;

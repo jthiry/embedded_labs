@@ -51,11 +51,11 @@ static uint8_t prio_unmap_table[]  =
 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0
-};
-
 /**
  * @brief Clears the run-queues and sets them all to empty.
  */
+};
+
 void runqueue_init(void)
 {
 	//clear run_list TODO:
@@ -81,7 +81,6 @@ void runqueue_init(void)
  */
 void runqueue_add(tcb_t* tcb, uint8_t prio )
 {
-	if(debug_enabled == 1)printf("runqueue_add...++, task %d\n", (unsigned)prio);
 	//put tcb in run_list
 	run_list[prio] = tcb;
 
@@ -91,7 +90,6 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
 	group_run_bits = (group_run_bits | (1 << y) );
 	run_bits[y] = (run_bits[y] | (1 << x));
 
-	//if(debug_enabled == 1)printf("end runqueue_add...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 
 }
 
@@ -105,12 +103,9 @@ void runqueue_add(tcb_t* tcb, uint8_t prio )
  */
 tcb_t* runqueue_remove(uint8_t prio)
 {
-	if(debug_enabled == 1)printf("runqueue_remove...++, task %d\n", (unsigned)prio);
-//	if(debug_enabled == 1)printf("runqueue_remove...++, prio = %d\n", (unsigned)prio);
 	//put tcb in run_list
 	tcb_t* ret_tcb;
 
-	if( prio >= OS_MAX_TASKS - 1 ) return run_list[OS_MAX_TASKS -1];
 
 	//remove tcb from run_list
 	ret_tcb = run_list[prio];
@@ -124,7 +119,6 @@ tcb_t* runqueue_remove(uint8_t prio)
 		//only clear the whole group's flag if the whole group is empty
 		group_run_bits = (group_run_bits & ~(1 << y) );
 
-	//if(debug_enabled == 1)printf("end runqueue_remove...--, x = %d:: y = %d:: prio = %d:: group_bits = %x:: run_bits = %x\n", (unsigned)x, (unsigned)y, (unsigned)prio, (unsigned)group_run_bits, (unsigned)run_bits[y]);
 	return ret_tcb;
 }
 
@@ -139,6 +133,5 @@ uint8_t highest_prio(void)
 	uint8_t y = prio_unmap_table[group_run_bits];
 	uint8_t x = prio_unmap_table[run_bits[y]];
 	ret = (y << 3) + x;
-//	if(debug_enabled == 1)printf("highest_prio = %d\n", (unsigned)ret);
 	return ret;
 }

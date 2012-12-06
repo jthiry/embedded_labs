@@ -33,7 +33,6 @@ tcb_t* NULL_TCB = (tcb_t*)0;
 void mutex_init()
 {
 	mutexID = 0;
-	if(debug_enabled1 == 1) printf("\tmutex::mutex_init::mutexID = %d\n", mutexID);
 	init_flag = 1;
 }
 
@@ -50,7 +49,6 @@ int mutex_create(void)
 	//increment ID count
 	mutexID++;
 
-	if(debug_enabled1 == 1) printf("\tmutex::mutex_create new id = %d\n", mutexID);
 
 	//initialize mutex block
 	gtMutex[mutexID-1].bAvailable = 	TRUE;
@@ -66,7 +64,6 @@ int mutex_create(void)
 
 int mutex_lock(int mutex_num)
 {
-	if(debug_enabled1 == 1) printf("\tmutex::mutex_lock:: lock(%d) by tcb %d\n", mutex_num, get_cur_tcb()->cur_prio);
 	
 	disable_interrupts();
 	
@@ -112,7 +109,6 @@ int mutex_lock(int mutex_num)
 
 int mutex_unlock(int mutex_num)
 {
-	if(debug_enabled1 == 1) printf("\tmutex::mutex_unlock:: id= %d tcb = %d\n", mutex_num, get_cur_tcb()->cur_prio);
 	
 	disable_interrupts();
 	

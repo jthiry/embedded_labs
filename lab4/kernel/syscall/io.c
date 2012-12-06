@@ -115,13 +115,11 @@ ssize_t write_syscall(int fd  __attribute__((unused)), const void *buf  __attrib
 
 	//check if fd isn't stdout, return -EBADF if not
 	if(fd != STDOUT_FILENO) {
-		if(debug_enabled ==1) printf ("c_write:: EBADF\n") ;
 		return -EBADF;
 	}
 
 	//check if buf loc and size end up outside of useable memory
 	if(valid_addr(ourBuf, (size_t)count, FLASH_END_ADDR, RAM_START_ADDR) == 1 ) {
-		if(debug_enabled ==1) printf ("c_write:: EFAULT\n") ;
 	  return -EFAULT;
 	}
 

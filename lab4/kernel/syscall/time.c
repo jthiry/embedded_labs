@@ -57,6 +57,5 @@ void sleep_syscall(unsigned long millis  __attribute__((unused)))
 		disable_interrupts();	//disable interrupts for concurrency issues
 		cur_time = kernel_time;	//read the time
 		enable_interrupts();	//reenable interupts again
-		//if(debug_enabled == 1)printf("sleeping... cur=%lu < stop=%lu\n", cur_time, stop_time);
 	}
 }

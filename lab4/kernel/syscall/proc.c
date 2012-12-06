@@ -41,7 +41,6 @@ int task_create(task_t* tasks , size_t num_tasks )
 {
 	disable_interrupts();
 
-	if(debug_enabled == 1)puts("task_create++\n");
 	size_t i;
 	//clear tcb... memset? loop?
 
@@ -69,7 +68,6 @@ int task_create(task_t* tasks , size_t num_tasks )
 	allocate_tasks( &tasks, num_tasks );
 
 	//context switch to highest priority
-	if(debug_enabled == 1)puts("task_create...dispatching\n");
 	dispatch_nosave();
 
 	enable_interrupts();
@@ -81,13 +79,10 @@ int event_wait(unsigned int dev  )
 {
 	disable_interrupts();
 	if(dev > (unsigned int) NUM_DEVICES ) return -EINVAL;
-	if(debug_enabled == 1)puts("event wait++\n");
 	dev_wait(dev);
 
-	if(debug_enabled == 1)puts("event wait...dispatching_sleep\n");
 	//context switch to highest priority
 	dispatch_sleep();
-	//if(debug_enabled == 1)puts("event wait--\n");
 
 	enable_interrupts();
 
