@@ -42,5 +42,6 @@ int mutex_unlock(int mutex);
 
 /* priority inheritance stuff*/
 uint8_t get_cur_prio_ceiling(void);
+void acquire( mutex* m );
 
 #endif /* _LOCK_H_ */

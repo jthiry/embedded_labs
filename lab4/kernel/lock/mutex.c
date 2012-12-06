@@ -32,6 +32,8 @@ tcb_t* NULL_TCB = (tcb_t*)0;
 
 // used for priority inheritance
 static uint8_t cur_prio_ceiling;
+void acquire( mutex* m );
+void block( mutex* m );
 
 /* handlers for cur_prio_ceiling*/
 uint8_t get_cur_prio_ceiling(void) {
@@ -110,37 +112,32 @@ int mutex_lock(int mutex_num)
 	disable_interrupts();
 
 	//check for valid mutex number
-	if(mutex_num < 0 || mutex_num > mutexID) return -EINVAL;
+	if(mutex_num < 0 || mutex_num > mutexID) {
+		enable_interrupts();
+		return -EINVAL;
+	}
 
 	//mutex is valid
 	mutex_t* mutex = &gtMutex[mutex_num-1]; //mutex we are referencing
 
 	//mutex is available
 	if(mutex->bAvailable == TRUE) {
-		//acquire  mutex
-		mutex->bLock = 		TRUE;
-		mutex->bAvailable = 	FALSE;
-		mutex->pHolding_Tcb = 	get_cur_tcb();
-		get_cur_tcb()->holds_lock++;
+
+		//check if the task deserves the mutex
+		if( get_cur_tcb()->cur_prio <= get_cur_prio_ceiling() ) {
+			acquire(mutex);
+		} else {
+			//block the tcb, it's not worthy
+			block(mutex);
+		}
+
 		enable_interrupts();
 		return 0; //success
 	}
 	//mutex is not available
 	else
 	{
-		//if current task is already holding it
-		if(mutex->pHolding_Tcb == get_cur_tcb()) return -EDEADLOCK;
-
-		//if the sleep queue is empty
-		if( mutex->pSleep_queue == NULL_TCB ) mutex->pSleep_queue = get_cur_tcb();
-		//else sleep queue is not empty
-		else
-		{
-			//add to the end of the queue
-			tcb_t* t = mutex->pSleep_queue;
-			while(t->sleep_queue != NULL_TCB) t = t->sleep_queue;
-			t->sleep_queue = get_cur_tcb();
-		}
+		block(mutex);
 	}
 
 	//sleep and wait..`
@@ -152,6 +149,51 @@ int mutex_lock(int mutex_num)
 
 
 
+/* lock up a mutex that was previously free*/
+void acquire( mutex* mutex ) {
+	//acquire  mutex
+	mutex->bLock = 		TRUE;
+	mutex->bAvailable = 	FALSE;
+	mutex->pHolding_Tcb = 	get_cur_tcb();
+	mutex->ceiling_prio = get_cur_tcb()->cur_prio;
+
+	//increase tcb lock count
+	get_cur_tcb()->holds_lock++;
+
+	//check if overall ceiling_prio needs to be updated
+	if(get_cur_tcb()->cur_prio < get_cur_prio_ceiling()) {
+		//set the overall ceiling_prio
+		set_cur_prio_ceiling( get_cur_tcb()->cur_prio );
+	}
+}
+
+
+
+
+/* block a task trying to run the given mutex*/
+void block( mutex* mutex ) {
+	//if current task is already holding it
+	if(mutex->pHolding_Tcb == get_cur_tcb()) {
+		enable_interrupts();
+		return -EDEADLOCK;
+	}
+
+	//check if need to update mutex ceiling_prio
+	if( get_cur_tcb()->cur_prio < mutex->ceiling_prio ) {
+		mutex->ceiling_prio = get_cur_tcb()->cur_prio;
+	}
+
+	//if the sleep queue is empty
+	if( mutex->pSleep_queue == NULL_TCB ) mutex->pSleep_queue = get_cur_tcb();
+	//else sleep queue is not empty
+	else
+	{
+		//add to the end of the queue
+		tcb_t* t = mutex->pSleep_queue;
+		while(t->sleep_queue != NULL_TCB) t = t->sleep_queue;
+		t->sleep_queue = get_cur_tcb();
+	}
+}
 
 
 
@@ -171,13 +213,19 @@ int mutex_unlock(int mutex_num)
 	disable_interrupts();
 
 	//check for valid mutex number
-	if(mutex_num < 0 || mutex_num > mutexID) return -EINVAL;
+	if(mutex_num < 0 || mutex_num > mutexID) {
+		enable_interrupts();
+		return -EINVAL;
+	}
 
 	//mutex is valid
 	mutex_t* mutex = &gtMutex[mutex_num-1]; //mutex we are referencing
 
 	//check if we own this mutex
-	if(mutex->pHolding_Tcb != get_cur_tcb()) return -EPERM;
+	if(mutex->pHolding_Tcb != get_cur_tcb()) {
+		enable_interrupts();
+		return -EPERM;
+	}
 
 
 	get_cur_tcb()->holds_lock--;
