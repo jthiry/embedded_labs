@@ -21,8 +21,9 @@ struct mutex
 {
 	bool_e	bAvailable;		/* flag for availability */
 	tcb_t*	pHolding_Tcb;	/* who are using this mutex */
-	bool_e	bLock;			/* 1 for lock/0 for unlock */	
+	bool_e	bLock;			/* 1 for lock/0 for unlock */
 	tcb_t*	pSleep_queue;	/* list of applications waiting for this mutex */
+	uint8_t	ceiling_prio;	/* highest prio of a task holding/waiting on mutex*/
 };
 typedef struct mutex mutex_t;
 
@@ -37,5 +38,9 @@ void mutex_init(void);	/* a function for initiating mutexes */
 int mutex_create(void);
 int mutex_lock(int mutex);
 int mutex_unlock(int mutex);
+
+
+/* priority inheritance stuff*/
+uint8_t get_cur_prio_ceiling(void);
 
 #endif /* _LOCK_H_ */

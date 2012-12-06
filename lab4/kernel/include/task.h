@@ -65,5 +65,7 @@ struct tcb
 };
 typedef volatile struct tcb tcb_t;
 
+/* priority inheritance stuff */
+
 
 #endif /* TASK_H */
